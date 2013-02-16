@@ -6,9 +6,8 @@ eula.txt
 eula_en.txt
 license.txt
 
-#cache
+cache
 #install/
-#engine/Shopware/Proxies
 
 .idea
 .metadata
@@ -17,13 +16,13 @@ license.txt
 
 *.orig
 
-.htaccess
+#.htaccess
 #config.php
 
 # Media
-#*.jpg
-#*.gif
-#*.png
+*.jpg
+*.gif
+*.png
 # media/image/*.jpg
 # media/image/*.gif
 # media/image/*.png
