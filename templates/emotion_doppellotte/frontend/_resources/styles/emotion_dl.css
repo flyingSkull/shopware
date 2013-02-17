@@ -208,8 +208,8 @@ div#searchcontainer .inner_searchcontainer {
 /* MAIN-NAVIGATION
 	------------------------ */
 #mainNavigation {
-    /*background: url(../images/nav-bg.png) no-repeat;*/
-    background: none;
+    background: url(../images/nav-bg.png) no-repeat;
+
     height: 39px;
     width: 1050px;
     border-bottom: 0px solid #c30000;
@@ -227,6 +227,3 @@ div#searchcontainer .inner_searchcontainer {
     border-right: 0px solid;
     border-left: 0px solid;position: static;
 }
-/*
-#mainNavigation a.first {background: url(../images/cart_icon_small.png) no-repeat center center transparent; color: #fff; border: 0 none; height: 38px; width :30px;}
-*/
