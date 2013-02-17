@@ -1,12 +1,12 @@
-INSTALL.txt
-LICENSE.txt
-README.txt
-README.md
-eula.txt
-eula_en.txt
-license.txt
+#INSTALL.txt
+#LICENSE.txt
+#README.txt
+#README.md
+#eula.txt
+#eula_en.txt
+#license.txt
 
-cache
+cache/
 #install/
 
 .idea
@@ -33,7 +33,6 @@ cache
 
 # Mac-Stuff
 .DS_Store
-*/.DS_Store
 
 
 
