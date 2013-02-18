@@ -430,7 +430,7 @@
   'Shopware_Plugins_Frontend_PigmbhRatePAYPayment_Bootstrap' => '/html/shopware/engine/Shopware/Plugins/Default/Frontend/PigmbhRatePAYPayment/Bootstrap.php',
   'Shopware_Plugins_Frontend_SwagPaymentPaypal_Bootstrap' => '/html/shopware/engine/Shopware/Plugins/Default/Frontend/SwagPaymentPaypal/Bootstrap.php',
   'Shopware_Plugins_Frontend_Payment_Bootstrap' => '/html/shopware/engine/Shopware/Plugins/Default/Frontend/Payment/Bootstrap.php',
-  'Shopware_Plugins_Frontend_AdvancedMenu_Bootstrap' => '/html/shopware/engine/Shopware/Plugins/Default/Frontend/AdvancedMenu/Bootstrap.php',
+  'Shopware_Plugins_Frontend_AdvancedMenu_Bootstrap' => '/Applications/MAMP/htdocs/shopware/engine/Shopware/Plugins/Default/Frontend/AdvancedMenu/Bootstrap.php',
   'Shopware_Plugins_Frontend_PaymentSofort_Bootstrap' => '/html/shopware/engine/Shopware/Plugins/Default/Frontend/PaymentSofort/Bootstrap.php',
   'Shopware_Plugins_Frontend_PaymentSkrill_Bootstrap' => '/html/shopware/engine/Shopware/Plugins/Default/Frontend/PaymentSkrill/Bootstrap.php',
   'Shopware_Plugins_Frontend_PigmbhKlarnaPayment_Bootstrap' => '/html/shopware/engine/Shopware/Plugins/Default/Frontend/PigmbhKlarnaPayment/Bootstrap.php',
@@ -517,4 +517,5 @@
   'Shopware_Proxies_sConfiguratorProxy' => '/Applications/MAMP/htdocs/shopware/engine/Shopware/Proxies/sConfiguratorProxy.php',
   'Shopware_Proxies_ShopwareControllersWidgetsRecommendationProxy' => '/Applications/MAMP/htdocs/shopware/engine/Shopware/Proxies/ShopwareControllersWidgetsRecommendationProxy.php',
   'Shopware_Proxies_ShopwareControllersWidgetsCaptchaProxy' => '/Applications/MAMP/htdocs/shopware/engine/Shopware/Proxies/ShopwareControllersWidgetsCaptchaProxy.php',
+  'Zend_Log_Writer_Mail' => '/Applications/MAMP/htdocs/shopware/engine/Library/Zend/Log/Writer/Mail.php',
 );
