@@ -7,7 +7,7 @@
 #license.txt
 
 cache/
-engine/
+engine/Shopware/Proxies
 #install/
 
 .idea
@@ -17,8 +17,8 @@ engine/
 
 *.orig
 
-#.htaccess
-#config.php
+.htaccess
+config.php
 
 # Media
 #*.jpg
