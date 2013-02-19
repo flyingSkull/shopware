@@ -10,7 +10,7 @@ cache/
 engine/Shopware/Proxies
 #install/
 
-.idea
+.idea/
 .metadata
 .settings
 .project
