@@ -7,7 +7,7 @@
 #license.txt
 
 cache/
-engine/Shopware/Proxies
+engine/Shopware/Proxies/
 #install/
 
 .idea/
