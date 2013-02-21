@@ -1,113 +1,218 @@
 /** Background image */
-body {
-	background: url("../images/retina_wood.png") repeat;
-}
 
-/** Change border color to match the new background image */
-#header { border-bottom: 1px solid #aaa }
-#footer_wrapper { border-top: 1px solid #aaa }
+@import url(http://fonts.googleapis.com/css?family=Nobile);
+
+body {
+
+    font-family: 'Nobile', sans-serif;
+    background: url("../images/bg-wood.jpg") repeat;
+}
 
 /** Reformat the options */
 .outer_my_options {
-	background: #262626;
-	position: relative;
+    background: #f3f3f3;
+    background: none;
+    position: relative;
 }
-.inner_my_options {
-	position: relative;
-	width: 1000px;
-	margin: 0 auto;
-}
-.my_options {
-	position: relative;
-	left: 580px; top: auto;
-	background: transparent;
-	border: 0 none;
-	margin: 0 auto;
-	padding: 10px 0px;
-	-webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	-ms-box-shadow: none;
-	box-shadow: none;
-	width: 360px;
-}
-.my_options, #shopnavi { float: left }
 
-body .my_options a, .my_options .service { color: #aaa !important }
-.my_options a.account,
-.my_options a.note{
-	border-right-color: #666;
+.inner_my_options {
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
 }
-#topbar { border-left-color: #666 }
-.my_options #topbar input.active { color: #fff }
+
+.my_options {
+    position: relative;
+    left: 580px;
+    top: auto;
+    background: transparent;
+    border: 0 none;
+    margin: 0 auto;
+    padding: 10px 0px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    box-shadow: none;
+    width: 360px;
+}
+
+.my_options, #shopnavi {
+    float: left
+}
+
+body .my_options a, .my_options .service {
+    color: #aaa !important
+}
+
+.my_options a.account,
+.my_options a.note {
+    border-right-color: #666;
+}
+
+#topbar {
+    border-left-color: #666
+}
+
+.my_options #topbar input.active {
+    color: #fff
+}
 
 /** Remove background image from the "my account" link */
 .my_options a.account {
-	background: transparent;
-	padding-left: 0
+    background: transparent;
+    padding-left: 0
 }
 
 /** Reformat the basket display */
 #shopnavi {
-	position: absolute;
-	top: 0;
-	right: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
-#shopnavi .display, #shopnavi .icon { display: none }
+
+#shopnavi .display, #shopnavi .icon {
+    display: none
+}
+
 #shopnavi .ajax_basket_container {
-	float: none;
-	position: static;
-	top: auto;
-	right: 0;
-	background: #e1540f url("../images/cart_icon_small.png") no-repeat center center;
-	height: 46px;
-	margin: 0;
-	width: 50px;
+    float: none;
+    position: static;
+    top: auto;
+    right: 0;
+    background: #e1540f url("../images/cart_icon_small.png") no-repeat center center;
+    height: 46px;
+    margin: 0;
+    width: 50px;
 }
+
 #shopnavi .ajax_basket_container:hover,
 #shopnavi .ajax_basket_container.active {
-	background-position: center center;
+    background-position: center center;
 }
+
 #shopnavi .ajax_basket_container .ajax_basket {
-	text-indent: -9999em;
-	width: 40px;
-	height: 46px;
+    text-indent: -9999em;
+    width: 40px;
+    height: 46px;
 }
 
 /** Reposition the ajax loader */
 #shopnavi .ajax_basket_container div.ajax_loader {
-	background: url("../images/ajax-loader.gif") no-repeat;
-	top: 15px; right: 14px;
+    background: url("../images/ajax-loader.gif") no-repeat;
+    top: 15px;
+    right: 14px;
 }
 
 /** Ajax basket result */
 .ajax_basket_result {
-	top: 46px !important;
-	border-color: #e1540f;
-	border-top: 0 none;
+    top: 46px !important;
+    border-color: #e1540f;
+    border-top: 0 none;
 }
 
+/** Change border color to match the new background image */
+
+#header {
+    height: 115px;
+    border-bottom: none;
+    background: transparent;
+}
+/*
+#header .top {
+    height: 7px;
+    background: url("../images/edge-top.png") repeat-x;
+}
+*/
+#header .inner {
+    background: #f8f2d8;
+    width: 100%;
+    height: 85px;
+}
+
+#header .bottom {
+    height: 7px;
+    background: url("../images/edge-bottom.png") repeat-x;
+}
+
+/*
+#header #logo {margin: 0;}
+#header #logo a {background: url(../images/logo.jpg) no-repeat;width: 286px; height: 44px;margin: 40px 0 0;}
+*/
+
 /** Reposition the search field */
-div#searchcontainer { left: 730px; top: 40px; }
-div#searchcontainer .inner_searchcontainer { width: 300 }
+div#searchcontainer {
+    left: 730px;
+    top: 40px;
+}
+
+div#searchcontainer .inner_searchcontainer {
+    width: 300
+}
 
 /** Header teaser styling */
 .header_teaser {
-	position: absolute;
-	left: 200px;
-	top: 40px;
+    position: absolute;
+    left: 200px;
+    top: 40px;
 }
-.header_teaser .column {
-	float: left;
-	width: 130px;
-	font-size: 13px;
-	color: #999;
-	border-right: 1px solid #dfdfdf;
-	padding: 0 15px;
-}
-.header_teaser .last_column { border-right: 0 none }
 
-#header #logo {margin: 0;}
-#header #logo a {background: url(../images/logo.jpg) no-repeat;width: 286px; height: 44px;margin: 40px 0 0;}
+.header_teaser .column {
+    float: left;
+    width: 130px;
+    font-size: 13px;
+    color: #999;
+    border-right: 1px solid #dfdfdf;
+    padding: 0 15px;
+}
+
+.header_teaser .last_column {
+    border-right: 0 none
+}
+
+#footer_wrapper {
+    background: none;
+    border-top: none;
+}
+
+#footer_wrapper .footer_top {
+    background: url(../images/edge-top.png) transparent repeat-x;
+    height: 7px;
+}
+
+#footer_wrapper .footer_inner {
+    width: 100%; min-height: 270px;
+    margin: 0 auto;
+    background: #f8f2d8;
+}
+
+#footer_wrapper .footer_inner #footer {
+    background: none;
+    width: 100%;
+    margin: 40px auto 0;
+}
+
+#footer_wrapper .footer_inner .bottom {
+    width: 1000px;
+    margin: 20px auto 0;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+#footer .footer_menu {
+    background: none;
+    height: 205px; width: 1000px;
+    border: 0;
+    overflow: hidden;
+    text-align: left;
+    margin: 30px auto;
+    padding: 0;
+}
+
+#footer .footer_menu .footer_column {
+    float: left;
+    min-height: 250px;
+    padding: 0 30px;
+}
 
 /* MAIN-NAVIGATION
 	------------------------ */
