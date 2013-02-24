@@ -122,7 +122,7 @@
 				    {/if}
 				{/block}
 			</div>
-			
+
 		{block name="frontend_index_shopware_footer"}
 		</div>
 	<div class="wrap_cap"></div>
