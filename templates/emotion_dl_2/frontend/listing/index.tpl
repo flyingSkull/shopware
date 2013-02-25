@@ -23,11 +23,11 @@
 {/block}
 
 {* Topseller slider *}
-{*{block name="frontend_listing_index_banner"}
-    {if !$sLiveShopping}
+{block name="frontend_listing_index_banner"}
+{*    {if !$sLiveShopping}
         {include file='frontend/listing/banner.tpl' sLiveShopping=$sLiveShopping}
-    {/if}
-{/block}*}
+    {/if}*}
+{/block}
 
 {block name="frontend_listing_index_text" append}
 	{if !$hasEmotion && !$sSupplierInfo}
@@ -64,9 +64,9 @@
 
 {* Listing actions bottom *}
 {block name="frontend_listing_bottom_paging"}
-    {if $showListing}
+{*    {if $showListing}
         {$smarty.block.parent}
-    {/if}
+    {/if}*}
 {/block}
 
 {* Category text *}

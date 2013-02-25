@@ -18,6 +18,7 @@
 {block name='frontend_index_left_menu'}{/block}
 	
 {block name='frontend_index_left_campaigns_bottom'}
+    {* Service ausblenden *}
 	{*{include file='frontend/index/menu_left.tpl'}*}
     {include file="frontend/campaign/box.tpl" campaignsData=$campaigns.leftBottom}
 {/block}

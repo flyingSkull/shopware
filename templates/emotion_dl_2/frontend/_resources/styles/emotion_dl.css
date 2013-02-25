@@ -237,6 +237,27 @@ div#searchcontainer .inner_searchcontainer {
     color: #fff;
 }
 
+/* LEFT*/
+
+/** LEVEL 0 **/
+#content #left .categories li.active.sub a.active {
+    background-color: #b40700;
+    border: none;
+    color: #fff;
+}
+
+#content #left .categories li a:hover {
+    color: #b40700;
+}
+
+/** LEVEL 1 **/
+#content #left .categories li .submenu {
+    background: none;
+    border-left: none;
+    border-right: none;
+    padding-top: 5px;
+}
+
 /*  CONTAINER
     ------------------------ */
 div#breadcrumb {
@@ -306,6 +327,49 @@ div#breadcrumb {
 
 .listing_actions .top {
     padding: 10px 0 10px;
+}
+
+#listing .artbox {
+    width: 175px;
+}
+
+#listing .artbox .inner {
+    width: 160px;
+    height: 270px;
+}
+
+.artbox .inner {
+    padding: 10px;
+}
+
+.artbox p.price, .artbox p.pseudoprice {
+    position: absolute;
+    bottom: 5px;
+    margin-top: 10px;
+    height: 15px;
+}
+
+.artbox span.price {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 0px;
+}
+
+.artbox .artbox_thumb {
+    margin-top: 0px;
+    height: 160px;
+    display: block;
+    text-align: center;
+    background-color: #b40700;
+}
+
+.artbox a.title {
+    margin: 0 0 10px;
+    text-decoration: none;
+}
+
+.artbox a.title:hover {
+    color: #b40700;
 }
 
 .viewlast {
