@@ -339,7 +339,7 @@ div#breadcrumb {
 }
 
 .artbox .inner {
-    padding: 10px;
+    padding: 5px;
 }
 
 .artbox p.price, .artbox p.pseudoprice {
@@ -357,14 +357,16 @@ div#breadcrumb {
 
 .artbox .artbox_thumb {
     margin-top: 0px;
-    height: 160px;
+    margin-bottom: 5px;
+    height: 200px;
+    width: 165px;
     display: block;
     text-align: center;
     background-color: #b40700;
 }
 
 .artbox a.title {
-    margin: 0 0 10px;
+    margin: 10px 0 10px;
     text-decoration: none;
 }
 
