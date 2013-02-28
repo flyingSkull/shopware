@@ -240,6 +240,7 @@ div#searchcontainer .inner_searchcontainer {
 /* LEFT*/
 
 /** LEVEL 0 **/
+
 #content #left .categories li.active.sub a.active {
     background-color: #b40700;
     border: none;
@@ -269,8 +270,8 @@ div#breadcrumb {
 .container_20 {
     background: none;
     margin-top: 20px;
-    padding: 0 11px 11px;
-    width: 998px;
+    padding: 0 0 0 0;
+    width: 1024px;
     /*background: #fffaed;
     border: 0;
     -moz-box-shadow: 0 -1px 8px #b3a88d;
@@ -279,23 +280,27 @@ div#breadcrumb {
 }
 
 #content .inner {
-    width: 1030px;
+    width: 100%;
 }
 
 #content {
-    width: 1020px;
+    width: 100%;
 }
 
 #center {
-    width: 810px;
+    width: 814px;
     background: #fff;
     padding-left: 10px;
+    padding-right: 10px;
     margin-left: 0px;
     margin-right: 0px;
 }
-
 /*	WRAPPER
 	------------------------ */
+#wrapper {
+    width: 1024px;
+}
+
 #wrapper .wrap_inner {
     background: none;
 }
@@ -318,6 +323,8 @@ div#breadcrumb {
     padding: 0 0 0 0;
 }
 
+div.listing {width: 824px;}
+
 /** LISTING ACTIONS **/
 
 .listing_actions .articleperpage {
@@ -330,11 +337,12 @@ div#breadcrumb {
 }
 
 #listing .artbox {
-    width: 175px;
+    width: 194px;
+    height: 310px;
 }
 
 #listing .artbox .inner {
-    width: 160px;
+    width: 184px;
     height: 270px;
 }
 
@@ -343,8 +351,6 @@ div#breadcrumb {
 }
 
 .artbox p.price, .artbox p.pseudoprice {
-    position: absolute;
-    bottom: 5px;
     margin-top: 10px;
     height: 15px;
 }
@@ -358,14 +364,15 @@ div#breadcrumb {
 .artbox .artbox_thumb {
     margin-top: 0px;
     margin-bottom: 5px;
-    height: 200px;
-    width: 165px;
+    height: 230px;
+    width: 184px;
     display: block;
     text-align: center;
     background-color: #b40700;
 }
 
 .artbox a.title {
+    width: 184px;
     margin: 10px 0 10px;
     text-decoration: none;
 }
