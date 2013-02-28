@@ -2,9 +2,9 @@
 
 {* New *}
 {block name='frontend_listing_box_article_new'}
-    {if $sArticle.newArticle}
+    {*{if $sArticle.newArticle}
     <div class="ico_new" {if $sArticle.pseudoprice}style="top:50px;"{/if}>{se name='ListingBoxNew'}{/se}</div>
-    {/if}
+    {/if}*}
 {/block}
 
 {* Description *}
