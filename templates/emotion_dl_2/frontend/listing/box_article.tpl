@@ -2,9 +2,9 @@
 
 {* New *}
 {block name='frontend_listing_box_article_new'}
-    {*{if $sArticle.newArticle}
-    <div class="ico_new" {if $sArticle.pseudoprice}style="top:50px;"{/if}>{se name='ListingBoxNew'}{/se}</div>
-    {/if}*}
+{*{if $sArticle.newArticle}
+<div class="ico_new" {if $sArticle.pseudoprice}style="top:50px;"{/if}>{se name='ListingBoxNew'}{/se}</div>
+{/if}*}
 {/block}
 
 {* Description *}
@@ -91,4 +91,11 @@
     {if $sArticle.pseudoprice}
     <div class="pseudo_percent">%</div>
     {/if}
+
+    {*Image-Overlay*}
+    <span class="overlay">
+        <a href="{$sArticle.linkDetails|rewrite:$sArticle.articleName}" title="{$sArticle.articleName}" class="image_overlay" >
+
+        </a>
+    </span>
 {/block}

@@ -7,7 +7,7 @@
 #license.txt
 
 cache/
-engine/Shopware/Proxies/
+engine/Shopware/Proxies/*.php
 #install/
 
 .idea/
@@ -24,12 +24,12 @@ config.php
 #*.jpg
 #*.gif
 #*.png
-# media/image/*.jpg
-# media/image/*.gif
-# media/image/*.png
-# media/image/thumbnail/*.jpg
-# media/image/thumbnail/*.gif
-# media/image/thumbnail/*.png
+media/image/*.jpg
+media/image/*.gif
+media/image/*.png
+media/image/thumbnail/*.jpg
+media/image/thumbnail/*.gif
+media/image/thumbnail/*.png
 
 
 # Mac-Stuff
