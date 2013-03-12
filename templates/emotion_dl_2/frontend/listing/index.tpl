@@ -5,9 +5,6 @@
 
 {* Tagcloud *}
 {block name="frontend_listing_index_tagcloud"}
-{if $sCloudShow}
-	{action module=widgets controller=listing action=tag_cloud sCategory=$sCategoryContent.id}
-{/if}
 {/block}
 
 {block name="frontend_listing_index_listing"}
