@@ -6,9 +6,9 @@
 <div class="listing_actions{if !$sPages || $sPages.numbers|@count <= 1 || $sNumberPages <= 1} normal{/if}">
 {/block}
 {block name='frontend_listing_actions_top'}
-	{*<div class="top">
+	<div class="top">
 		
-		*}{* Sort filter *}{*
+		{* Sort filter*}
 		{block name='frontend_listing_actions_sort'}
 			<form method="get" action="{url controller=cat sCategory=$sCategoryContent.id}">
                 <input type="hidden" name="sPage" value="1">
@@ -26,8 +26,8 @@
 			</form>
 		{/block}
 		
-		*}{* Article per page *}{*
-		{block name='frontend_listing_actions_items_per_page'}
+		 {*Article per page*}
+		{*{block name='frontend_listing_actions_items_per_page'}
 		{if $sPerPage}
 			<form method="get" action="{url controller=cat sCategory=$sCategoryContent.id}">
                 <input type="hidden" name="sPage" value="1">
@@ -41,10 +41,10 @@
 			</div>
 			</form>
 		{/if}
-		{/block}
+		{/block}*}
 		
-		*}{* Change layout *}{*
-		*}{*{block name="frontend_listing_actions_change_layout"}
+		 {*Change layout *}
+		{*{block name="frontend_listing_actions_change_layout"}
 		{if !$sCategoryContent.noViewSelect}
 			<div class="list-settings">
 			<label>{s name='ListingActionsSettingsTitle'}Darstellung:{/s}</label>
@@ -52,12 +52,12 @@
 			<a href="{url sViewport='cat' sCategory=$sCategoryContent.id sPage=1 sTemplate='list'}" class="list-view {if $sBoxMode=='list'}active{/if}" title="{s name='ListingActionsSettingsList'}Listen-Ansicht{/s}">&nbsp;</a>
 			</div>
 		{/if}
-		{/block}*}{*
+		{/block}*}
 		
 		<noscript>
 			<input type="submit" class="buttonkit green small rounded" value="OK" />
 		</noscript>
-	</div>*}
+	</div>
 {/block}
 {block name='frontend_listing_actions_paging'}
 	{if $sNumberPages && $sNumberPages > 1}
@@ -89,9 +89,9 @@
 		
 		{block name='frontend_listing_actions_count'}
 		{* Count sites *}
-		{*<div class="display_sites">
+		<div class="display_sites">
 			{se name="ListingTextSite"}Seite{/se} <strong>{$sPage}</strong> {se name="ListingTextFrom"}von{/se} <strong>{$sNumberPages}</strong>
-		</div>*}
+		</div>
 		{/block}
 	</div>
 	{/if}

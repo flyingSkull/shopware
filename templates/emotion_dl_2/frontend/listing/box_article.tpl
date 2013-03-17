@@ -92,9 +92,10 @@
     <div class="pseudo_percent">%</div>
     {/if}
 
-    {*Image-Overlay*}
-    <span class="overlay">
-        <a href="{$sArticle.linkDetails|rewrite:$sArticle.articleName}" title="{$sArticle.articleName}" class="image_overlay" >
+{*Image-Overlay*}
+<span class="overlay">
+        <a href="{$sArticle.linkDetails|rewrite:$sArticle.articleName}" title="{$sArticle.articleName}"
+           class="image_overlay">
 
         </a>
     </span>
