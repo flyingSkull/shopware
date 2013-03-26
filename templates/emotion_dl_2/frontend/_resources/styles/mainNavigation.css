@@ -1,0 +1,56 @@
+/* MAIN-NAVIGATION
+	------------------------ */
+
+#mainNavigation {
+    background: none;
+    border-bottom: none;
+    position: absolute;
+    left: 250px;
+    top: 65px;
+    width: 600px;
+    height: 50px;
+    padding: 0 0 0 0;
+    font-weight: 700;
+}
+
+#mainNavigation a {
+    background: none;
+    border-left: none;
+    border-right: none;
+}
+
+#mainNavigation a.active {
+    background: #b40700;
+    color: #fff;
+    border: 0 none;
+    height: 30px;
+    font-weight: 700;
+    padding: 0 0 0 0;
+}
+
+#mainNavigation a.active span {
+    background: none;
+    color: #fff;
+    height: 30px;
+}
+
+#mainNavigation a.active:hover span {
+    background: none;
+    color: #fff;
+    height: 30px;
+    margin: 0;
+    line-height: 40px;
+}
+
+#mainNavigation ul li.dropactive:hover a {
+    background: transparent;
+    border-style: none none;
+    border-width: 0 0px;
+
+}
+
+#mainNavigation ul li.dropactive:hover a span {
+    background: #000;
+    height: 38px;
+    color: #fff;
+}
