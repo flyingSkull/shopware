@@ -16,6 +16,7 @@ engine/Shopware/Proxies/*.php
 .project
 
 *.orig
+*.ini
 
 .htaccess
 config.php

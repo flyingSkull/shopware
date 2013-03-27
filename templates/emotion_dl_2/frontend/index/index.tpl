@@ -36,7 +36,7 @@
 
     {* Search *}
         {block name='frontend_index_search'}
-        {include file="frontend/index/search.tpl"}
+            {include file="frontend/index/search.tpl"}
         {/block}
 
     {* Language and Currency bar *}
@@ -65,7 +65,7 @@
 
     {* Maincategories navigation top *}
         {block name='frontend_index_navigation_categories_top'}
-        {include file='frontend/index/categories_top.tpl'}
+           {include file='frontend/index/categories_top.tpl'}
         {/block}
 
     </div>
@@ -80,7 +80,7 @@
     <div class="container_20">
     {* Breadcrumb *}
     {block name='frontend_index_breadcrumb'}
-    {include file='frontend/index/breadcrumb.tpl'}
+        {*{include file='frontend/index/breadcrumb.tpl'}*}
     {/block}
 
     {* Content section *}
@@ -92,7 +92,7 @@
 
             {* Sidebar left *}
             {block name='frontend_index_content_left'}
-            {include file='frontend/index/left.tpl'}
+                {include file='frontend/index/left.tpl'}
             {/block}
 
             {* Main content *}

@@ -1,12 +1,10 @@
-{extends file='parent:frontend/index/categories_top.tpl'}
-
-<div id="mainNavigation">
-	<ul>
-        {*<li class="{if $sCategoryCurrent eq $sCategoryStart} active{/if}">
+<div class="wrapper-dropdown">
+	<ul class="dropdown">
+        <li class="{if $sCategoryCurrent eq $sCategoryStart} active{/if}">
             <a href="{url controller='index'}" title="{s name='IndexLinkHome'}{/s}" class="first{if $sCategoryCurrent eq $sCategoryStart} active{/if}">
                 {se name='IndexLinkHome'}Home{/se}
             </a>
-        </li>*}
+        </li>
 	    {foreach from=$sMainCategories item=sCategory}
 	    {if !$sCategory.hidetop}
 			<li {if $sCategory.flag} class="active"{/if}>
