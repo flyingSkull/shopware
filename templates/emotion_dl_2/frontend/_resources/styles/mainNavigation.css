@@ -16,7 +16,7 @@
 
 /* Drop down menu */
 #mainNavigation ul li.dropactive:hover a {background-image: none; background-color: transparent; border-style: none none; color: #fff;}
-#mainNavigation ul li.dropactive:hover a span {background: none; height: 100%; color: #fff;}
+#mainNavigation ul li.dropactive:hover a span {background: none; height: 40px; color: #b40700;}
 
 #mainNavigation ul li.dropactive:hover ul.dropdown li:hover a {color: #fff; background-color: transparent;}
 #mainNavigation ul li.dropactive:hover ul.dropdown li:hover li a {color: #e1540f; background-color: #fff;}
@@ -31,13 +31,15 @@
 #mainNavigation ul li.dropactive:hover ul.dropdown li.sub {background: none;}
 #mainNavigation ul li.dropactive:hover ul.dropdown li.sub:hover {background: none;}
 #mainNavigation ul li.dropactive:hover ul.dropdown li a {color:#808080;border-color: #333333; height:25px; line-height:25px; padding: 0 20px 0 10px;}
+#mainNavigation ul li.dropactive:hover ul.dropdown li a.active {color:#b40700;border-color: #333333; height:25px; line-height:25px; padding: 0 20px 0 10px;}
 
 #mainNavigation ul li.dropactive:hover ul.dropdown li.sub ul li a {background: #000; color: #808080;}
 #mainNavigation ul li.dropactive:hover ul.dropdown li.sub ul li a:hover {background: #333333; color: #fff;}
 
 #mainNavigation li:hover ul.dropdown, #mainNavigation li:hover ul.droplevel {background-color: #000; border: none;}
-#mainNavigation li:hover ul.dropdown,
-#mainNavigation li:hover ul.droplevel {margin-left: 6px;margin-top: 2px;}
+#mainNavigation li:hover ul.dropdown, #mainNavigation li:hover ul.droplevel {margin-left: 6px;margin-top: 2px;}
+
+#mainNavigation li.active:hover ul.dropdown {margin-left: 5px;}
 #mainNavigation li.active:hover ul.dropdown {margin-left: 5px;}
 
 #mainNavigation ul li.dropactive:hover ul.dropdown li.sub ul {margin: 0px; border: 0; border-left: 1px solid #333;}
