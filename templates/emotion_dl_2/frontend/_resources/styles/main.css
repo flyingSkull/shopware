@@ -22,14 +22,15 @@ body .my_options a, .my_options .service {
 
 .my_options {
     float: right;
-    background: transparent;
-    border: 0 none;
+    background: rgb(255, 255, 255);
+    border: none;
     margin-right: 50px;
-    padding: 10px 0px;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    -ms-box-shadow: none;
-    box-shadow: none;
+    padding: 10px 10px;
+    -moz-box-shadow: 0 -1px 8px #b3a88d;
+    -webkit-box-shadow: 0 -1px 8px #b3a88d;
+    box-shadow: 0 -1px 8px #b3a88d;
+    border-radius: 0 0 0 3px;
+    height: 23px;
 }
 
 .my_options a.note {
@@ -163,7 +164,7 @@ div#searchcontainer {
     position: absolute;
     right: 0px;
     left: 740px;
-    top: 130px;
+    top: 170px;
     background: transparent;
 }
 
