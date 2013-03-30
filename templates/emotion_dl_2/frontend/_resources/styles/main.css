@@ -314,6 +314,7 @@ div#breadcrumb {
     border-top: none;
 }
 
+
 #footer_wrapper .footer_top {
     height: 7px;
 }
@@ -331,12 +332,16 @@ div#breadcrumb {
     margin: 40px auto 0;
 }
 
+#footer_wrapper .footer_inner #footer a {text-decoration: none;}
+#footer_wrapper .footer_inner #footer a:hover {color: #b40700; font-weight: 900}
+
 #footer_wrapper .footer_inner .bottom {
     width: 1000px;
     margin: 20px auto 0;
     text-align: center;
     padding-bottom: 10px;
 }
+
 
 #footer .footer_menu {
     background: none;
@@ -350,7 +355,7 @@ div#breadcrumb {
 }
 
 #footer .footer_menu .head {
-    color: #b40700;
+    color: #fff;
     font-weight: bold;
     font-size: 14px;
     margin-bottom: 10px;
@@ -361,4 +366,12 @@ div#breadcrumb {
     float: left;
     min-height: 250px;
     padding: 0 30px;
+    width: 175px;
+}
+
+#footer .footer_menu .col3 { width: 150px;}
+#footer .footer_menu .last {border-right: 0;width: 220px;}
+
+#footer .footer_menu .footer_column form input {
+    width: 180px;
 }
