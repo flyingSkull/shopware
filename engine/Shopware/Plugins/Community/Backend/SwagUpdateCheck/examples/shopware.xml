@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<shopware>
+    <current>4.1.0</current>
+    <versions>
+        <version>
+            <number>4.1.0</number>
+            <requires>4.0.8</requires>
+            <link>http://linkzumwiki.de</link>
+        </version>
+    </versions>
+</shopware>

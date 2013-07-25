@@ -198,6 +198,19 @@ class Shopware_Controllers_Backend_Order extends Shopware_Controllers_Backend_Ex
 
     }
 
+	/**
+     * Enable json renderer for index / load action
+     * Check acl rules
+     *
+     * @return void
+     */
+    public function preDispatch()
+    {
+        if (!in_array($this->Request()->getActionName(), array('index', 'load', 'skeleton', 'extends','orderPdf'))) {
+            $this->Front()->Plugins()->Json()->setRenderer();
+        }
+    }
+
     /**
      *
      */
@@ -747,7 +760,6 @@ class Shopware_Controllers_Backend_Order extends Shopware_Controllers_Backend_Ex
             $data['attribute'] = $data['attribute'][0];
             $position->fromArray($data);
             $position->setOrder($order);
-            $position->setStatus($order->getOrderStatus());
 
             Shopware()->Models()->flush();
 
@@ -948,7 +960,7 @@ class Shopware_Controllers_Backend_Order extends Shopware_Controllers_Backend_Ex
             $clearedBefore = $order->getPaymentStatus();
 
             //refresh the status models to return the new status data which will be displayed in the batch list
-            if(!empty($data['status'])) {
+            if(!empty($data['status']) || $data['status'] === 0) {
                 $order->setOrderStatus(Shopware()->Models()->find('Shopware\Models\Order\Status', $data['status']));
             }
             if(!empty($data['cleared'])) {
@@ -1272,8 +1284,10 @@ class Shopware_Controllers_Backend_Order extends Shopware_Controllers_Backend_Ex
             ));
             return;
         }
-    }
 
+	    //removes the global PostDispatch Event to prevent assignments to the view that destroyed the pdf
+	    Enlight_Application::Instance()->Events()->removeListener(new Enlight_Event_EventHandler('Enlight_Controller_Action_PostDispatch',''));
+    }
 
     /**
      * Internal helper function which insert the order detail association data into the passed data array
@@ -1283,7 +1297,7 @@ class Shopware_Controllers_Backend_Order extends Shopware_Controllers_Backend_Ex
     private function getPositionAssociatedData($data) {
 
         //checks if the status id for the position is passed and search for the assigned status model
-        if (!empty($data['statusId'])) {
+        if ($data['statusId'] >= 0) {
             $data['status'] = Shopware()->Models()->find('Shopware\Models\Order\DetailStatus', $data['statusId']);
         } else {
             unset($data['status']);

@@ -11,8 +11,8 @@ require_once('pnag_article.php');
  * Released under the GNU General Public License (Version 2)
  * [http://www.gnu.org/licenses/gpl-2.0.html]
  *
- * $Date: 2012-11-23 11:34:40 +0100 (Fr, 23. Nov 2012) $
- * @version SofortLib 1.5.4  $Id: class.abstract_document.inc.php 5748 2012-11-23 10:34:40Z Niehoff $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version SofortLib 1.5.4  $Id: class.abstract_document.inc.php 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  * @internal
  *

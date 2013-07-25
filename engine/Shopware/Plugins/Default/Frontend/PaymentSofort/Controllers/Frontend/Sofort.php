@@ -5,8 +5,8 @@ require_once(dirname(__FILE__).'/../Helper/Helper.php');
  *
  * Controller for handling payments by sofort multipay
  *
- * $Date: 2012-07-23 13:03:20 +0200 (Mon, 23 Jul 2012) $
- * @version sofort 1.0  $Id: Sofort.php 4873 2012-07-23 11:03:20Z dehn $
+ * $Date: 2013-07-05 12:02:22 +0200 (Fri, 05 Jul 2013) $
+ * @version sofort 1.0.2  $Id: Sofort.php 6232 2013-07-05 10:02:22Z dehn $
  * @author SOFORT AG http://www.sofort.com (f.dehn@sofort.com)
  * @package Shopware 4, sofort.com
  *
@@ -35,7 +35,7 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 	 * Version
 	 * @var string
 	 */
-	private $version = 'sofort_shopware4_1.0';
+	private $version = 'sofort_shopware4_1.0.5';
 	
 	/**
 	 * a random unique id used as "token" for payments
@@ -188,14 +188,8 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 			case 'sofortrechnung_multipay':
 				$Object = $this->setSofortrechnung();
 				break;
-			case 'vorkassebysofort_multipay':
-				$Object = $this->setVorkassebysofort();
-				break;
 			case 'sofortueberweisung_multipay':
 				$Object = $this->setSofortueberweisung();
-				break;
-			case 'sofortlastschrift_multipay':
-				$Object = $this->setSofortlastschrift();
 				break;
 			case 'lastschriftbysofort_multipay':
 				$Object = $this->setLastschriftbysofort();
@@ -215,19 +209,20 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 	private function setSofortrechnung() {
 		$this->paymentMethodString = 'sr';
 		$basket = $this->getBasket();
+		
 		$user = $this->getUser();
 		$billingAddress = $user['billingaddress'];
 		$shippingAddress = $user['shippingaddress'];
 		$billingLastname = $billingAddress['lastname'];
 		$shippingLastname = $shippingAddress['lastname'];
 		
-		if($billingAddress['salutation'] === 'mr' ) {
+		if ($billingAddress['salutation'] === 'mr' ) {
 			$billingSalutation = 2;
 		} elseif($billingAddress['salutation'] === 'ms' ) {
 			$billingSalutation = 3;
 		}
 		
-		if($shippingAddress['salutation'] === 'mr' ) {
+		if ($shippingAddress['salutation'] === 'mr' ) {
 			$shippingSalutation = 2;
 		} elseif($shippingAddress['salutation'] === 'ms' ) {
 			$shippingSalutation = 3;
@@ -245,29 +240,29 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 		$this->PnagInvoice->addShippingAddress($shippingAddress['firstname'], $shippingLastname, $shippingAddress['street'],$shippingAddress['streetnumber'], $shippingAddress['zipcode'], $shippingAddress['city'], $shippingSalutation, $countryShipping, $company);
 		$this->PnagInvoice->setEmailCustomer($user['additional']['user']['email']);
 		
+		$surchargeNumber        = $this->getSurchargeNumber();
+		$discountNumber         = $this->getDiscountNumber();
+		$paymentDiscountNumber  = $this->getPaymentDiscountNumber();
+		$paymentSurchargeNumber = $this->getPaymentSurchargeNumber();
+		$productType            = 0;
+		
 		foreach ($basket['content'] as $article) {
-			$surchargeNumber        = $this->getSurchargeNumber();
-			$discountNumber         = $this->getDiscountNumber();
-			$paymentDiscountNumber  = $this->getPaymentDiscountNumber();
-			$paymentSurchargeNumber = $this->getPaymentSurchargeNumber();
-			$productType            = 0;
-			
-			if($article['ordernumber'] == $surchargeNumber) {
+			if ($article['ordernumber'] == $surchargeNumber) {
 				$article['articleID'] = 'swsurcharge';
 				$productType = 2;
-			} elseif($article['ordernumber'] == $discountNumber) {
+			} elseif ($article['ordernumber'] == $discountNumber) {
 				$article['articleID'] = 'swdiscount';
 				$productType = 2;
-			} elseif($article['ordernumber'] == $paymentDiscountNumber) {
+			} elseif ($article['ordernumber'] == $paymentDiscountNumber) {
 				$article['articleID'] = 'swpayment';
 				$productType = 2;
-			} elseif($article['ordernumber'] == $paymentSurchargeNumber) {
+			} elseif ($article['ordernumber'] == $paymentSurchargeNumber) {
 				$article['articleID'] = 'swpaymentabs';
 				$productType = 2;
 			}
 			
-			// Get the real name
-			$realArticleName = $this->getRealArticleName($article, array('Gutschein'));
+			// Get the real name (vouchers + rebates
+			$realArticleName = $this->getRealArticleName($article);
 			
 			// notice the html encoded article names!
 			if (strlen($realArticleName) != strlen($article['articlename'])) {
@@ -310,9 +305,9 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 			$errorCodes = array();
 			
 			// make some error message like errors[]=8054,8033
-			foreach($allErrors as $error) {
-				foreach($error as $key => $value) {
-					if($key == 'code') {
+			foreach ($allErrors as $error) {
+				foreach ($error as $key => $value) {
+					if ($key == 'code') {
 						array_push($errorCodes, $value);
 					}
 				}
@@ -324,69 +319,6 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 		} else {
 			$this->setOrderTransaction($this->PnagInvoice->getTransactionId(), $this->uniqueId);
 			$this->redirect($this->PnagInvoice->getPaymentUrl());
-			return true;
-		}
-	}
-	
-	
-	/**
-	 * 
-	 * initiate Vorkasse payment
-	 */
-	private function setVorkassebysofort() {
-		$this->paymentMethodString = 'sv';
-		$account = empty($this->bankAccount) ? $this->getBankAccount() : $this->bankAccount;
-		// get customer protection
-		$svCustomerProtection = $this->Config()->vorkassebysofort_customer_protection;
-		
-		if ($svCustomerProtection == 'on' || $svCustomerProtection == 1) {
-			$this->SofortLib_Multipay->setSofortvorkasseCustomerprotection();
-		} else {
-			$this->SofortLib_Multipay->setSofortvorkasse();
-		}
-		
-		$user = $this->getUser();
-		$this->SofortLib_Multipay->setAmount($this->getAmount());
-		$this->SofortLib_Multipay->setEmailCustomer($user['additional']['user']['email']);
-		$this->SofortLib_Multipay->setSuccessUrl($this->makeSuccessUrl());
-		$this->SofortLib_Multipay->setTimeoutUrl($this->makeTimeoutUrl());
-		$this->SofortLib_Multipay->setAbortUrl($this->makeAbortUrl());
-		$this->SofortLib_Multipay->setNotificationUrl($this->makeNotificationUrl());
-		$orderId = $this->placeOrder();
-		$this->SofortLib_Multipay->setReason($this->Config()->paymentReason, $this->Config()->paymentReason2);
-		
-		// if this is called a 'test transaction', add a sender account
-		if(getenv('test_sv') == true) {
-			$this->SofortLib_Multipay->setSenderAccount('00000', '12345', 'Tester Testaccount');
-		}
-		
-		$this->SofortLib_Multipay->sendRequest();
-		
-		if($this->isInTestMode()) {
-			return $this;
-		}
-		
-		if($this->SofortLib_Multipay->isError()) {
-			$errorMsg = $this->SofortLib_Multipay->getError();
-			$allErrors = $this->SofortLib_Multipay->getErrors();
-			$errorCodes = array();
-			$i = 0;
-			
-			// make some error message like errors[]=8054,8033
-			foreach ($allErrors as $error) {
-				foreach($error as $key => $value) {
-					if ($key == 'code') {
-						array_push($errorCodes, $value);
-					}
-				}
-				
-				$i++;
-			}
-			
-			$this->redirect($this->makeAbortUrl($errorMsg, $errorCodes));
-		} else {
-			$this->setOrderTransaction($this->SofortLib_Multipay->getTransactionId(), $this->uniqueId);
-			$this->redirect($this->SofortLib_Multipay->getPaymentUrl());
 			return true;
 		}
 	}
@@ -420,11 +352,11 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 		$this->SofortLib_Multipay->setReason($this->Config()->paymentReason, $this->Config()->paymentReason2);
 		$this->SofortLib_Multipay->sendRequest();
 		
-		if($this->isInTestMode()) {
+		if ($this->isInTestMode()) {
 			return $this;
 		}
 		
-		if($this->SofortLib_Multipay->isError()) {
+		if ($this->SofortLib_Multipay->isError()) {
 			$errorMsg = $this->SofortLib_Multipay->getError();
 			$allErrors = $this->SofortLib_Multipay->getErrors();
 			$i = 0;
@@ -444,65 +376,6 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 			$this->redirect($this->makeAbortUrl($errorMsg, $errorCodes));
 		} else {
 			//$orderNumber = $this->saveOrder($this->SofortLib_Multipay->getTransactionId(), $this->uniqueId, 17);
-			$this->setOrderTransaction($this->SofortLib_Multipay->getTransactionId(), $this->uniqueId);
-			$this->redirect($this->SofortLib_Multipay->getPaymentUrl());
-			return true;
-		}
-	}
-	
-	
-	/**
-	 *
-	 * Lastschrift is assembled here
-	 */
-	private function setSofortlastschrift() {
-		$this->paymentMethodString = 'sl';
-		$account = empty($this->bankAccount) ? $this->getBankAccount() : $this->bankAccount;
-		$basket = $this->getBasket();
-		$this->SofortLib_Multipay->setSofortlastschrift();
-		$cartIdString = $this->Snippets->getSnippet("sofort_multipay_checkout")->get("cart_id");
-		$this->SofortLib_Multipay->setAmount($this->getAmount());
-		$user = $this->getUser();
-		$user = $user['billingaddress'];
-		$this->SofortLib_Multipay->setSuccessUrl($this->makeSuccessUrl());
-		$this->SofortLib_Multipay->setTimeoutUrl($this->makeTimeoutUrl());
-		$this->SofortLib_Multipay->setAbortUrl($this->makeAbortUrl());
-		$this->SofortLib_Multipay->setNotificationUrl($this->makeNotificationUrl());
-		$salutation = 2;
-		
-		if ($user['salutation'] == 'ms') {
-			$salutation = 3;
-		}
-		
-		$countryInvoice = (isset($user['additional']['country']['countryiso'])) ? $user['additional']['country']['countryiso'] : '';
-		$this->SofortLib_Multipay->setSofortlastschriftAddress($user['firstname'], $user['lastname'], $user['street'],$user['streetnumber'], $user['zipcode'], $user['city'], $salutation, $countryInvoice);
-		$orderId = $this->placeOrder();
-		$this->SofortLib_Multipay->setReason($this->Config()->paymentReason, $this->Config()->paymentReason2);
-		$this->SofortLib_Multipay->sendRequest();
-		
-		if ($this->isInTestMode()) {
-			return $this;
-		}
-		
-		if ($this->SofortLib_Multipay->isError()) {
-			$errorMsg = $this->SofortLib_Multipay->getError();
-			$allErrors = $this->SofortLib_Multipay->getErrors();
-			$errorCodes = array();
-			$i = 0;
-			
-			// make some error message like errors[]=8054,8033
-			foreach ($allErrors as $error) {
-				foreach ($error as $key => $value) {
-					if ($key == 'code') {
-						array_push($errorCodes, $value);
-					}
-				}
-				
-				$i++;
-			}
-			
-			$this->redirect($this->makeAbortUrl($errorMsg, $errorCodes));
-		} else {
 			$this->setOrderTransaction($this->SofortLib_Multipay->getTransactionId(), $this->uniqueId);
 			$this->redirect($this->SofortLib_Multipay->getPaymentUrl());
 			return true;
@@ -532,7 +405,7 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 		$user = $user['billingaddress'];
 		$salutation = 2;
 		
-		if($user['salutation'] == 'ms') {
+		if ($user['salutation'] == 'ms') {
 			$salutation = 3;
 		}
 		
@@ -577,7 +450,7 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 	 * Places an order with the associated payment method
 	 */
 	private function placeOrder() {
-		if(empty($this->paymentMethod)) {
+		if (empty($this->paymentMethod)) {
 			$this->paymentMethod = $this->ShopwareUpdateHelper->getPaymentDetails($this->getPaymentShortName());
 		}
 		
@@ -597,7 +470,7 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 		
 		$comment = '';
 		
-		switch($this->paymentMethod['name']) {
+		switch ($this->paymentMethod['name']) {
 			case 'sofortueberweisung_multipay' :
 				$comment = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_su_pending');
 				break;
@@ -620,7 +493,7 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 		$user = $this->getUser();
 		$userComment = (isset($_SESSION['Shopware']['sOrderVariables'])) ? $_SESSION['Shopware']['sOrderVariables']->getArrayCopy() : '';
 		
-		if(empty($userComment['sComment'])) {
+		if (empty($userComment['sComment'])) {
 			$userComment['sComment'] = '';
 		}
 		
@@ -630,18 +503,21 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 	
 	/**
 	 * 
-	 * Get the real article name (some html entities might be included)
+	 * Get the real article name (some html entities might be included as well as voucher names)
 	 * @param array $article
 	 * @param array $excludes
 	 */
-	private function getRealArticleName($article, $excludes = array()) {
-		if(in_array($article['articlename'] , $excludes)) {
-			return $article['articlename'];
+	private function getRealArticleName($article) {
+		$vouchers = $this->getVouchers();
+		
+		foreach ($vouchers as $voucher) {
+			if ($article['ordernumber'] === $voucher['ordercode']) return $voucher['description'];
 		}
+		
 		$realArticleName = $this->getArticleName($article['articleID']);
 		
 		// only empty, if article is shipping costs or sth. like this
-		if(empty($realArticleName)) {
+		if (empty($realArticleName)) {
 			$realArticleName = $article['articlename'];
 		}
 		
@@ -658,6 +534,12 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 	private function getVoucherDescription($voucherId) {
 		$sql = 'SELECT description FROM s_emarketing_vouchers WHERE id = ?';
 		return $this->Shopware->Db()->fetchOne($sql, array($voucherId));
+	}
+	
+	
+	private function getVouchers() {
+		$sql = 'SELECT description,ordercode FROM s_emarketing_vouchers';
+		return $this->Shopware->Db()->fetchAll($sql);
 	}
 	
 	
@@ -702,7 +584,7 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 	 * Getter for Payment Discount number
 	 */
 	private function getPaymentDiscountNumber() {
-		return Shopware()->Config()->paymentSurchageNumber;
+		return Shopware()->Config()->paymentsurchargenumber;
 	}
 	
 	
@@ -1165,14 +1047,13 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 		$this->View()->sBasket = $this->getBasket();
 		$this->paymentMethod = $this->ShopwareUpdateHelper->getPaymentDetails($this->getPaymentShortName());
 		
-		
 		$this->View()->loadTemplate('Frontend/payment_timeout.tpl');
 		$this->View()->sofortPaymentMethod = $this->paymentMethod;
 		$transactionId = $this->Request()->getParam('transactionId');
 		$this->uniqueId = $this->Request()->getParam('unique');
 		$checkoutUrl = $this->Front()->Router()->assemble(array(
-				'controller' => 'checkout',
-				'action' => 'cart'
+			'controller' => 'checkout',
+			'action' => 'cart'
 		));
 		$this->View()->checkoutUrl = $checkoutUrl;
 		
@@ -1195,8 +1076,7 @@ class Shopware_Controllers_Frontend_Sofort extends Shopware_Controllers_Frontend
 	 * Set the order to canceled
 	 * @param string $transactionId
 	 */
-	private function setOrderCanceled($transactionId)
-	{
+	private function setOrderCanceled($transactionId) {
 		$sofortCanceledState = $this->Config()->sofort_canceled_state;
 		$sql = 'UPDATE `s_order` SET `status` = 4 WHERE `transactionID` = ?';
 		$fields = array(

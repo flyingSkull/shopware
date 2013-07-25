@@ -1,8 +1,6 @@
 <script type="text/javascript">
 
-function updateCart(transactionId, paymentStatus, store, updatedRow) 
-{
-
+function updateCart(transactionId, paymentStatus, store, updatedRow) {
 	var itemCount = store.getTotalCount();
 	var articles = new Array(transactionId);
 	var deletedArticles = new Array();
@@ -62,12 +60,13 @@ function updateCart(transactionId, paymentStatus, store, updatedRow)
 		}
 		sum += (article.articlePrice * article.articleQuantity);
 	}
+	
 	if (sum <= 0) {
 		Ext.MessageBox.alert('Warning', '{s name="error_9012" namespace="sofort_multipay_errors"}{/s}');
 		return;
 	}
 	
-	// if no data have been changed, just return
+	// if no data has been changed, just return
 	if (!dataChanged) {
 		Ext.MessageBox.alert('{s name="admin.action.warning" namespace="sofort_multipay_backend"}{/s}', '{s name="error_9018" namespace="sofort_multipay_errors"}{/s}');
 		store.rejectChanges();
@@ -81,32 +80,29 @@ function updateCart(transactionId, paymentStatus, store, updatedRow)
 	}
 	
 	// in case no "real" products are still left in cart, show an adequate error
-	if (!checkIfProductsExistInCart(articles)) {
+	if (!validProductExistInCart(articles) && parseInt(articles.length) > 1) {
 		Ext.Msg.alert('{s name="admin.action.hint" namespace="sofort_multipay_backend"}{/s}', '{s name="admin.action.update_shipping_costs.hint" namespace="sofort_multipay_backend"}{/s}');
 		store.rejectChanges();
 		return;
 	}
 	
 	// there has to be one item left within this invoice, otherwise trigger cancellation of payment
-	if (articles.length == 1 || parseInt(item.quantity) == 0) {
-		
+	if (articles.length == 1) {
 		if (articles[0].productType == 1) {
-			Ext.Msg.confirm('{s name="admin.action.hint" namespace="sofort_multipay_backend"}{/s}', '{s name="admin.action.cancel_invoice.question" namespace="sofort_multipay_backend"}{/s}', function (btn) {
-				if (btn == 'yes') {
-					return cancelInvoice(transactionId);
-				} else {
-					store.rejectChanges();
-				}
-			});
+			msgTitle = '{s name="admin.action.hint" namespace="sofort_multipay_backend"}{/s}';
+			msgContent = '{s name="admin.action.cancel_invoice.question" namespace="sofort_multipay_backend"}{/s}';
 		} else {
-			Ext.Msg.confirm('{s name="admin.action.cancel_invoice" namespace="sofort_multipay_backend"}{/s}', '{s name="admin.action.remove_last_article.hint" namespace="sofort_multipay_backend"}{/s}', function (btn) {
-				if (btn == 'yes') {
-					return cancelInvoice(transactionId);
-				} else {
-					store.rejectChanges();
-				}
-			});
+			msgTitle = '{s name="admin.action.cancel_invoice" namespace="sofort_multipay_backend"}{/s}';
+			msgContent = '{s name="admin.action.remove_last_article.hint" namespace="sofort_multipay_backend"}{/s}';
 		}
+		
+		Ext.Msg.confirm(msgTitle, msgContent, function (btn) {
+			if (btn == 'yes') {
+				return cancelInvoice(transactionId, paymentStatus);
+			} else {
+				store.rejectChanges();
+			}
+		});
 		
 		return;
 	}
@@ -240,12 +236,13 @@ function calculateSumOfAllArticlesInStore(items, formatCallback) {
 /**
  * Check if any item is a product or not
  */
-function checkIfProductsExistInCart(items) {
+function validProductExistInCart(items) {
 	for (i = 0; i < items.length; i++) {
 		if (parseInt(items[i].articleProductType) == 0) {
 			return true;
 		}
 	}
+	
 	return false;
 }
 
@@ -300,12 +297,12 @@ function cancelInvoice(transactionId, paymentStatus) {
 	} else if (paymentStatus == 'not_credited_yet') {
 		cancelString = '{s name="question_cancel_confirmed_sr" namespace="sofort_multipay_backend"}{/s}';
 	}
-
+	
 	Ext.MessageBox.confirm('{s name="cancel_sr_title" namespace="sofort_multipay_backend"}{/s}', cancelString, function (btn) {
-
+		
 		if (btn == 'yes') {
 			var box = Ext.MessageBox.wait('{s name="please_wait" namespace="sofort_multipay_backend"}{/s}', '{s name="cancel_sr" namespace="sofort_multipay_backend"}{/s}');
-
+			
 			Ext.Ajax.request({
 				url	 : '{url action=cancelInvoice}',
 				params  : 'transactionId=' + transactionId,

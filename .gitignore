@@ -25,6 +25,7 @@ config.php
 #*.jpg
 #*.gif
 #*.png
+media/
 media/image/*.jpg
 media/image/*.gif
 media/image/*.png

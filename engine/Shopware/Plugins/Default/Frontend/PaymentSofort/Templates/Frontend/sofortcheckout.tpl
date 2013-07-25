@@ -1,8 +1,8 @@
 {*
  * Copyright (c) 2012 SOFORT AG
  *
- * $Date: 2012-07-09 11:10:01 +0200 (Mon, 09 Jul 2012) $
- * @version Shopware SOFORT AG Multipay 1.1.0 $Id: sofortcheckout.tpl 4656 2012-07-09 09:10:01Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version Shopware SOFORT AG Multipay 1.1.0 $Id: sofortcheckout.tpl 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  *
 *}
@@ -82,9 +82,6 @@ $(document).ready(function(){
 			}
 		});
 	}
-	// remove the save-button 
-	var submitButton = $('.actions .button-right');
-	$('.payment_method :input[type=submit]').remove();
 });
 
 // fetch the checkbox for this DHW and set it to checked, then submit() the form
@@ -122,28 +119,29 @@ function submitForm(element) {
 
 <!-- Extend the payment fieldsets -->
 {extends file="frontend/checkout/confirm_payment.tpl"}
-{block name='frontend_checkout_payment_fieldset_input_radio'}
-	<div class="grid_5 first">
-		<input type="radio" name="register[payment]" class="radio" value="{$payment_mean.id}" id="payment_mean{$payment_mean.id}"{if $payment_mean.id eq  $chosenPaymentMethod} checked="checked"{/if} /> <label class="description" for="payment_mean{$payment_mean.id}">{$payment_mean.description}</label>
-	</div>
-{/block}
-{block name='frontend_checkout_payment_fieldset_description'}
-	{if $sofortPaymentMeans[$payment_mean.id].name eq 'sofortlastschrift_multipay'}
-		{include file="sofortlastschrift.tpl"}
-	{elseif $sofortPaymentMeans[$payment_mean.id].name eq 'lastschriftbysofort_multipay'}
-		{include file="lastschriftbysofort.tpl"}
-	{elseif $sofortPaymentMeans[$payment_mean.id].name eq 'vorkassebysofort_multipay'}
-		{include file="vorkassebysofort.tpl"}
-	{elseif $sofortPaymentMeans[$payment_mean.id].name eq 'sofortrechnung_multipay'}
-		{include file="sofortrechnung.tpl"}
-	{elseif $sofortPaymentMeans[$payment_mean.id].name eq 'sofortueberweisung_multipay'}
-		{include file="sofortueberweisung.tpl"}
-	{else}
-		<div class="grid_10 last">
-			{$payment_mean.additionaldescription}
+	{block name='frontend_checkout_payment_fieldset_input_radio'}
+		<div class="grid_5 first">
+			<input type="radio" name="register[payment]" class="radio" value="{$payment_mean.id}" id="payment_mean{$payment_mean.id}"{if $payment_mean.id eq  $chosenPaymentMethod} checked="checked"{/if} /> <label class="description" for="payment_mean{$payment_mean.id}">{$payment_mean.description}</label>
 		</div>
-	{/if}
-{/block}
+	{/block}
+	
+	{block name='frontend_checkout_payment_fieldset_description'}
+		{if $sofortPaymentMeans[$payment_mean.id].name eq 'sofortlastschrift_multipay'}
+			{include file="sofortlastschrift.tpl"}
+		{elseif $sofortPaymentMeans[$payment_mean.id].name eq 'lastschriftbysofort_multipay'}
+			{include file="lastschriftbysofort.tpl"}
+		{elseif $sofortPaymentMeans[$payment_mean.id].name eq 'vorkassebysofort_multipay'}
+			{include file="vorkassebysofort.tpl"}
+		{elseif $sofortPaymentMeans[$payment_mean.id].name eq 'sofortrechnung_multipay'}
+			{include file="sofortrechnung.tpl"}
+		{elseif $sofortPaymentMeans[$payment_mean.id].name eq 'sofortueberweisung_multipay'}
+			{include file="sofortueberweisung.tpl"}
+		{else}
+			<div class="grid_10 last">
+				{eval var=$payment_mean.additionaldescription}
+			</div>
+		{/if}
+	{/block}
 
 {block name='frontend_checkout_payment_fieldset_template'}
 <div class="payment_logo_{$payment_mean.name}"></div>

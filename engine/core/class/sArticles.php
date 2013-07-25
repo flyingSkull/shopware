@@ -740,7 +740,7 @@ class sArticles
 
         if (Enlight()->Events()->notifyUntil('Shopware_Modules_Articles_sGetArticlesByCategory_Start', array(
             'subject' => $this, 'id' => $categoryId
-          ))) {
+        ))) {
             return false;
         }
 
@@ -903,6 +903,7 @@ class sArticles
 
         $markNew = (int)$this->sSYSTEM->sCONFIG['sMARKASNEW'];
         $topSeller = (int)$this->sSYSTEM->sCONFIG['sMARKASTOPSELLER'];
+        $now = Shopware()->Db()->quote(date('Y-m-d'));
 
         $priceForBasePrice = "(SELECT price FROM s_articles_prices WHERE articledetailsID=aDetails.id AND pricegroup=IF(p.id IS NULL, 'EK', p.pricegroup) AND `from`=1 LIMIT 1 ) as priceForBasePrice";
 
@@ -925,7 +926,6 @@ class sArticles
 				IFNULL(p.pricegroup,IFNULL(p2.pricegroup,'EK')) as pricegroup,
 				attr1,attr2,attr3,attr4,attr5,attr6,attr7,attr8,attr9,attr10,
 				attr11,attr12,attr13,attr14,attr15,attr16,attr17,attr18,attr19,attr20,
-				-- cd.discount,
 				IFNULL((SELECT 1 FROM s_articles_details WHERE articleID=a.id AND kind=2 LIMIT 1), 0) as variants,
 				(a.configurator_set_id IS NOT NULL) as sConfigurator,
 				IFNULL((SELECT 1 FROM s_articles_esd WHERE articleID=a.id LIMIT 1), 0) as esd,
@@ -934,10 +934,10 @@ class sArticles
 				   FROM s_articles_vote WHERE active=1
 				   AND articleID=a.id),
 				'0.00|00') as sVoteAverange,
-				IF(DATEDIFF(NOW(), a.datum)<=$markNew,1,0) as newArticle,
+				IF(DATEDIFF($now, a.datum)<=$markNew,1,0) as newArticle,
 				IF(aDetails.sales>=$topSeller,1,0) as topseller,
-				IF(aDetails.releasedate>CURDATE(),1,0) as sUpcoming,
-				IF(aDetails.releasedate>CURDATE(), aDetails.releasedate, '') as sReleasedate
+				IF(aDetails.releasedate>$now,1,0) as sUpcoming,
+				IF(aDetails.releasedate>$now, aDetails.releasedate, '') as sReleasedate
 			FROM s_categories c, s_categories c2, s_articles_categories ac
 
             JOIN s_articles AS a
@@ -1258,17 +1258,15 @@ class sArticles
         }
 
         $db = Shopware()->Db();
-        $language = $this->translationId;
         $categoryId = (int)$categoryId;
         $activeFilters = (array)$activeFilters;
 
-        $addFilterSQL = "";
-        $addFilterWhere = "";
+        $addFilterJoin = "";
         if (!empty($activeFilters)) {
             foreach ($activeFilters as $key => $filter) {
                 $filter = (int)$filter;
                 if ($filter > 0) {
-                    $addFilterSQL .= "
+                    $addFilterJoin .= "
                         INNER JOIN s_filter_articles fv$filter
                         ON fv$filter.articleID = a.id
                         AND fv$filter.valueID = $filter
@@ -1279,8 +1277,35 @@ class sArticles
             }
         }
 
+        $addTranslationJoin = '';
+        $addTranslationSelect = '';
+        if($this->translationId !== null) {
+            $addTranslationSelect = '
+        		,
+				st.objectdata AS optionNameTranslation,
+				st2.objectdata AS groupNameTranslation,
+				st3.objectdata AS valueTranslation
+        	';
+            $addTranslationJoin = "
+        		LEFT JOIN s_core_translations AS st
+				ON st.objecttype='propertyoption'
+				AND st.objectkey=fv.optionID
+				AND st.objectlanguage='$this->translationId'
+	
+				LEFT JOIN s_core_translations AS st2
+				ON st2.objecttype='propertygroup'
+				AND st2.objectkey=f.id
+				AND st2.objectlanguage='$this->translationId'
+	
+				LEFT JOIN s_core_translations AS st3
+	            ON st3.objecttype='propertyvalue'
+	            AND st3.objectkey=fv.id
+	            AND st3.objectlanguage='$this->translationId'
+        	";
+        }
+
         $sql = "
-			SELECT
+			SELECT STRAIGHT_JOIN
 				fv.optionID AS id,
 				COUNT(DISTINCT a.id) AS count,
 				fo.id AS optionID,
@@ -1288,10 +1313,8 @@ class sArticles
 				f.id AS groupID,
 				f.name AS groupName,
 				fv.value AS optionValue,
-				fv.id AS valueID,
-				st.objectdata AS optionNameTranslation,
-				st2.objectdata AS groupNameTranslation,
-				st3.objectdata AS valueTranslation
+				fv.id AS valueID
+				$addTranslationSelect
 			FROM s_categories c, s_categories c2, s_articles_categories ac
 
 			JOIN s_filter_articles fa
@@ -1307,7 +1330,6 @@ class sArticles
 		    JOIN s_articles a
 		    ON a.id=ac.articleID
 		    AND a.active =1
-			AND a.changetime <= NOW()
 
 			JOIN s_filter f
 			ON f.id=a.filtergroupID
@@ -1319,22 +1341,9 @@ class sArticles
             ON ag.articleID=fa.articleID
             AND ag.customergroupID={$this->customerGroupId}
 
-			LEFT JOIN s_core_translations AS st
-			ON st.objecttype='propertyoption'
-			AND st.objectkey=fv.optionID
-			AND st.objectlanguage='$language'
+			$addTranslationJoin
 
-			LEFT JOIN s_core_translations AS st2
-			ON st2.objecttype='propertygroup'
-			AND st2.objectkey=f.id
-			AND st2.objectlanguage='$language'
-
-			LEFT JOIN s_core_translations AS st3
-            ON st3.objecttype='propertyvalue'
-            AND st3.objectkey=fv.id
-            AND st3.objectlanguage='$language'
-
-			$addFilterSQL
+			$addFilterJoin
 
 			WHERE c.id=$categoryId
             AND c2.active=1
@@ -1343,8 +1352,6 @@ class sArticles
 	        AND ac.articleID=a.id
 	        AND ac.categoryID=c2.id
 	        AND ag.articleID IS NULL
-
-			$addFilterWhere
 
 			GROUP BY fv.id
 			ORDER BY
@@ -1466,7 +1473,6 @@ class sArticles
 		    JOIN s_articles a
 		    ON  ac.articleID=a.id
 		    AND a.active = 1
-			AND a.changetime <= NOW()
 
 			JOIN s_articles_supplier s
 			ON s.id=a.supplierID
@@ -1648,6 +1654,7 @@ class sArticles
     {
         $sLimitChart = $this->sSYSTEM->sCONFIG['sCHARTRANGE'];
         $sIntervalCharts = $this->sSYSTEM->sCONFIG['sCHARTINTERVAL'] ? $this->sSYSTEM->sCONFIG['sCHARTINTERVAL'] : 10;
+        $now = Shopware()->Db()->quote(date('Y-m-d H:00:00'));
 
         if (!empty($category)) {
             $category = (int)$category;
@@ -1670,7 +1677,7 @@ class sArticles
 	        AND od.modus = 0
 
 	        LEFT JOIN s_order o
-	        ON o.ordertime>=DATE_SUB(NOW(),INTERVAL $sIntervalCharts DAY)
+	        ON o.ordertime>=DATE_SUB($now, INTERVAL $sIntervalCharts DAY)
 	        AND o.status >= 0
 	        AND o.id = od.orderID
 
@@ -1782,10 +1789,6 @@ class sArticles
                 $orderBy = $this->sSYSTEM->sCONFIG['sORDERBYDEFAULT'] . ', a.id';
         }
 
-        if (!empty($blog)) {
-            $orderBy = 'a.changetime DESC, a.id';
-        }
-
         if (strpos($orderBy, 'price') !== false) {
             $select_price = "
                 (
@@ -1868,29 +1871,29 @@ class sArticles
 
         // Get articles position and previous, next article
         if (!empty($getAllArticles))
-        foreach ($getAllArticles as $allArticlesKey => $allArticlesValue) {
-            if ($allArticlesValue["id"] == $article) {
-                if ($getAllArticles[$allArticlesKey - 1]["id"]) {
-                    // Previous article
-                    $sNavigation["sPrevious"]["id"] = $getAllArticles[$allArticlesKey - 1]["id"];
-                    $sNavigation["sPrevious"]["link"] = $this->sSYSTEM->sCONFIG['sBASEFILE'] . "?sViewport=detail&sDetails=" . $sNavigation["sPrevious"]["id"] . "&sCategory=" . $categoryId;
-                    $sNavigation["sPrevious"]["name"] = $getAllArticles[$allArticlesKey - 1]["articleName"];
+            foreach ($getAllArticles as $allArticlesKey => $allArticlesValue) {
+                if ($allArticlesValue["id"] == $article) {
+                    if ($getAllArticles[$allArticlesKey - 1]["id"]) {
+                        // Previous article
+                        $sNavigation["sPrevious"]["id"] = $getAllArticles[$allArticlesKey - 1]["id"];
+                        $sNavigation["sPrevious"]["link"] = $this->sSYSTEM->sCONFIG['sBASEFILE'] . "?sViewport=detail&sDetails=" . $sNavigation["sPrevious"]["id"] . "&sCategory=" . $categoryId;
+                        $sNavigation["sPrevious"]["name"] = $getAllArticles[$allArticlesKey - 1]["articleName"];
 
+                    }
+                    if ($getAllArticles[$allArticlesKey + 1]["id"]) {
+                        // Next article
+                        $sNavigation["sNext"]["id"] = $getAllArticles[$allArticlesKey + 1]["id"];
+                        $sNavigation["sNext"]["link"] = $this->sSYSTEM->sCONFIG['sBASEFILE'] . "?sViewport=detail&sDetails=" . $sNavigation["sNext"]["id"] . "&sCategory=" . $categoryId;
+                        $sNavigation["sNext"]["name"] = $getAllArticles[$allArticlesKey + 1]["articleName"];
+                    }
+                    $sNavigation["sCurrent"]["position"] = $allArticlesKey+1;
+                    $sNavigation["sCurrent"]["count"] = count($getAllArticles);
+                    $sNavigation["sCurrent"]["sCategory"] = $this->sSYSTEM->_GET["sCategory"];
+                    $sNavigation["sCurrent"]["sCategoryLink"] = $this->sSYSTEM->sCONFIG['sBASEFILE'] . "?sViewport=cat&sCategory=" . $categoryId;
+                    $getCategoryName = $this->sSYSTEM->sMODULES["sCategories"]->sGetCategoryContent($categoryId);
+                    $sNavigation["sCurrent"]["sCategoryName"] = $getCategoryName["description"];
                 }
-                if ($getAllArticles[$allArticlesKey + 1]["id"]) {
-                    // Next article
-                    $sNavigation["sNext"]["id"] = $getAllArticles[$allArticlesKey + 1]["id"];
-                    $sNavigation["sNext"]["link"] = $this->sSYSTEM->sCONFIG['sBASEFILE'] . "?sViewport=detail&sDetails=" . $sNavigation["sNext"]["id"] . "&sCategory=" . $categoryId;
-                    $sNavigation["sNext"]["name"] = $getAllArticles[$allArticlesKey + 1]["articleName"];
-                }
-                $sNavigation["sCurrent"]["position"] = $allArticlesKey+1;
-                $sNavigation["sCurrent"]["count"] = count($getAllArticles);
-                $sNavigation["sCurrent"]["sCategory"] = $this->sSYSTEM->_GET["sCategory"];
-                $sNavigation["sCurrent"]["sCategoryLink"] = $this->sSYSTEM->sCONFIG['sBASEFILE'] . "?sViewport=cat&sCategory=" . $categoryId;
-                $getCategoryName = $this->sSYSTEM->sMODULES["sCategories"]->sGetCategoryContent($categoryId);
-                $sNavigation["sCurrent"]["sCategoryName"] = $getCategoryName["description"];
             }
-        }
 
         return $sNavigation;
     }
@@ -2473,8 +2476,8 @@ class sArticles
             // Building link 'More articles from this supplier'
             // =================================================.
             $link = $this->sSYSTEM->sCONFIG['sBASEFILE']
-                  . "?sViewport=search&sSearch=" . $getArticle['supplierID']
-                  . "&sSearchMode=supplier&sSearchText=" . urlencode($getArticle['supplierName']);
+                . "?sViewport=search&sSearch=" . $getArticle['supplierID']
+                . "&sSearchMode=supplier&sSearchText=" . urlencode($getArticle['supplierName']);
 
             $getRelatedLinks[count($getRelatedLinks)] = array("supplierSearch" => true,
                 "description" => $getArticle["supplierName"],
@@ -2528,9 +2531,9 @@ class sArticles
                 }
             } else {
 
-               if (!empty( $sCategoryID )){
-                $similarLimit = $this->sSYSTEM->sCONFIG['sSIMILARLIMIT'] ? $this->sSYSTEM->sCONFIG['sSIMILARLIMIT'] : 3;
-                $sqlGetCategory = "
+                if (!empty( $sCategoryID )){
+                    $similarLimit = $this->sSYSTEM->sCONFIG['sSIMILARLIMIT'] ? $this->sSYSTEM->sCONFIG['sSIMILARLIMIT'] : 3;
+                    $sqlGetCategory = "
 					SELECT DISTINCT s_articles.id AS relatedarticle FROM s_articles_categories, s_articles, s_articles_details
 					WHERE s_articles_categories.categoryID=" . $sCategoryID . "
 					AND s_articles.id=s_articles_categories.articleID AND s_articles.id=s_articles_details.articleID
@@ -2540,15 +2543,15 @@ class sArticles
 					ORDER BY s_articles_details.sales DESC LIMIT $similarLimit
 					";
 
-                $getSimilarArticles = $this->sSYSTEM->sDB_CONNECTION->CacheGetAll($this->sSYSTEM->sCONFIG['sCACHEARTICLE'], $sqlGetCategory, false, "article_" . $getArticle["articleID"]);
+                    $getSimilarArticles = $this->sSYSTEM->sDB_CONNECTION->CacheGetAll($this->sSYSTEM->sCONFIG['sCACHEARTICLE'], $sqlGetCategory, false, "article_" . $getArticle["articleID"]);
 
-                foreach ($getSimilarArticles as $relatedArticleKey => $relatedArticleValue) {
-                    $tmpContainer = $this->sGetPromotionById("fix", 0, (int) $relatedArticleValue['relatedarticle']);
-                    if (count($tmpContainer) && isset($tmpContainer["articleName"])) {
-                        $getArticle["sSimilarArticles"][] = $tmpContainer;
+                    foreach ($getSimilarArticles as $relatedArticleKey => $relatedArticleValue) {
+                        $tmpContainer = $this->sGetPromotionById("fix", 0, (int) $relatedArticleValue['relatedarticle']);
+                        if (count($tmpContainer) && isset($tmpContainer["articleName"])) {
+                            $getArticle["sSimilarArticles"][] = $tmpContainer;
+                        }
                     }
                 }
-               }
                 if (!count($getSimilarArticles)) {
                     $getArticle["sSimilarArticles"] = array();
                 }
@@ -3025,13 +3028,14 @@ class sArticles
                 }
                 if ($mode == 'top') {
                     $promotionTime = !empty($this->sSYSTEM->sCONFIG['sPROMOTIONTIME']) ? (int)$this->sSYSTEM->sCONFIG['sPROMOTIONTIME'] : 30;
+                    $now = Shopware()->Db()->quote(date('Y-m-d H:00:00'));
                     $sql = "
                         SELECT od.articleID
                         FROM s_order as o, s_order_details od, $categoryFrom s_articles a $withImageJoin
                         LEFT JOIN s_articles_avoid_customergroups ag
                         ON ag.articleID=a.id
                         AND ag.customergroupID={$this->customerGroupId}
-                        WHERE o.ordertime > DATE_SUB(NOW(), INTERVAL $promotionTime DAY)
+                        WHERE o.ordertime > DATE_SUB($now, INTERVAL $promotionTime DAY)
                         AND o.id=od.orderID
                         AND od.modus=0 AND od.articleID=a.id
                         AND a.active=1 $categoryWhere
@@ -3117,7 +3121,7 @@ class sArticles
         } else {
             $markNew = (int)$this->sSYSTEM->sCONFIG['sMARKASNEW'];
             $markTop = (int)$this->sSYSTEM->sCONFIG['sMARKASTOPSELLER'];
-            // Used in emotion widget to fetch only articles that have an image assigned
+            $now = Shopware()->Db()->quote(date('Y-m-d'));
 
             $sql = "
                 SELECT
@@ -3135,23 +3139,19 @@ class sArticles
                     pricegroupID, pricegroupActive, filtergroupID,
                     d.purchaseunit, d.referenceunit,
                     d.unitID, laststock, additionaltext,
+                    d.shippingtime,
                     (a.configurator_set_id IS NOT NULL) as sConfigurator,
                     IFNULL((SELECT 1 FROM s_articles_esd WHERE articleID=a.id LIMIT 1), 0) as esd,
                     IFNULL((SELECT CONCAT(AVG(points),'|',COUNT(*)) as votes FROM s_articles_vote WHERE active=1 AND articleID=a.id),'0.00|00') as sVoteAverange,
-                    IF(DATE_SUB(CURDATE(), INTERVAL $markNew DAY) <= a.datum, 1, 0) as newArticle,
+                    IF(DATE_SUB($now, INTERVAL $markNew DAY) <= a.datum, 1, 0) as newArticle,
                     IF(d.sales>=$markTop, 1, 0) as topseller,
-                    IF(d.releasedate > CURDATE(), 1, 0) as sUpcoming,
-                    IF(d.releasedate > CURDATE(), d.releasedate, '') as sReleasedate,
+                    IF(d.releasedate > $now, 1, 0) as sUpcoming,
+                    IF(d.releasedate > $now, d.releasedate, '') as sReleasedate,
                     (SELECT 1 FROM s_articles_details WHERE articleID=a.id AND kind!=1 LIMIT 1) as sVariantArticle
                 FROM s_articles a
 
-                JOIN s_articles_details d
-                ON d.articleID=a.id
-                AND d.kind=1
-
-                -- JOIN s_articles_categories ac
-                -- ON ac.articleID=a.id
-                -- AND ac.categoryID={$this->sSYSTEM->sLanguageData[$this->sSYSTEM->sLanguage]['parentID']}
+				JOIN s_articles_details d
+				ON d.id=a.main_detail_id
 
                 JOIN s_articles_attributes at
                 ON at.articleID=a.id
@@ -3165,12 +3165,12 @@ class sArticles
                 LEFT JOIN s_articles_prices p
                 ON p.articleDetailsID=d.id
                 AND p.pricegroup=?
-                AND p.`from`='1'
+                AND p.from=1
 
                 LEFT JOIN s_articles_prices p2
                 ON p2.articleDetailsID=d.id
                 AND p2.pricegroup='EK'
-                AND p2.`from`='1'
+                AND p2.from=1
 
                 WHERE a.id=?
                 AND a.active=1
@@ -3184,10 +3184,12 @@ class sArticles
         }
 
         $getPromotionResult = Shopware()->Db()->fetchRow($sql, array($this->sSYSTEM->sUSERGROUP, $value));
-
         if (empty($getPromotionResult)) {
             return false;
         }
+
+        //have to support the old variable name sReleasedate for 3rd party template changes
+        $getPromotionResult["sReleaseDate"] = $getPromotionResult["sReleasedate"];
 
         $getPromotionResult = $this->sGetTranslation(
             $getPromotionResult, $getPromotionResult["articleID"], 'article', $this->sSYSTEM->sLanguage
@@ -3398,8 +3400,8 @@ class sArticles
             //we have to check if the current variant has an own configured picture for a red shoe.
             //the query selects orders the result at first by the image main flag, at second for the position.
             $cover = $this->getArticleRepository()
-                           ->getVariantImagesByArticleNumberQuery($orderNumber, 0, 1)
-                           ->getOneOrNullResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
+                ->getVariantImagesByArticleNumberQuery($orderNumber, 0, 1)
+                ->getOneOrNullResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
         }
 
         //if we have found a configured article image which has the same options like the passed article order number
@@ -3411,8 +3413,8 @@ class sArticles
         //if we haven't found and variant image we have to select the first image which has no configuration.
         //the query orders the result at first by the image main flag, at second by the position.
         $cover = $this->getArticleRepository()
-                      ->getArticleCoverImageQuery($articleId)
-                      ->getOneOrNullResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
+            ->getArticleCoverImageQuery($articleId)
+            ->getOneOrNullResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
 
         if (!empty($cover)) {
             return $this->getDataOfArticleImage($cover, $articleAlbum);
@@ -3461,15 +3463,15 @@ class sArticles
 
         //now we select all article images of the passed article id.
         $articleImages = $this->getArticleRepository()
-                              ->getArticleImagesQuery($articleId)
-                              ->getArrayResult();
+            ->getArticleImagesQuery($articleId)
+            ->getArrayResult();
 
         //if an order number passed to the function, we have to select the configured variant images
         $variantImages = array();
         if (!empty($ordernumber)) {
             $variantImages = $this->getArticleRepository()
-                                  ->getVariantImagesByArticleNumberQuery($ordernumber)
-                                  ->getArrayResult();
+                ->getVariantImagesByArticleNumberQuery($ordernumber)
+                ->getArrayResult();
         }
         //we have to collect the already added image ids, otherwise the images
         //would be displayed multiple times.
@@ -3674,7 +3676,7 @@ class sArticles
             $this->sSYSTEM->sLanguage
         ));
 
-    foreach ($queryArticles as $articleKey => $articleValue) {
+        foreach ($queryArticles as $articleKey => $articleValue) {
             $queryArticles[$articleKey]['linkDetails'] = $this->sSYSTEM->sCONFIG['sBASEFILE'] . '?sViewport=detail&sArticle=' . $articleValue['articleID'];
 
             if (preg_match('/443/', $_SERVER['SERVER_PORT'])) {
@@ -3895,13 +3897,13 @@ class sArticles
             AND objectkey = ?
             AND objectlanguage = '$language'
 		";
-        $object = $this->sSYSTEM->sDB_CONNECTION->CacheGetOne(
+        $objectData = $this->sSYSTEM->sDB_CONNECTION->CacheGetOne(
             $cacheTime, $sql, array($id)
         );
-        if (!empty($object)) {
-            $object = unserialize($object);
+        if (!empty($objectData)) {
+	        $objectData = unserialize($objectData);
         } else {
-            $object = array();
+	        $objectData = array();
         }
         if (!empty($fallback)) {
             $sql = "
@@ -3915,11 +3917,11 @@ class sArticles
             );
             if (!empty($objectFallback)) {
                 $objectFallback = unserialize($objectFallback);
-                $object = array_merge($objectFallback, $object);
+	            $objectData = array_merge($objectFallback, $objectData);
             }
         }
-        if (!empty($object)) {
-            foreach ($object as $translateKey => $value) {
+        if (!empty($objectData)) {
+            foreach ($objectData as $translateKey => $value) {
                 if (isset($map[$translateKey])) {
                     $key = $map[$translateKey];
                 } else {

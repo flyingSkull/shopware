@@ -55,6 +55,8 @@ Ext.define('Shopware.apps.Order.view.batch.Form', {
      */
     cls: Ext.baseCSSPrefix + 'batch-settings-panel',
 
+    autoScroll: true,
+
     layout: {
         align: 'stretch',
         type: 'vbox'
@@ -79,6 +81,7 @@ Ext.define('Shopware.apps.Order.view.batch.Form', {
         mail: '{s name=settings/auto_send}Send emails automatically{/s}',
         generate: '{s name=settings/process}Process changes{/s}',
         gridTitle: '{s name=settings/grid_title}Selected orders{/s}',
+        settingsFieldSetLabel: '{s name=settings/field_set_label}Settings to generate{/s}',
         oneDocument: '{s name=settings/one_document}Create single document{/s}'
     },
 
@@ -151,7 +154,7 @@ Ext.define('Shopware.apps.Order.view.batch.Form', {
         }
 
         return Ext.create('Ext.form.FieldSet', {
-            title: 'Einstellungen zur Generierung',
+            title: me.snippets.settingsFieldSetLabel,
             layout: 'anchor',
             flex: flex,
             defaults: {
@@ -179,8 +182,6 @@ Ext.define('Shopware.apps.Order.view.batch.Form', {
                     valueField: 'value'
                 },
                 {
-                    xtype: 'pagingcombo',
-                    pageSize: 5,
                     name: 'orderStatus',
                     triggerAction: 'all',
                     queryMode: 'local',

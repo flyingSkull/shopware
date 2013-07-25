@@ -6,8 +6,8 @@ require_once(dirname(__FILE__).'/../Helper/Helper.php');
  *
  * Controller for handling payments via sofort multipay gateway
  *
- * $Date: 2012-07-09 11:10:01 +0200 (Mon, 09 Jul 2012) $
- * @version sofort 1.0  $Id: SofortOrders.php 4656 2012-07-09 09:10:01Z dehn $
+ * $Date: 2013-03-20 15:45:51 +0100 (Wed, 20 Mar 2013) $
+ * @version sofort 1.0  $Id: SofortOrders.php 6052 2013-03-20 14:45:51Z dehn $
  * @author SOFORT AG http://www.sofort.com (f.dehn@sofort.com)
  * @package Shopware 4, sofort.com
  *
@@ -66,17 +66,16 @@ class Shopware_Controllers_Backend_SofortOrders extends Enlight_Controller_Actio
 	 * Test the API by sending a request
 	 */
 	public function testApiAction() {
-		   $this->Front()->Plugins()->ViewRenderer()->setNoRender();
-			// API
-			$SofortLib_TransactionData = new SofortLib_TransactionData($this->Request()->apiKey);
-			$SofortLib_TransactionData->setTransaction('00000')->sendRequest();
-			
-			if (!$SofortLib_TransactionData->isError()) {
-				echo 1;
-				return ;
-			}
-			echo 0;
+		$this->Front()->Plugins()->ViewRenderer()->setNoRender();
+		// API
+		$SofortLib_TransactionData = new SofortLib_TransactionData($this->Request()->apiKey);
+		$SofortLib_TransactionData->setTransaction('00000')->sendRequest();
 		
+		if (!$SofortLib_TransactionData->isError()) {
+			echo 1;
+			return ;
+		}
+		echo 0;
 	}
 	
 	
@@ -280,10 +279,9 @@ class Shopware_Controllers_Backend_SofortOrders extends Enlight_Controller_Actio
 				s_order.invoice_shipping_net, s_order.currency, s_order.ordernumber, 
 				s_order_details.articleordernumber, s_order_details.orderID, 
 				s_order_details.articleID as articleId, s_order_details.quantity, s_order_details.name, 
-				s_order_details.price, tax.tax, s_order.transactionId
+				s_order_details.price, s_order_details.tax_rate, s_order.transactionId
 				FROM s_order_details
 				JOIN s_order on s_order.id = s_order_details.orderID
-				JOIN s_core_tax tax on s_order_details.taxID = tax.id
 				WHERE s_order.ordernumber = ?
 				GROUP BY s_order_details.articleordernumber';
 		$fields = array(
@@ -293,10 +291,6 @@ class Shopware_Controllers_Backend_SofortOrders extends Enlight_Controller_Actio
 		$i = 0;
 		
 		foreach ($details as $detail) {
-//			foreach($detail as $key => $value) {
-//				$details[$i][$key] = utf8_encode($value);//utf8
-//			}
-			
 			$detail['delete'] = false;	// add a delete flag to set later in extjs grid
 			
 			if ($detail['articleordernumber'] == $this->getSurchargeNumber()) {
@@ -442,7 +436,7 @@ class Shopware_Controllers_Backend_SofortOrders extends Enlight_Controller_Actio
 	 * Get the payment discount number
 	 */
 	private function getPaymentDiscountNumber() {
-		return Shopware()->Config()->paymentSurchageNumber;
+		return Shopware()->Config()->paymentsurchargenumber;
 	}
 	
 	

@@ -111,6 +111,14 @@ class Order extends ModelEntity
 
 
     /**
+     * @var string $swagPayalBillingAgreementId
+     *
+     * @ORM\Column(name="swag_payal_billing_agreement_id", type="string", nullable=true)
+     */
+     protected $swagPayalBillingAgreementId;
+
+
+    /**
      * @var \Shopware\Models\Order\Order
      *
      * @ORM\OneToOne(targetEntity="Shopware\Models\Order\Order", inversedBy="attribute")
@@ -213,6 +221,18 @@ class Order extends ModelEntity
     public function setAttribute6($attribute6)
     {
         $this->attribute6 = $attribute6;
+        return $this;
+    }
+    
+
+    public function getSwagPayalBillingAgreementId()
+    {
+        return $this->swagPayalBillingAgreementId;
+    }
+
+    public function setSwagPayalBillingAgreementId($swagPayalBillingAgreementId)
+    {
+        $this->swagPayalBillingAgreementId = $swagPayalBillingAgreementId;
         return $this;
     }
     

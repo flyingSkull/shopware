@@ -3,8 +3,8 @@
 /**
  * ExtJS Cookie Manager
  *
- * $Date: 2012-07-20 15:27:32 +0200 (Fri, 20 Jul 2012) $
- * @version sofort 1.0  $Id: cookieManager.tpl 4867 2012-07-20 13:27:32Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version sofort 1.0  $Id: cookieManager.tpl 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (f.dehn@sofort.com)
  * @package Shopware 4, sofort.com
  *

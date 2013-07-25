@@ -785,11 +785,6 @@ class sOrder
 			$variables['sBookingID'] = $this->bookingId;
 		}
 
-		$this->sendMail($variables);
-
-		// Check if voucher is affected
-		$this->sTellFriend();
-
 		// Save Billing and Shipping-Address to retrace in future
 		$this->sSaveBillingAddress($this->sUserData["billingaddress"],$orderID);
 		$this->sSaveShippingAddress($this->sUserData["shippingaddress"],$orderID);
@@ -802,6 +797,11 @@ class sOrder
 		DELETE FROM s_order_basket WHERE sessionID=?
 		",array($this->sSYSTEM->sSESSION_ID));
 
+
+        $this->sendMail($variables);
+
+        // Check if voucher is affected
+        $this->sTellFriend();
 
 		if (isset(Shopware()->Session()->sOrderVariables)) {
 			$variables = Shopware()->Session()->sOrderVariables;
@@ -820,8 +820,6 @@ class sOrder
 	public function sendMail($variables)
     {
 		$variables = Enlight()->Events()->filter('Shopware_Modules_Order_SendMail_FilterVariables', $variables, array('subject' => $this));
-
-
 
         $context = array(
             'sOrderDetails' => $variables["sOrderDetails"],
@@ -869,16 +867,61 @@ class sOrder
             $context['sBookingID'] = $variables["sBookingID"];
         }
 
-        $mail = Shopware()->TemplateMail()->createMail('sORDER', $context);
+        $mail = null;
+        if ($event = Enlight_Application::Instance()->Events()->notifyUntil(
+            'Shopware_Modules_Order_SendMail_Create',
+            array(
+                'subject'   => $this,
+                'context'   => $context,
+                'variables' => $variables,
+            )
+        )) {
+            $mail = $event->getReturn();
+        }
+
+        if (!($mail instanceof \Zend_Mail)) {
+            $mail = Shopware()->TemplateMail()->createMail('sORDER', $context);
+        }
+
         $mail->addTo($this->sUserData["additional"]["user"]["email"]);
 
-        if (!$this->sSYSTEM->sCONFIG["sNO_ORDER_MAIL"]){
+        if (!$this->sSYSTEM->sCONFIG["sNO_ORDER_MAIL"]) {
             $mail->addBcc($this->sSYSTEM->sCONFIG['sMAIL']);
         }
 
-        Enlight()->Events()->notify('Shopware_Modules_Order_SendMail_BeforeSend', array('subject'=>$this, 'mail'=>$mail));
+        $mail = Enlight()->Events()->filter('Shopware_Modules_Order_SendMail_Filter', $mail, array(
+            'subject'   => $this,
+            'context'   => $context,
+            'variables' => $variables,
+        ));
 
-        $mail->send();
+        if (!($mail instanceof \Zend_Mail)) {
+            return;
+        }
+
+        Enlight()->Events()->notify(
+            'Shopware_Modules_Order_SendMail_BeforeSend',
+            array(
+                'subject'   => $this,
+                'mail'      => $mail,
+                'context'   => $context,
+                'variables' => $variables,
+            )
+        );
+
+        $shouldSendMail = !(bool)Enlight_Application::Instance()->Events()->notifyUntil(
+            'Shopware_Modules_Order_SendMail_Send',
+            array(
+                'subject' => $this,
+                'mail' => $mail,
+                'context' => $context,
+                'variables' => $variables,
+            )
+        );
+
+        if ($shouldSendMail) {
+            $mail->send();
+        }
 	}
 
 	/**

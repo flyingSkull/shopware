@@ -1,8 +1,8 @@
 {*
  * Copyright (c) 2012 SOFORT AG
  *
- * $Date: 2012-07-09 11:10:01 +0200 (Mon, 09 Jul 2012) $
- * @version Shopware SOFORT AG Multipay 1.1.0 $Id: sofortpayment.tpl 4656 2012-07-09 09:10:01Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version Shopware SOFORT AG Multipay 1.1.0 $Id: sofortpayment.tpl 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  *
 *}
@@ -51,7 +51,7 @@ function showDWH(type) {
 		{include file="sofortueberweisung.tpl"}
 	{else}
 		<div class="grid_10 last">
-			{$payment_mean.additionaldescription}
+			{eval var=$payment_mean.additionaldescription}
 		</div>
 	{/if}
 {/block}

@@ -20,15 +20,17 @@
  * The licensing of the program under the AGPLv3 does not imply a
  * trademark license. Therefore any rights, title and interest in
  * our trademarks remain entirely with us.
+ *
+ * Backend-Controller TrustedShops
+ * Controller button handler for the plugin config to import the buyer protection articles.
+ *
+ * @copyright Copyright (c) 2011, Shopware AG
+ * @author o.denter
+ * @package Shopware
+ * @subpackage Controllers_Frontend
+ * @creation_date 07.04.11 16:26
  */
 
-/**
- * Shopware Backend Controller - SwagTrustedShopsExcellence
- *
- * @category  Shopware
- * @package   Shopware\Controllers\Backend
- * @copyright Copyright (c) 2012, shopware AG (http://www.shopware.de)
- */
 class Shopware_Controllers_Backend_TrustedShops extends Shopware_Controllers_Backend_ExtJs
 {
 
@@ -40,8 +42,7 @@ class Shopware_Controllers_Backend_TrustedShops extends Shopware_Controllers_Bac
     public function testConnectionAction()
     {
         //access to the plugin configuration
-        $plugin  = Shopware()->Plugins()->Frontend()->SwagTrustedShopsExcellence();
-        $config = $plugin->Config();
+        $config = Shopware()->Plugins()->Frontend()->SwagTrustedShopsExcellence()->Config();
         $message = "";
 
         //to import the trusted shop articles the trusted shop id must given
@@ -57,7 +58,7 @@ class Shopware_Controllers_Backend_TrustedShops extends Shopware_Controllers_Bac
 
         //check login
         $loginParams = array("tsId" => $config["id"], "wsUser" => $config["user"], "wsPassword" => $config["pw"]);
-        $tsDataModel = $plugin->getDataModel();
+        $tsDataModel = new TrustedShopsDataModel();
 
         if(!$tsDataModel->checkLogin($loginParams)) {
             $message .= $this->createMessageTag(" - Der Login bei Trusted Shop war nicht erfolgreich. Bitte überprüfen Sie Ihre Zugangsdaten.");
@@ -69,6 +70,7 @@ class Shopware_Controllers_Backend_TrustedShops extends Shopware_Controllers_Bac
         }
 
         $validCertifications = array("EXCELLENCE", "PRODUCTION", "INTEGRATION", "TEST");
+        $tsDataModel = new TrustedShopsDataModel();
         $certificated = $tsDataModel->checkCertificate();
 
         if(!in_array($certificated->stateEnum, $validCertifications)) {

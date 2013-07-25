@@ -1,8 +1,8 @@
 {*
  * Copyright (c) 2012 SOFORT AG
  *
- * $Date: 2012-08-21 15:43:43 +0200 (Di, 21. Aug 2012) $
- * @version Shopware SOFORT AG Multipay 1.1.0 $Id: finish.tpl 5176 2012-08-21 13:43:43Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version Shopware SOFORT AG Multipay 1.1.0 $Id: finish.tpl 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  *
 *}

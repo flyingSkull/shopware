@@ -1,8 +1,8 @@
 {*
  * Copyright (c) 2011 Payment Network AG
  *
- * $Date: 2012-08-14 17:08:05 +0200 (Di, 14. Aug 2012) $
- * @version Shopware Payment Network AG Multipay 1.1.0  $Id: payment_cancel.tpl 5063 2012-08-14 15:08:05Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version Shopware Payment Network AG Multipay 1.1.0  $Id: payment_cancel.tpl 6023 2013-02-27 08:03:55Z dehn $
  * @author Payment Network AG http://www.payment-network.com (integration@sofort.com)
  *
 *}

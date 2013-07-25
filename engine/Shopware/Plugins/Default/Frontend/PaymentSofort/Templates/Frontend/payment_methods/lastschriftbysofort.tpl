@@ -1,8 +1,8 @@
 {*
  * Copyright (c) 2012 SOFORT AG
  *
- * $Date: 2012-09-05 13:02:30 +0200 (Mi, 05 Sep 2012) $
- * @version Shopware SOFORT AG Multipay 1.1.0 $Id: lastschriftbysofort.tpl 5282 2012-09-05 11:02:30Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version Shopware SOFORT AG Multipay 1.1.0 $Id: lastschriftbysofort.tpl 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  *
 *}
@@ -35,13 +35,6 @@
 			<p class="description">{s name="mandatory_fields" namespace="sofort_multipay_checkout"}{/s}
 			</p>
 			<p>
-			{if 'lastschriftbysofort_dhw_not_accepted'|in_array:$errors}
-				<div class="error"><b>{s name="sofort_multipay_accept_conditions" namespace="sofort_multipay_finish"}{/s}</b></div>
-			{/if}
-			<input type="checkbox" name="lastschriftbysofort_dhw" {$lastschriftbysofort_dhw_checked}/>{$dhwNoticeLS}</p>
-			<div id="lastschriftbysofort_dhw" style="">
-				{$lastschriftbysofort_dhw}
-			</div>
 		</div>
 	{/block}
 </div>

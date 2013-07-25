@@ -4,22 +4,19 @@
  * This controller provides a callback for notifications coming from sofort.com
  * It provides an entry point for notifications via XML
  *
- * $Date: 2012-07-20 10:45:37 +0200 (Fri, 20 Jul 2012) $
- * @version sofort 1.0  $Id: Helper.php 4860 2012-07-20 08:45:37Z dehn $
+ * $Date: 2013-06-10 10:52:27 +0200 (Mon, 10 Jun 2013) $
+ * @version sofort 1.0  $Id: Helper.php 6213 2013-06-10 08:52:27Z dehn $
  * @author SOFORT AG http://www.sofort.com (f.dehn@sofort.com)
  * @package Shopware 4, sofort.com
  *
  */
-require_once(dirname(__FILE__).'/Observable.php');
-class ShopwareUpdateHelper implements Observable{
+class ShopwareUpdateHelper {
 	
 	private $Shopware = null;
 	
 	private $Snippets = null;
 	
 	private $dateFormat = 'd.m.Y H:i:s';
-	
-	private $observers = array();
 	
 	/**
 	 * 
@@ -66,43 +63,42 @@ class ShopwareUpdateHelper implements Observable{
 	
 	/**
 	 * 
-	 * initiate order tables and status table (timeline)
+	 * Initializa order tables + timeline
 	 * @param string $transactionId
 	 * @param string $orderId
 	 * @param string $paymentMethod
 	 * @param float $amount
+	 * @throws Exception
 	 */
 	public function initOrderTablesAndTimeLine($transactionId, $orderId, $paymentMethod, $amount) {
+		// if($transactionId == '' || $orderId == '' || $paymentMethod == '') throw new Exception('Error occured '.__CLASS__.' '.__LINE__);
+		$pendingString = '';
 		
 		switch($paymentMethod['name']) {
 			case 'sofortueberweisung_multipay' :
 			case 'su':
-				$suPendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_su_pending');
-				$this->initStatusAndProductTable($orderId, $transactionId, $amount, $suPendingString);
+				$pendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_su_pending');
 				break;
 			case 'vorkassebysofort_multipay' :
 			case 'sv':
-				$svPendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_sv_pending');
-				$this->initStatusAndProductTable($orderId, $transactionId, $amount, $svPendingString);
+				$pendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_sv_pending');
 				break;
 			case 'sofortrechnung_multipay' :
 			case 'sr':
-				$srPendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_sr_pending');
-				$this->initStatusAndProductTable($orderId, $transactionId, $amount, $srPendingString);
+				$pendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_sr_pending');
 				break;
 			case 'sofortlastschrift_multipay' :
 			case 'sl':
-				$slPendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_sl_pending');
-				$this->initStatusAndProductTable($orderId, $transactionId, $amount, $slPendingString);
+				$pendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_sl_pending');
 				break;
 			case 'lastschriftbysofort_multipay' :
 			case 'ls':
-				$lsPendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_ls_pending');
-				$this->initStatusAndProductTable($orderId, $transactionId, $amount, $lsPendingString);
+				$pendingString = $this->Snippets->getSnippet('sofort_multipay_bootstrap')->get('sofort_multipay_ls_pending');
 				break;
 			default:
-				die('Order tables + timeline could not be updated in a correct manner: '.__CLASS__.' '.__LINE__);
+				throw new Exception('Session Timeout - Order tables + timeline could not be updated correctly: '.__CLASS__.' '.__LINE__);
 		}
+		$this->initStatusAndProductTable($orderId, $transactionId, $amount, $pendingString);
 	}
 	
 	
@@ -213,9 +209,7 @@ class ShopwareUpdateHelper implements Observable{
 		foreach ($boughtArticles as $article) {
 			foreach($PnagInvoice->getItems() as $invoiceItem) {
 				if($invoiceItem->itemId == $article['articleID']) {
-					if($invoiceItem->quantity > $article['quantity']) {
-						$this->doRestockAndResetSoldArticle($article['articleID'], $invoiceItem->quantity);
-					} elseif($invoiceItem->quantity < $article['quantity']) {
+					if($invoiceItem->quantity != $article['quantity']) {
 						$difference = $article['quantity'] - $invoiceItem->quantity;
 						$this->doRestockAndResetSoldArticle($article['articleID'], $difference);
 					} else {
@@ -229,8 +223,8 @@ class ShopwareUpdateHelper implements Observable{
 		$this->updateSofortProductItems($orderId, $PnagInvoice, $transactionId);
 		$this->updateOrder($orderId, $PnagInvoice, $transactionId);
 		$this->updateShipping($orderId, $PnagInvoice, $transactionId);
-		
-		return $this->updateOrderDetails($orderId, $PnagInvoice);
+		$this->updateOrderDetails($orderId, $PnagInvoice);
+		return true;
 	}
 	
 	
@@ -335,7 +329,7 @@ class ShopwareUpdateHelper implements Observable{
 		$articlesToRestock = $this->fetchArticlesOfOrder($transactionId);
 		
 		if (is_array($articlesToRestock) && !empty($articlesToRestock)) {
-			foreach($articlesToRestock as $article) {
+			foreach ($articlesToRestock as $article) {
 				$this->doRestockAndResetSoldArticle($article['articleID'], $article['quantity']);
 			}
 		} else {
@@ -511,7 +505,6 @@ class ShopwareUpdateHelper implements Observable{
 	 */
 	private function synchInvoiceItems($orderId, $shopItems, $invoiceItems) {
 		$missingItems = $this->getItemDifferences($shopItems, $invoiceItems);
-		$this->notify('missingItems', $missingItems);
 		$newItems = $this->getItemDifferences($invoiceItems, $shopItems);
 		$shippingSnippet = 'shpmntvk';	// had to choose sth similar to shipment/versandkosten, there's no article representing shipment in database (s_order_details)
 		
@@ -553,19 +546,19 @@ class ShopwareUpdateHelper implements Observable{
 					// if there ain't an article yet, add it to core table
 					if(!$this->articleExists($orderId, $item->getItemId(), $item->getProductNumber())) {	
 						$sql = 'INSERT INTO s_order_details 
-								(orderID, ordernumber, articleID, articleordernumber, price, quantity, name, modus, taxID)
+								(orderID, ordernumber, articleID, articleordernumber, price, quantity, name, modus, tax_rate)
 								VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 						';
 						$fields = array(
 							$this->getOrderIdByOrderNumber($orderId),
 							$orderId,
 							$item->getItemId(),
-							utf8_decode($item->getProductNumber()),
+							$item->getProductNumber(),
 							$item->getUnitPrice(),
 							$item->getQuantity(),
-							utf8_decode($item->getTitle()),
+							$item->getTitle(),
 							$modus,
-							$this->getTaxIdByValue((int)$item->getTax()),
+							(double)$item->getTax(),
 						);
 						$this->Shopware->Db()->query($sql, $fields);
 					}
@@ -690,11 +683,10 @@ class ShopwareUpdateHelper implements Observable{
 	 * @param int $orderId
 	 */
 	private function fetchShopItems($orderId) {
-		$sql = 'SELECT od.*, tax.tax,
+		$sql = 'SELECT od.*, od.tax_rate,
 			(SELECT invoice_shipping FROM s_order WHERE s_order.ordernumber = ?) as shipping_costs
 			FROM s_order_details od
 			JOIN s_order o on o.id = od.orderID
-			JOIN s_core_tax tax on tax.id = od.taxID
 			WHERE od.ordernumber = ?';
 		$fields = array(
 			$orderId,
@@ -817,159 +809,5 @@ class ShopwareUpdateHelper implements Observable{
 			$transactionId,
 		);
 		$this->Shopware->Db()->query($sql, $fields);
-	}
-	
-	
-	/**
-	 * 
-	 * save the order
-	 * @param string $transactionId
-	 * @param int $orderNumber
-	 * @param string $orderTime
-	 * @param array $cartContents
-	 * @param int $userData
-	 * @param string $customerComment
-	 */
-	public function saveOrder($transactionId, $orderNumber, $orderTime, $cartContents, $userData, $customerComment) {
-       
-        if(empty($customerComment)) {
-            $customerComment = '';
-        }
-        
-        $sql = 'INSERT INTO s_order 
-                (ordernumber, userID, invoice_amount, invoice_amount_net, invoice_shipping, 
-                invoice_shipping_net, ordertime, status, cleared, paymentID, transactionID, 
-                comment, customercomment, internalcomment, net, taxfree, partnerID, temporaryID, 
-                referer, cleareddate, trackingcode, language, dispatchID, currency, 
-                currencyFactor, subshopID, remote_addr)
-                VALUES
-                (?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?);
-        ';
-        $comment = $internalComment = $net = $taxFree = $partnerId = $temporaryId = $referer = $clearedDate = $trackingCode = $language = $dispatchId = $currency = $currencyFactor = $subshopId = $oAttr1 = $oAttr2 = $oAttr3 = $oAttr4 = $oAttr5 = $oAttr6 = $remoteAddr = '';
-
-        $amount = str_replace(',', '.', $cartContents['Amount']);
-        $amountNet = str_replace(',', '.', $cartContents['AmountNet']);
-        $shipping = str_replace(',', '.', $cartContents['sShippingcostsWithTax']);
-        $shippingNet = str_replace(',', '.', $cartContents['sShippingcostsNet']);
-        
-        // add shipping if available
-        $amount = $amount + $shipping;
-        $amountNet = $amountNet + $shippingNet;
-        
-        $fields = array(
-            'ordernumber'  =>$orderNumber,
-            'userID'  =>$userData['billingaddress']['id'],
-            'invoice_amount'  =>number_format($amount, 2),
-            'invoice_amount_net'  =>number_format($amountNet, 2),
-            'invoice_shipping' =>number_format($shipping, 2),
-            'invoice_shipping_net' => number_format($shippingNet, 2),
-            'ordertime' => $orderTime,
-            'status' => 0,	// status
-            'cleared' => 17,	// cleared
-            'paymentID' => $userData['additional']['payment'][id],
-            'transactionID' => $transactionId,
-            'comment' => $comment,
-            'customercomment' => $customerComment,
-            'internalcomment' => $internalComment,
-            'net' => $net,
-            'taxfree' => $taxFree,
-            'partnerID'=> $partnerId,
-            'temporaryID' => $temporaryId,
-            'referer' => $referer,
-            'cleareddate' => $clearedDate,
-            'trackingcode' => $trackingCode,
-            'language' => $language,
-            'dispatchID' => $dispatchId,
-            'currency' => $currency,
-            'currencyFactor' => 1, //$currencyFactor,
-            'subshopID' => $subshopId,
-            'remote_addr' => $remoteAddr,
-        );
-
-        $this->Shopware->Db()->query($sql, $fields);  
-        $orderId = $this->Shopware->Db()->lastInsertId();
-          
-        // Save Attributes
-        $sql = "INSERT INTO `s_order_attributes` (`orderID`, `attribute1`, `attribute2`, `attribute3`, `attribute4`, `attribute5`, `attribute6`) VALUES (?,?,?,?,?,?,?,?) ";
-        $emptyAttr = "";
-        $oAtt = array($orderId, $emptyAttr, $emptyAttr, $emptyAttr, $emptyAttr, $emptyAttr, $emptyAttr);
-        $this->Shopware->Db->query($sql, $oAtt); 
-
-        
-        $sql = 'INSERT INTO `s_order_details` 
-                (`orderID`, `ordernumber`, `articleID`, `articleordernumber`, `price`, `quantity`, 
-                `name`, `status`, `shipped`, `shippedgroup`, `releasedate`, `modus`, `esdarticle`, 
-                `taxID`, `config`) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
-        foreach($cartContents['content'] as $item) {
-            $fields = array(
-                $orderId,
-                $orderNumber,
-                $item['articleID'],
-                $item['ordernumber'],
-                number_format(str_replace(',', '.', $item['price']), 2),
-                $item['quantity'],
-                $item['articlename'],
-                0,
-                0,
-                0,
-                '',
-                $item['modus'],
-                0,
-                $item['taxID'],
-                $item['config']
-            );
-            $this->Shopware->Db()->query($sql, $fields);
-            
-            /// Order detail attributes 
-            $orderDetailId = $this->Shopware->Db()->lastInsertId();
-            $detailInsertSql = "INSERT INTO `s_order_details_attributes` (`detailID`, `attribute1`, `attribute2`, `attribute3`, `attribute4`, `attribute5`, `attribute6`) VALUES (?,?,?,?,?,?,?,?) ";
-            $detailData = array($orderDetailId,$item['ob_attr1'], $item['ob_attr2'], $item['ob_attr3'], $item['ob_attr4'], $item['ob_attr5'],  $item['ob_attr6']);
-            $this->Shopware->Db()->query($detailInsertSql, $detailData);
-        }
-        
-        // do some clean up 
-        $sql = 'DELETE FROM s_order WHERE paymentID = ? AND ordernumber = 0';
-        $fields = array(
-            $userData['additional']['payment'][id],
-        );
-        $this->Shopware->Db()->query($sql, $fields);
-        
-    }
-	
-	
-	/**
-	* (non-PHPdoc)
-	* @see Observable::attach()
-	*/
-	public function attach(Observer $Observer) {
-		array_push($this->observers, $Observer);
-	}
-	
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Observable::detach()
-	 */
-	public function detach(Observer $Observer) {
-		if(in_array($Observer, $this->observers)) {
-			$key = array_search($Observer, $this->observers);
-			unset($this->observers[$key]);
-		}
-	}
-	
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Observable::notify()
-	 */
-	public function notify($key, $message = '') {
-		if(count($this->observers) == 0) {
-			return;
-		}
-		
-		foreach ($this->observers as $observer) {
-			$observer->update($key, $message, $this);
-		}
 	}
 }

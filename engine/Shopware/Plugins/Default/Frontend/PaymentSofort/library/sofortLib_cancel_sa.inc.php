@@ -5,8 +5,8 @@
  *
  * Copyright (c) 2012 SOFORT AG
  *
- * $Date: 2012-09-05 14:27:56 +0200 (Mi, 05 Sep 2012) $
- * @version SofortLib 1.5.0  $Id: sofortLib_cancel_sa.inc.php 5301 2012-09-05 12:27:56Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version SofortLib 1.5.0  $Id: sofortLib_cancel_sa.inc.php 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  *
  */

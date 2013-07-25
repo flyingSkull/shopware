@@ -40,7 +40,7 @@
  */
 
 //{namespace name=backend/index/controller/main}
-//{block name=backend/index/controller/main}
+//{block name="backend/index/controller/main"}
 Ext.define('Shopware.apps.Index.controller.Main', {
 	extend: 'Ext.app.Controller',
 
@@ -185,7 +185,7 @@ Ext.define('Shopware.apps.Index.controller.Main', {
      */
     checkLoginStatus: function() {
         Ext.TaskManager.start({
-            interval: 300000,
+            interval: 30000,
             run: function() {
                 Ext.Ajax.request({
                     url: '{url controller=login action=getLoginStatus}',

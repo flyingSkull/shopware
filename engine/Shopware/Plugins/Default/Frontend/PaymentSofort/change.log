@@ -1,8 +1,13 @@
 ########################################################################################
 ***Shopware4 SOFORT Gateway***
 
-$Date: 2012-11-16 16:14:43 +0100 (Fri, 16 Nov 2012) $
+$Date: 2013-07-05 12:02:22 +0200 (Fri, 05 Jul 2013) $
 @author SOFORT AG http://www.sofort.com
 @package Shopware 4.x, sofort.com
 ########################################################################################
 1.0.0 Initial module for shopware4
+1.0.1 Bugfixes
+1.0.2 Datenschutzhinweise müssen bei jedem Checkout akzeptiert werden
+1.0.3 Cache wird beim Installieren/Updaten des Moduls automatisch gelöscht
+1.0.4 Kleine Bugfixes
+1.0.5 Kleine Bugfixes

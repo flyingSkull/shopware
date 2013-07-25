@@ -3,12 +3,12 @@
  * class for handling debit/lastschrift
  *
  * Copyright (c) 2012 SOFORT AG
- * 
+ *
  * Released under the GNU General Public License (Version 2)
  * [http://www.gnu.org/licenses/gpl-2.0.html]
  *
- * $Date: 2012-11-23 17:15:47 +0100 (Fr, 23. Nov 2012) $
- * @version SofortLib 1.5.4  $Id: sofortLib_debit.inc.php 5773 2012-11-23 16:15:47Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version SofortLib 1.5.4  $Id: sofortLib_debit.inc.php 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  *
  */
@@ -22,7 +22,7 @@ class SofortLib_Debit extends SofortLib_Abstract {
 	
 	
 	/**
-	 * 
+	 *
 	 * Constructor for SofortLib_Debit
 	 * @param string $configKey
 	 */
@@ -193,7 +193,7 @@ class SofortLib_Debit extends SofortLib_Abstract {
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for payment reason
 	 * @param int $i
 	 */
@@ -203,7 +203,7 @@ class SofortLib_Debit extends SofortLib_Abstract {
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for amount
 	 */
 	public function getAmount() {
@@ -212,7 +212,7 @@ class SofortLib_Debit extends SofortLib_Abstract {
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for user variables
 	 * @param int $i
 	 */
@@ -222,7 +222,7 @@ class SofortLib_Debit extends SofortLib_Abstract {
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for response's date
 	 */
 	public function getDate() {
@@ -251,11 +251,14 @@ class SofortLib_Debit extends SofortLib_Abstract {
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for response
 	 */
 	public function getResponse() {
 		return $this->_response;
 	}
+	
+	
+	protected function _parseXml() {}
 }
 ?>

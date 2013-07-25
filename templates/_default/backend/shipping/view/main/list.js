@@ -35,7 +35,7 @@
  *
  * todo@all: Documentation
  */
-//{block name=backend/shipping/view/main/list}
+//{block name="backend/shipping/view/main/list"}
 Ext.define('Shopware.apps.Shipping.view.main.List', {
     /**
      * Parent Class
@@ -104,8 +104,8 @@ Ext.define('Shopware.apps.Shipping.view.main.List', {
             },
             {
                 header:'{s name=grid_internal_comment}Internal comment{/s}',
-                dataIndex:'dispatch.description',
-                renderer : me.descriptionColumn,
+                dataIndex:'dispatch.comment',
+                renderer : me.commentColumn,
                 flex:1
             },
             {
@@ -282,14 +282,14 @@ Ext.define('Shopware.apps.Shipping.view.main.List', {
     },
 
     /**
-     * Formats the description column
+     * Formats the comment column
      *
      * @param [string] value - Description for the dispatch
      * @param [object] metaData - Meta data for this column
      * @param [object] record - current record
      */
-    descriptionColumn : function (value, metaData, record) {
-        return record.get('description');
+    commentColumn : function (value, metaData, record) {
+        return record.get('comment');
     },
     /**
      * Formats the action column

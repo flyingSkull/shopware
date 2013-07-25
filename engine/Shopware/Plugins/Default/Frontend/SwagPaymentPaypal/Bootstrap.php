@@ -55,6 +55,16 @@ class Shopware_Plugins_Frontend_SwagPaymentPaypal_Bootstrap extends Shopware_Com
         $this->createMyForm();
         $this->createMyTranslations();
 
+        // Make sure, that the additionadescription field is evaluated by smarty
+        $sql = <<<'EOD'
+            UPDATE  `s_core_config_mails`
+            SET
+                content=REPLACE(content, '{$additional.payment.additionaldescription}', '{include file="string:`$additional.payment.additionaldescription`"}'),
+                contentHTML=REPLACE(contentHTML, '{$additional.payment.additionaldescription}', '{include file="string:`$additional.payment.additionaldescription`"}')
+            WHERE name='sORDER';
+EOD;
+        Shopware()->Db()->query($sql);
+
         try {
             $this->Application()->Models()->addAttribute(
                 's_order_attributes', 'swag_payal',
@@ -116,7 +126,18 @@ class Shopware_Plugins_Frontend_SwagPaymentPaypal_Bootstrap extends Shopware_Com
             //Remove old element
             $element = $this->Form()->getElement('paypalAllowGuestCheckout');
             $this->Form()->getElements()->removeElement($element);
+        } elseif(version_compare($version, '2.1.5', '<=')) {
+            // Make sure, that the additionadescription field is evaluated by smarty
+            $sql = <<<'EOD'
+                UPDATE  `s_core_config_mails`
+                SET
+                    content=REPLACE(content, '{$additional.payment.additionaldescription}', '{include file="string:`$additional.payment.additionaldescription`"}'),
+                    contentHTML=REPLACE(contentHTML, '{$additional.payment.additionaldescription}', '{include file="string:`$additional.payment.additionaldescription`"}')
+                WHERE name='sORDER';
+EOD;
+            Shopware()->Db()->query($sql);
         }
+
         //Update form
         $this->createMyForm();
         return true;
@@ -210,7 +231,7 @@ class Shopware_Plugins_Frontend_SwagPaymentPaypal_Bootstrap extends Shopware_Com
             'additionalDescription' => '<!-- PayPal Logo -->' .
                 '<a onclick="window.open(this.href, \'olcwhatispaypal\',\'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=400, height=500\'); return false;"' .
                 '    href="https://www.paypal.com/de/cgi-bin/webscr?cmd=xpt/cps/popup/OLCWhatIsPayPal-outside" target="_blank">' .
-                '<img src="{link file="frontend/_resources/images/paypal/pp-corporate-Logo-small.png"}" alt="Logo \'PayPal empfohlen\'">' .
+                '<img src="{link file="engine/Shopware/Plugins/Default/Frontend/SwagPaymentPaypal/Views/frontend/_resources/images/paypal/pp-corporate-Logo-small.png" "fullPath"}" alt="Logo \'PayPal empfohlen\'">' .
                 '</a>' . '<!-- PayPal Logo --><p>PayPal. <em>Sicherererer.</em></p>' .
                 'Bezahlung per PayPal - einfach, schnell und sicher.'
         ));
@@ -242,21 +263,26 @@ class Shopware_Plugins_Frontend_SwagPaymentPaypal_Bootstrap extends Shopware_Com
         // API settings
         $form->setElement('text', 'paypalUsername', array(
             'label' => 'API-Benutzername',
-            'required' => true
+            'required' => true,
+            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP
         ));
         $form->setElement('text', 'paypalPassword', array(
             'label' => 'API-Passwort',
-            'required' => true
+            'required' => true,
+            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP
         ));
         $form->setElement('text', 'paypalSignature', array(
             'label' => 'API-Unterschrift',
-            'required' => true
+            'required' => true,
+            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP
+
         ));
         $form->setElement('text', 'paypalVersion', array(
             'label' => 'API-Version',
             'value' => '93.0',
             'required' => true,
-            'readOnly' => true
+            'readOnly' => true,
+            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP
         ));
         $form->setElement('button', 'paypalButtonApi', array(
             'label' => '<strong>Jetzt API-Signatur erhalten</strong>',
@@ -268,10 +294,12 @@ class Shopware_Plugins_Frontend_SwagPaymentPaypal_Bootstrap extends Shopware_Com
             }"
         ));
         $form->setElement('boolean', 'paypalSandbox', array(
-            'label' => 'Sandbox-Modus aktivieren'
+            'label' => 'Sandbox-Modus aktivieren',
+            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP
         ));
         $form->setElement('boolean', 'paypalErrorMode', array(
-            'label' => 'Fehlermeldungen ausgeben'
+            'label' => 'Fehlermeldungen ausgeben',
+            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP
         ));
 
         // Payment page settings
@@ -354,6 +382,19 @@ class Shopware_Plugins_Frontend_SwagPaymentPaypal_Bootstrap extends Shopware_Com
             'value' => false,
             'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP
         ));
+        $form->setElement('boolean', 'paypalSendInvoiceId', array(
+            'label' => 'Bestellnummer an PayPal übertragen',
+            'description' => 'Ist ggf. für einige Warenwirtschaften erforderlich. Stellen Sie in diesem Fall sicher, dass ihr Nummernkreis für Bestellnummern sich nicht mit anderen/vorherigen Shops überschneidet, die Sie ebenfalls über ihren PayPal-Account betreiben.',
+            'value' => false,
+            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP
+        ));
+        $form->setElement('text', 'paypalPrefixInvoiceId', array(
+            'label' => 'Bestellnummer für PayPal mit einem Shop-Prefix versehen',
+            'description' => 'Wenn Sie Ihren PayPal-Account für mehrere Shops nutzen, können Sie vermeiden, dass es Überschneidungen bei den Bestellnummern gibt, indem Sie hier ein eindeutiges Prefix definieren.',
+            'value' => 'MeinShop_',
+            'scope' => \Shopware\Models\Config\Element::SCOPE_SHOP,
+            'vtype' => 'alphanum'
+        ));
     }
 
     /**
@@ -381,7 +422,9 @@ class Shopware_Plugins_Frontend_SwagPaymentPaypal_Bootstrap extends Shopware_Com
                 'paypalExpressButtonLayer' => 'Show express-purchase button in modal box',
                 'paypalStatusId' => 'Payment state after completing the payment',
                 'paypalPendingStatusId' => 'Payment state after being authorized',
-                'paypalStatusMail' => 'Send mail on payment state change'
+                'paypalStatusMail' => 'Send mail on payment state change',
+                'paypalSendInvoiceId' => 'Transfer invoice id to paypal',
+                'paypalPrefixInvoiceId' => 'Add shop prefix to the invoice id'
             )
         );
         $shopRepository = Shopware()->Models()->getRepository('\Shopware\Models\Shop\Locale');
@@ -605,7 +648,7 @@ class Shopware_Plugins_Frontend_SwagPaymentPaypal_Bootstrap extends Shopware_Com
      */
     public function getVersion()
     {
-        return '2.1.1';
+        return '2.1.6';
     }
 
     /**

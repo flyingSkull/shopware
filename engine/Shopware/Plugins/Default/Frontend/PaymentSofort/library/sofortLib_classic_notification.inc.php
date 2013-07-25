@@ -7,8 +7,8 @@
  * Released under the GNU General Public License (Version 2)
  * [http://www.gnu.org/licenses/gpl-2.0.html]
  *
- * $Date: 2012-11-23 17:15:47 +0100 (Fr, 23. Nov 2012) $
- * @version SofortLib 1.5.4  $Id: sofortLib_classic_notification.inc.php 5773 2012-11-23 16:15:47Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version SofortLib 1.5.4  $Id: sofortLib_classic_notification.inc.php 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  *
  */
@@ -26,6 +26,8 @@ class SofortLib_ClassicNotification {
 
 	private $_hashCheck = false;
 	
+	private $_statusReason;
+	
 	
 	/**
 	 *
@@ -40,6 +42,7 @@ class SofortLib_ClassicNotification {
 		$this->_userId = $userId;
 		$this->_projectId = $projectId;
 		$this->_hashFunction = strtolower($hashFunction);
+		$this->_statusReason = false;
 	}
 	
 	
@@ -49,6 +52,10 @@ class SofortLib_ClassicNotification {
 	 * @param string $request (POST-Data)
 	 */
 	public function getNotification($request) {
+		if (array_key_exists('status_reason', $request) && !empty($request['status_reason'])) {
+			$this->_statusReason = $request['status_reason'];
+		}
+		
 		if (array_key_exists('international_transaction', $request)) {
 			//standard notification
 			$fields = array(
@@ -178,19 +185,10 @@ class SofortLib_ClassicNotification {
 	/**
 	 *
 	 * Getter for status reason
-	 * @return strign
+	 * @return string
 	 */
 	public function getStatusReason() {
-		switch ($this->getStatus()) {
-			case 'received':
-				return 'credited';
-			case 'pending':
-				return 'not_credited_yet';
-			case 'loss':
-				return 'loss';
-		}
-		
-		return false;
+		return $this->_statusReason;
 	}
 	
 	

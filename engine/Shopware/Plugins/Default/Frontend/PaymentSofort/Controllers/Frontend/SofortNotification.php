@@ -1,19 +1,18 @@
 <?php
 require_once(dirname(__FILE__).'/../../library/sofortLib.php');
-require_once(dirname(__FILE__).'/..//Helper/Observable.php');
 require_once(dirname(__FILE__).'/../Helper/Helper.php');
 /**
  *
  * This controller provides a callback for notifications coming from sofort.com
  * It provides an entry point for notifications via XML
  *
- * $Date: 2012-07-20 10:45:37 +0200 (Fri, 20 Jul 2012) $
- * @version sofort 1.0  $Id: SofortNotification.php 4860 2012-07-20 08:45:37Z dehn $
+ * $Date: 2013-03-20 15:45:51 +0100 (Wed, 20 Mar 2013) $
+ * @version sofort 1.0.2  $Id: SofortNotification.php 6052 2013-03-20 14:45:51Z dehn $
  * @author SOFORT AG http://www.sofort.com (f.dehn@sofort.com)
  * @package Shopware 4, sofort.com
  *
  */
-class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controllers_Frontend_Payment implements Observable {
+class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controllers_Frontend_Payment {
 	
 	private $configKey = '';
 	
@@ -44,8 +43,6 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	private $orderIdentifier = 0;
 	
 	private $statusOfInvoice = 0;
-	
-	private $observers = array();
 	
 	private $ShopwareUpdateHelper = null;
 	
@@ -98,7 +95,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	}
 	
 	/**
-	 * 
+	 *
 	 * Set the test mode
 	 * @param boolean $flag
 	 */
@@ -108,43 +105,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * (non-PHPdoc)
-	 * @see Observable::attach()
-	 */
-	public function attach(Observer $Observer) {
-		array_push($this->observers, $Observer);
-	}
-	
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Observable::detach()
-	 */
-	public function detach(Observer $Observer) {
-		if (in_array($Observer, $this->observers)) {
-			$key = array_search($Observer, $this->observers);
-			unset($this->observers[$key]);
-		}
-	}
-	
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Observable::notify()
-	 */
-	public function notify($key, $message = '') {
-		if (count($this->observers) == 0) {
-			return;
-		}
-		
-		foreach ($this->observers as $observer) {
-			$observer->update($key, $message, $this);
-		}
-	}
-	
-	
-	/**
-	 * 
+	 *
 	 * Setter for Snippets from Shopware
 	 * @param object $snippets
 	 */
@@ -154,7 +115,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for Shopware
 	 * @param Shopware $instance
 	 */
@@ -164,7 +125,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for Shopware instance
 	 */
 	public function getShopware() {
@@ -173,7 +134,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for Database Object
 	 */
 	public function getDb() {
@@ -182,7 +143,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for Config Key
 	 * @param string $configKey
 	 */
@@ -192,7 +153,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for Transaction Data
 	 * @param object $SofortLib_TransactionData
 	 */
@@ -202,7 +163,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for SofortLib Notification
 	 * @param object $SofortLib_Notification
 	 */
@@ -212,7 +173,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for PnagInvoice
 	 * @param PnagInvoice $PnagInvoice
 	 */
@@ -222,7 +183,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for TransactionId
 	 * @param string $transactionId
 	 */
@@ -232,7 +193,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for Shop Items
 	 * @param array $shopItems
 	 */
@@ -242,7 +203,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for Payment Method
 	 */
 	public function getPaymentMethod() {
@@ -251,7 +212,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for PnagInvoice
 	 */
 	public function getPnagInvoice() {
@@ -260,7 +221,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for Invoice Amoun
 	 * @param float $amount
 	 */
@@ -270,7 +231,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for Order Identifier
 	 * @param string $orderIdentifier
 	 */
@@ -280,7 +241,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Setter for Invoice's Status
 	 * @param int $statusOfInvoice
 	 */
@@ -358,12 +319,6 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		$this->ShopwareUpdateHelper->updateTimeline($this->transactionId, $this->PnagInvoice->getState(), $this->PnagInvoice->getStatus(), $this->PnagInvoice->getStatusReason(), $this->PnagInvoice->getStatusOfInvoice(), $this->PnagInvoice->getInvoiceObjection(), serialize($this->PnagInvoice->getItems()));
 		// update address items if changed in payment wizard
 		$this->updateOrderAddresses();
-		// unittesting
-		$this->notify('oldStatus', $oldStatus);
-		$this->notify('newStatus', $newStatus);
-		$this->notify('oldAmount', $oldAmount);
-		$this->notify('newAmount', $newAmount);
-		$this->notify('amountChanged', $amountChanged);
 		
 		// handle invoice states
 		switch ($newStatus) {
@@ -440,7 +395,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 				break;
 				
 			case PnagInvoice::REFUNDED_REFUNDED_REFUNDED:	// Gutschrift erstellt. #14
-					$this->setPaymentStatus($this->PnagInvoice->getStatusReason());
+				$this->setPaymentStatus($this->PnagInvoice->getStatusReason());
 				$transactionStatus = $this->Snippets->getSnippet('sofort_multipay_backend')->get('sr.MoneyRefunded');
 				// Merchant and customer have to be informed
 				$invoiceStatus = $this->Snippets->getSnippet('sofort_multipay_backend')->get('sr.InvoiceRefunded');
@@ -452,8 +407,8 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 				break;
 				
 			case PnagInvoice::RECEIVED_CREDITED_RECEIVED:	// Zahlungseingang auf Händlerkonto #16
-					// if cart has been changed, update cart
-					if ($amountChanged && $oldAmountHigher) {
+				// if cart has been changed, update cart
+				if ($amountChanged && $oldAmountHigher) {
 					$cartItemsEdited = $this->Snippets->getSnippet('sofort_multipay_backend')->get('edit_invoice.CartItemsEdited');
 					$newAmountEdited = $this->Snippets->getSnippet('sofort_multipay_backend')->get('admin.sr.current_amount');
 					$cartUpdatedWithNewAmount = $cartItemsEdited.' ('.$newAmountEdited.' '.$newAmount.' EUR)';
@@ -513,7 +468,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 					$this->ShopwareUpdateHelper->setMerchantComment($this->transactionId, $successfulOrder);
 					break;
 				case 'not_credited':
-					
+				
 					if ($status === 'loss') {
 						$loss = $this->Snippets->getSnippet('sofort_multipay_finish')->get('sofort_multipay_su_status_loss');
 						$loss = str_replace('{{time}}', '', $loss);
@@ -589,7 +544,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 					$this->ShopwareUpdateHelper->setMerchantComment($this->transactionId, $successfulOrder.$this->transactionId);
 					break;
 				case 'not_credited':
-					
+				
 					if ($status === 'loss') {
 						$loss = $this->Snippets->getSnippet('sofort_multipay_finish')->get('sofort_multipay_su_status_loss');
 						$loss = str_replace('{{time}}', '', $loss);
@@ -652,7 +607,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 					 break;
 					 */
 			}
-			
+				
 			return true;
 		}
 	}
@@ -788,35 +743,35 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	private function setPaymentStatus($status) {
 		$sql = 'UPDATE `sofort_orders` SET paymentStatus = ? WHERE `transactionId` = ?';
 		$fields = array(
-				$status,
-				$this->transactionId,
+			$status,
+			$this->transactionId,
 		);
 		$this->Shopware->Db()->query($sql, $fields);
 		$sql = 'UPDATE `s_order` SET cleared = ? WHERE `transactionId` = ?';
 		$fields = array(
-				$this->paymentStatus[$status],
-				$this->transactionId,
+			$this->paymentStatus[$status],
+			$this->transactionId,
 		);
 		$this->Shopware->Db()->query($sql, $fields);
 		return true;
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * Set the status to canceled (table s_order)
 	 */
 	private function setOrderStatusToCanceled() {
 		$sql = 'UPDATE `s_order` SET status = 4 WHERE `transactionId` = ?';
 		$fields = array(
-				$this->transactionId,
+			$this->transactionId,
 		);
 		$this->Shopware->Db()->query($sql, $fields);
 	}
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for Status of Invoice
 	 */
 	private function getStatusOfInvoice() {
@@ -828,14 +783,14 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		WHERE p.transactionId = ?
 		ORDER BY s.date_modified DESC LIMIT 0,1';
 		$fields = array(
-				$this->transactionId,
+			$this->transactionId,
 		);
 		return $this->Shopware->Db()->fetchOne($sql, $fields);
 	}
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for Timeline of Invoice
 	 */
 	private function getTimelineOfInvoice() {
@@ -844,7 +799,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		WHERE sofort_products.transactionId = ?
 		ORDER BY sofort_status.id DESC';
 		$fields = array(
-				$this->transactionId,
+			$this->transactionId,
 		);
 		$invoiceTimeline = $this->Shopware->Db()->fetchAll($sql, $fields);
 		return $invoiceTimeline;
@@ -852,7 +807,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for Invoice's amount
 	 */
 	private function getAmountOfInvoice() {
@@ -861,7 +816,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		}
 		$sql = 'SELECT `invoice_amount` FROM `s_order` WHERE `transactionId` = ?';
 		$fields = array(
-				$this->transactionId,
+			$this->transactionId,
 		);
 		$amount = $this->Shopware->Db()->fetchOne($sql, $fields);
 		return number_format($amount, 2);
@@ -869,7 +824,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for the Order Identifier
 	 */
 	private function getOrderIdentifier() {
@@ -878,7 +833,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		}
 		$sql = 'SELECT `id`, `ordernumber` FROM `s_order` WHERE `transactionId` = ?';
 		$fields = array(
-				$this->transactionId,
+			$this->transactionId,
 		);
 		$identifier = $this->Shopware->Db()->fetchAll($sql, $fields);
 		return $identifier[0];	// $identifier[0][id] as return value?
@@ -894,14 +849,14 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		if ($this->testMode) return true;
 		$sql = 'SELECT COUNT(transactionId) FROM `sofort_orders` WHERE `secret` = ?';
 		$fields = array(
-				$secret,
+			$secret,
 		);
 		return $this->Shopware->Db()->fetchOne($sql, $fields);
 	}
 	
 	
 	/**
-	 * 
+	 *
 	 * Update the order addresses
 	 */
 	private function updateOrderAddresses() {
@@ -913,7 +868,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		
 		$sql = 'SELECT userID FROM s_order WHERE transactionID = ?';
 		$fields = array(
-				$transactionId,
+		$transactionId,
 		);
 		$userId = $this->Shopware->Db()->fetchOne($sql, $fields);
 		
@@ -922,39 +877,39 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		
 		/*
 		 $sql = 'SELECT company FROM `s_user_billingaddress` WHERE userID = '.$userId;
-		$invoiceCompany = $this->Shopware->Db()->fetchOne($sql);
-		$sql = 'SELECT company FROM `s_user_shippingaddress` WHERE userID = '.$userId;
-		$shippingCompany = $this->Shopware->Db()->fetchOne($sql);
-		
-		if (!empty($invoiceCompany) && strpos($invoiceLastname, $invoiceCompany) !== false) {
-		// remove company name from lastname if present
-		$invoiceLastname = substr($invoiceLastname, 0, strpos($invoiceLastname, ' - '.$invoiceCompany));
-		}
-		if (!empty($shippingCompany) && strpos($shippingLastname, $shippingCompany) !== false) {
-		// remove company name from lastname if present
-		$shippingLastname = substr($shippingLastname, 0, strpos($shippingLastname, ' - '.$shippingCompany));
-		}
-		*/
-		
+		 $invoiceCompany = $this->Shopware->Db()->fetchOne($sql);
+		 $sql = 'SELECT company FROM `s_user_shippingaddress` WHERE userID = '.$userId;
+		 $shippingCompany = $this->Shopware->Db()->fetchOne($sql);
+
+		 if (!empty($invoiceCompany) && strpos($invoiceLastname, $invoiceCompany) !== false) {
+		 // remove company name from lastname if present
+		 $invoiceLastname = substr($invoiceLastname, 0, strpos($invoiceLastname, ' - '.$invoiceCompany));
+		 }
+		 if (!empty($shippingCompany) && strpos($shippingLastname, $shippingCompany) !== false) {
+		 // remove company name from lastname if present
+		 $shippingLastname = substr($shippingLastname, 0, strpos($shippingLastname, ' - '.$shippingCompany));
+		 }
+		 */
+
 		$sql = 'UPDATE s_user_billingaddress
-		SET salutation = ?,
-		firstname = ?,
-		lastname = ?,
-		street = ?,
-		streetnumber = ?,
-		zipcode = ?,
-		city = ?
-		WHERE userID = ?
+			SET salutation = ?,
+			firstname = ?,
+			lastname = ?,
+			street = ?,
+			streetnumber = ?,
+			zipcode = ?,
+			city = ?
+			WHERE userID = ?
 		';
 		$fields = array(
-				$invoiceSalutation,
-				$invoiceAddress['firstname'],
-				$invoiceLastname,
-				$invoiceAddress['street'],
-				$invoiceAddress['street_number'],
-				$invoiceAddress['zipcode'],
-				$invoiceAddress['city'],
-				$userId,
+			$invoiceSalutation,
+			$invoiceAddress['firstname'],
+			$invoiceLastname,
+			$invoiceAddress['street'],
+			$invoiceAddress['street_number'],
+			$invoiceAddress['zipcode'],
+			$invoiceAddress['city'],
+			$userId,
 		);
 		$this->Shopware->Db()->query($sql, $fields);
 		$sql = 'UPDATE s_user_shippingaddress
@@ -968,35 +923,35 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		WHERE userID = ?
 		';
 		$fields = array(
-				$shippingSalutation,
-				$shippingAddress['firstname'],
-				$shippingLastname,
-				$shippingAddress['street'],
-				$shippingAddress['street_number'],
-				$shippingAddress['zipcode'],
-				$shippingAddress['city'],
-				$userId,
+			$shippingSalutation,
+			$shippingAddress['firstname'],
+			$shippingLastname,
+			$shippingAddress['street'],
+			$shippingAddress['street_number'],
+			$shippingAddress['zipcode'],
+			$shippingAddress['city'],
+			$userId,
 		);
 		$this->Shopware->Db()->query($sql, $fields);
 	}
 	
 	
 	/**
-	 * 
+	 *
 	 * Get the Tax Id by it's value
 	 * @param float $value
 	 */
 	private function getTaxIdByValue($value) {
 		$sql = 'SELECT id FROM s_core_tax WHERE tax = ? ';
 		$fields = array(
-				$value,
+			$value,
 		);
 		return $this->Shopware->Db()->query($sql, $fields);
 	}
 	
 	
 	/**
-	 * 
+	 *
 	 * Get all differences between firstArray and secondArray
 	 * @param array $firstArray
 	 * @param array $secondArray
@@ -1010,7 +965,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for Product Keys
 	 * @param array $array
 	 * @throws Exception
@@ -1027,7 +982,7 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 	
 	
 	/**
-	 * 
+	 *
 	 * Fetch all Shop Items
 	 * @param string $orderId
 	 */
@@ -1039,15 +994,15 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 		JOIN s_core_tax tax on tax.id = od.taxID
 		WHERE od.ordernumber = ?';
 		$fields = array(
-				$orderId,
-				$orderId,
+			$orderId,
+			$orderId,
 		);
 		return $this->Shopware->Db()->fetchAll($sql, $fields);
 	}
 	
 	
 	/**
-	 * 
+	 *
 	 * Getter for Order Items
 	 * @param string $orderId
 	 */
@@ -1076,7 +1031,6 @@ class Shopware_Controllers_Frontend_SofortNotification extends Shopware_Controll
 			array_push($pnagItems, $PnagArticle);
 		}
 		
-		$this->notify('pnagItems', $pnagItems);
 		return $pnagItems;
 	}
 	

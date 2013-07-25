@@ -3,8 +3,8 @@
 /**
  * ExtJS Grid to display orders in Shopware's backend
  *
- * $Date: 2012-08-21 16:28:24 +0200 (Di, 21. Aug 2012) $
- * @version sofort 1.0  $Id: grid.tpl 5178 2012-08-21 14:28:24Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version sofort 1.0  $Id: grid.tpl 6023 2013-02-27 08:03:55Z dehn $
  * @author Payment Network AG http://www.payment-network.com (f.dehn@sofort.com)
  * @package Shopware 4.x, sofort.com
  *

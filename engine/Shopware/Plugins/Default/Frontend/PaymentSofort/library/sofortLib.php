@@ -12,8 +12,8 @@
  * Released under the GNU General Public License (Version 2)
  * [http://www.gnu.org/licenses/gpl-2.0.html]
  *
- * $Date: 2012-11-23 17:15:47 +0100 (Fr, 23. Nov 2012) $
- * @version SofortLib 1.5.4  $Id: sofortLib.php 5773 2012-11-23 16:15:47Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version SofortLib 1.5.4  $Id: sofortLib.php 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  *
  */

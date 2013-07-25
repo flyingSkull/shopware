@@ -14,8 +14,8 @@
  * Released under the GNU General Public License (Version 2)
  * [http://www.gnu.org/licenses/gpl-2.0.html]
  *
- * $Date: 2012-11-23 17:15:47 +0100 (Fr, 23. Nov 2012) $
- * @version SofortLib 1.5.4  $Id: sofortLib_transaction_data.inc.php 5773 2012-11-23 16:15:47Z dehn $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
+ * @version SofortLib 1.5.4  $Id: sofortLib_transaction_data.inc.php 6023 2013-02-27 08:03:55Z dehn $
  * @author SOFORT AG http://www.sofort.com (integration@sofort.com)
  *
  */
@@ -31,7 +31,7 @@ class SofortLib_TransactionData extends SofortLib_Abstract {
 	
 	
 	/**
-	 * 
+	 *
 	 * Constructor for SofortLib_TransactionData
 	 * @param string $configKey
 	 */
@@ -1000,23 +1000,14 @@ class SofortLib_TransactionData extends SofortLib_Abstract {
 	 */
 	protected function _parseXml() {
 		if (isset($this->_response['transactions']['transaction_details'])) {
-			$this->_count = count($this->_response['transactions']['transaction_details']);
-		} else {
-			$this->_count = 0;
-		}
-		
-		$transactions = array();
-		
-		if (isset($this->_response['transactions']) && is_array($this->_response['transactions'])) {
-			foreach ($this->_response['transactions'] as $transaction) {
+			$transactionFromXml = (isset($this->_response['transactions']['transaction_details'][0]))
+				? $this->_response['transactions']['transaction_details']
+				: $this->_response['transactions'];
+			$this->_count = count($transactionFromXml);
+			$transactions = array();
+			
+			foreach ($transactionFromXml as $transaction) {
 				if (!empty($transaction)) {
-					if (isset($transaction['sa']['payments']['payment']) && !isset($transaction['sa']['payments']['payment'][0])) {
-						$tmp = $transaction['sa']['payments']['payment'];
-						unset($transaction['sa']['payments']['payment']);
-						$transaction['sa']['payments']['payment'][] = $tmp;
-						unset($tmp);
-					}
-					
 					if (isset($transaction['sr']['items']['item']) && !isset($transaction['sr']['items']['item'][0])) {
 						$tmp = $transaction['sr']['items']['item'];
 						unset($transaction['sr']['items']['item']);
@@ -1027,9 +1018,12 @@ class SofortLib_TransactionData extends SofortLib_Abstract {
 					$transactions[] = $transaction;
 				}
 			}
+			
+			$this->_response = $transactions;
+			$this->_count = count($transactions);
+		} else {
+			$this->_count = 0;
 		}
-		
-		$this->_response = $transactions;
 	}
 }
 ?>

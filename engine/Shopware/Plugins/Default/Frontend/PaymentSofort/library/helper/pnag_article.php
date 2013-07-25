@@ -2,7 +2,7 @@
 /**
  *
  * Data object that encapsulates article's data
- * $Date: 2012-09-05 14:27:56 +0200 (Mi, 05 Sep 2012) $
+ * $Date: 2013-02-27 09:03:55 +0100 (Wed, 27 Feb 2013) $
  * $ID$
  *
  */

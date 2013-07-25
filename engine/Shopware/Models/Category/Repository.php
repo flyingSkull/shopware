@@ -128,8 +128,12 @@ class Repository extends TreeRepository
     {
         $builder = $this->getEntityManager()->createQueryBuilder();
         $builder->select(array(
-                'category', 'articles', 'mainDetail', 'supplier',
-                'attribute' , 'emotions' , 'customerGroups', 'media'
+                'category',
+                'PARTIAL articles.{id, name}',
+                'PARTIAL mainDetail.{id,number}',
+                'PARTIAL supplier.{id,name}',
+                'attribute',
+                'emotions', 'customerGroups', 'media'
             ))
             ->from($this->getEntityName(), 'category')
             ->leftJoin('category.articles', 'articles')
@@ -285,7 +289,7 @@ class Repository extends TreeRepository
     /**
      * Returns the \Doctrine\ORM\Query to select all active children by the category id
      *
-     * @param   $id | category id
+     * @param $id | category id
      * @param   null|int $customerGroupId
      * @param   null|int $depth
      * @return  \Doctrine\ORM\Query
@@ -299,6 +303,23 @@ class Repository extends TreeRepository
             ->setParameter(0, $node->getLeft())
             ->andWhere('c.right < ?1')
             ->setParameter(1, $node->getRight());
+
+        //this subquery consider that only categories with active parents are selected
+        $subQueryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $subQueryBuilder->from($this->getEntityName(), 'c2')
+                ->select('count(c2)')
+                ->where('c2.left < c.left')
+                ->andWhere('c2.right > c.right')
+                ->andWhere('c2.level < c.level')
+                ->andWhere('c2.active != true')
+                ->setFirstResult(0)
+                ->setMaxResults(1);
+
+        $subQueryDQL = $subQueryBuilder->getDQL();
+
+        $builder->addSelect('(' . $subQueryDQL . ') as parentNotActive');
+        $builder->andHaving('parentNotActive = 0');
+
 
         if($depth !== null) {
             $depth += $node->getLevel();
