@@ -1,11 +1,3 @@
-#INSTALL.txt
-#LICENSE.txt
-#README.txt
-#README.md
-#eula.txt
-#eula_en.txt
-#license.txt
-
 cache/
 engine/Shopware/Proxies/*.php
 #install/
@@ -14,6 +6,7 @@ engine/Shopware/Proxies/*.php
 .metadata
 .settings
 .project
+.htaccess
 
 *.orig
 *.ini
@@ -25,7 +18,7 @@ config.php
 #*.jpg
 #*.gif
 #*.png
-media/
+
 media/image/*.jpg
 media/image/*.gif
 media/image/*.png
