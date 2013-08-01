@@ -96,48 +96,20 @@
 
 /* WEIBLEIN */
 
-#content #left .categories li.w a {
-    background-color: #e54a4a;
-    border: none;
-}
-
-#content #left .categories li.w.active.sub a.active {
+#content #left .categories li.active.sub a.active {
     background-color: #e54a4a;
     border: none;
     color: #fff;
 }
 
-#content #left .categories li.w.active.sub a:hover {
+#content #left .categories li a:hover {
     color: #e54a4a;
     font-weight: 700;
 }
 
-#content #left .categories li.w.active.sub li.active a.flag {
+#content #left .categories li.active li.active a.flag {
     border: 0px none;
     color: #e54a4a;
-}
-
-/* MÄNNLEIN */
-
-#content #left .categories li.m a{
-    background-color: #79c6a2;
-    border: none;
-}
-
-#content #left .categories li.m.active.sub a.active {
-    background-color: #79c6a2;
-    border: none;
-    color: #fff;
-}
-
-#content #left .categories li.m.active.sub.m a:hover {
-    color: #79c6a2;
-    font-weight: 700;
-}
-
-#content #left .categories li.m.active.sub.m li.active a.flag {
-    border: 0px none;
-    color: #79c6a2;
 }
 
 /** LEVEL 1 **/

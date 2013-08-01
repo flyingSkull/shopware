@@ -3,13 +3,11 @@
     <ul class="{if !$level}categories{else}submenu{/if} level{$level}">
         {block name="frontend_index_categories_left_ul"}{/block}
         {foreach from=$categories item=category}
-            <li class="{if $category.description=="Weiblein"}w{else}m{/if}{if $category.flag or $category.subcategories} active{if $category.subcategories} sub{/if}{/if}">
-
+            <li {if $category.flag || $category.subcategories}class="{if $category.flag or $category.subcategories}active{if $category.subcategories} sub{/if}{/if}"{/if}>
                 <a href="{$category.link}"
                    {if $category.flag || $category.subcategories}class="{if $category.flag or $category.subcategories}flag{if $category.subcategories} active{/if}{/if}"{/if}>
                     {$category.description}
                 </a>
-
                 {if $category.subcategories}
                     {call name=categories categories=$category.subcategories level=$level+1}
                 {/if}

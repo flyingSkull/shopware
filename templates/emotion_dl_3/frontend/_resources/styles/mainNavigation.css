@@ -9,21 +9,14 @@
 #mainNavigation a:hover {background: none; text-decoration: none; }
 #mainNavigation a:hover span {background: none; color: #E54A4A; margin: 0px 0; height: 40px; line-height: 40px;}
 
-#mainNavigation ul li.w a.active {background: none; color: #E54A4A; border: 0 none; height: 40px;}
-#mainNavigation ul li.m a.active {background: none; color: #79c6a2; border: 0 none; height: 40px;}
-
-#mainNavigation ul li.w span {color: #E54A4A;}
-#mainNavigation ul li.m span {color: #79c6a2;}
 
 /*text-shadow: 0px 1px 0px rgba(255,255,255,.3), 0px -1px 0px rgba(0,0,0,.7);*/
 
-
+#mainNavigation ul li.dropactive:hover a span {background: none; height: 55px; color: #E54A4A;}
 #mainNavigation ul li.dropactive:hover a {background-image: none; background-color: transparent; border-style: none none; color: #fff;}
-#mainNavigation ul li.w.dropactive:hover a span {background: none; height: 40px; color: #E54A4A;}
-#mainNavigation ul li.m.dropactive:hover a span {background: none; height: 40px; color: #79c6a2;}
+#mainNavigation ul li.dropactive:hover ul.dropdown li:hover a {color: #b40700; font-weight:900; background-color: transparent;}
+#mainNavigation ul li.dropactive:hover ul.dropdown li:hover li a {color: #e1540f; background-color: #fff;}
 
-#mainNavigation ul li.w.active span {background: none; height: 40px; color: #E54A4A;}
-#mainNavigation ul li.m.active span {background: none; height: 40px; color: #79c6a2;}
 
 /*hover im dropdown */
 #mainNavigation ul li.w.dropactive:hover ul.dropdown li:hover a {color: #E54A4A; font-weight:900; background-color: transparent;}
@@ -40,10 +33,7 @@
 #mainNavigation ul li.dropactive:hover ul.dropdown li.sub {background: none;}
 #mainNavigation ul li.dropactive:hover ul.dropdown li.sub:hover {background: none;}
 #mainNavigation ul li.dropactive:hover ul.dropdown li a {color:#808080; border: none; height:25px; line-height:25px; padding: 0 20px 0 10px; width:170px;}
-
-/* active links im Dropdown */
-#mainNavigation ul li.w.dropactive:hover ul.dropdown li a.active {color:#E54A4A;border-color: #333333; height:25px; line-height:25px; padding: 0 20px 0 10px;}
-#mainNavigation ul li.m.dropactive:hover ul.dropdown li a.active {color:#79c6a2;border-color: #333333; height:25px; line-height:25px; padding: 0 20px 0 10px;}
+#mainNavigation ul li.dropactive:hover ul.dropdown li a.active {color:#b40700;border-color: #333333; height:25px; line-height:25px; padding: 0 20px 0 10px;}
 
 
 #mainNavigation ul li.dropactive:hover ul.dropdown li.sub ul li a {background: #000; color: #808080;}
