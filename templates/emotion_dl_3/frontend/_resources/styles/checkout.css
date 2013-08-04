@@ -1,9 +1,9 @@
 .container_20 #basket {
-    background: #F6F3EA;
+    /*background: #F6F3EA;
     top: -5px;
     margin: 0 0 0;
     border: 1px dashed #E0DCCE;
-    border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;*/
 }
 
 .container_20 #basket .table {
@@ -34,31 +34,38 @@
 
 div.step_box {
     background: none;
-    margin: 10px 0 0;
-    width: 998px;
-    height: 42px;
+    margin: 10px;
 }
 
 div.step_box ul li.active {
-    background: #F6F3EA;
-    border-top: 1px dashed #E0DCCE;
-    border-right: 1px dashed #E0DCCE;
-    border-left: 1px dashed #E0DCCE;
+    background: #FFF;
     border-radius: 5px 5px 5px 5px;
+    -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
 }
 
 div.step_box ul li {
-    background: #F6F3EA;
-    margin-left: 0;
-    margin-right: 0;
-    border:none;
+    background: #FFF;
+    border: none;
+    border-radius: 5px;
+    margin-left: 15px;
+    -webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* CONFIRM */
 #content #confirm {
-    background: #F6F3EA;
-    border-top: 1px dashed #E0DCCE;
-    border-right: 1px dashed #E0DCCE;
-    border-left: 1px dashed #E0DCCE;
     border-radius: 5px 5px 5px 5px;
+}
+
+#content #confirm .grid_16 {
+    background-color: #FFF;
+    border-radius: 5px;
+}
+.basket_bottom_paypal {
+    float: right;
+    background: none;
+    margin-right: 205px;
 }
