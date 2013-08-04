@@ -440,7 +440,7 @@ class Shopware_Controllers_Frontend_Register extends Enlight_Controller_Action
 			//'streetnumber'=>array('required'=>1),
 			//'zipcode'=>array('required'=>1),
 			//'city'=>array('required'=>1),
-			'phone'=>array('required'=>1),
+			'phone'=>array('required'=>0),
 			//'country'=>array('required'=>1),
 			//'department'=>array('required'=>0),
 			'fax'=>array('required'=>0),
