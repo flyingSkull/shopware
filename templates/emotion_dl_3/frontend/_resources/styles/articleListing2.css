@@ -38,16 +38,19 @@ div.listing {
     width: 194px;
     height: 270px;
     background: #ffffff;
-    border: 1px dashed #e0dcce;
+    /*border: 1px dashed #e0dcce;*/
     border-radius: 5px 5px 5px 5px;
     overflow: hidden;
     position: relative;
+    -webkit-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 #listing .artbox .inner {
-    width: 182px;
-    height: 220px;
-    padding: 6px;
+    width: 100%;
+    height: 255px;
+    padding: 7px 0px 0px 0px;
     overflow: hidden;
     position: relative;
 }
@@ -89,7 +92,7 @@ div.listing {
     font-size: 22px;
     color: #e54a4a;
     padding-top: 30px;
-    padding-bottom: 30px;
+    padding-bottom: 107px;
     top: 0px;
     left: 0px;
     margin-top: 0px;

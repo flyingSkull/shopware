@@ -16,9 +16,27 @@
     width: 170px;
 }
 
+#content #left .categories li.active a.flag{
+    background-color: #e54a4a;
+    border: none;
+    color: #fff;
+    font-weight: 700;
+}
+
 #content #left ul li.active li.active {
     background: #ffffff;
     border: 0 none;
+}
+
+#content #left .categories li.sub {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+#content #left ul li.active ul.submenu {
+    padding-bottom: 0px;
+    margin-bottom: 15px;
 }
 
 #content #left .categories li .submenu li {
@@ -28,10 +46,9 @@
     width: 170px;
     margin-bottom: 5px;
 
-    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-
+    -webkit-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 #content #left .categories li .submenu li a {
@@ -47,15 +64,15 @@
 
 #content #left ul li {
     border: none;
-   /* border-color: transparent;
-    border-right-style: none;
-    border-right-width: 0px;
-    background-color: transparent;*/
+    margin-bottom: 5px;
+    background-color: #fff;
+    -webkit-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 #content #left ul li a {
-    color: #FFF;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 #content #left ul li.active {
@@ -75,7 +92,7 @@
 }
 
 #content #left ul li.active li.active a {
-    color: #e1540f;
+    color: #e54a4a;
 }
 
 #content #left ul li.active li.active li a {
@@ -83,7 +100,7 @@
 }
 
 #content #left ul li.active li.active li a.flag {
-    color: #e1540f;
+    color: #e54a4a;
 }
 
 #content #left ul li.active li.active li.active a.flag {
