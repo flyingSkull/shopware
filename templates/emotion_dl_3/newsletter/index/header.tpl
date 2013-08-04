@@ -1,10 +1,10 @@
 <div>
   <div align="left">
       {* align left needed for old outlook versions *}
-      <img align="left" src="{link file='frontend/_resources/images/logo.jpg' fullPath}" />
+      <img align="left" src="{link file='frontend/_resources/images/final/dl_logo_3_sw.png' fullPath}" />
   </div>
   <div align="right">
-      <span style="color:#999;font-size:13px;">DOPPELLOTTE-NEWSLETTER</span>
+      <span style="color:#999;font-size:13px;">NEWSLETTER</span>
   </div>
 </div>
 
