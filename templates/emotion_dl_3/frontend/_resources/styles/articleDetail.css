@@ -4,11 +4,12 @@
 #content #detail {
     padding: 10px;
     margin: 10px;
-    width: 984px;
-    /*    background-color: #ffffff;
-        -moz-box-shadow: 0 -1px 8px #b3a88d;
-        -webkit-box-shadow: 0 -1px 8px #b3a88d;
-        box-shadow: 0 -1px 8px #b3a88d;*/
+    width: 984px !important;
+    background-color: #FFF;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);
 }
 
 .ctl_detail #content .inner {
@@ -16,7 +17,7 @@
 }
 
 .ctl_detail #content {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .ctl_detail .thumb_box a:hover {
@@ -30,8 +31,14 @@
 }
 
 #detail #detailinfo {
-    border-top: 1px #e0dcce dashed;
     margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    /*background-color: #FFF;*/
+    /*border-radius: 5px;*/
+    /*-webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+    /*-moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+    /*box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);*/
 }
 
 #detail #detailinfo #description,
@@ -41,10 +48,19 @@
     width: 560px;
 }
 
-#detail .right {
+.right {
     width: 570px;
     min-height: 400px;
+    padding: 10px;
 }
+
+/*.right #buybox{*/
+    /*background-color: #FFF;*/
+    /*border-radius: 5px;*/
+    /*-webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+    /*-moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+    /*box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);*/
+/*}*/
 
 #detail .left {
     min-height: 400px;
@@ -67,6 +83,7 @@
     position: absolute;
     top: 200px;
     z-index: 10;
+    margin-left: 5px;
 }
 
 #detail .article_next {
@@ -77,6 +94,7 @@
     position: absolute;
     top: 200px;
     z-index: 10;
+    margin-right: 5px;
 }
 
 #detail .article_back:hover {
@@ -118,11 +136,11 @@
     margin-bottom: 25px;
     float: left;
     padding: 15px;
-    background: #FFF;
-    border-radius: 5px 5px 5px 5px;
-    -webkit-box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.2);
+    /*background: #FFF;*/
+    /*border-radius: 5px 5px 5px 5px;*/
+    /*-webkit-box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);*/
+    /*-moz-box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);*/
+    /*box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);*/
 }
 
 #buybox {
