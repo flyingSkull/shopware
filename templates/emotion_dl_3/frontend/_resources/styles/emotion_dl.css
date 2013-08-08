@@ -242,7 +242,7 @@ div#breadcrumb {
     width: 100%;
 }
 .container_20 .grid_16 {
-    width: 100% !important;
+    /*width: 100% !important;*/
 }
 
 /*Merkzettel-width: 100%*/
@@ -450,7 +450,15 @@ div#notes .cat_text.full_length {
     border-radius: 5px 5px 5px 5px;
 }
 
-#content .headingbox_dark,
+#content .headingbox_dark{
+    background: #ffffff;
+    border-radius: 5px 5px 5px 5px;
+    margin-top: 29px !important;
+    margin-bottom: 10px !important;
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+}
 #content .tellafriend {
     background: #ffffff;
     border-radius: 5px 5px 5px 5px;
@@ -497,9 +505,9 @@ input.button-left, input.button-right, input.button-middle {
 }
 
 .button-right {
-    width: 200px;
-    background: #e54a4a;
-    padding: 0;
+    background: #E54A4A;
+    padding: 8px;
+    border-radius: 5px;
     text-align: center;
 }
 
@@ -758,4 +766,20 @@ div#breadcrumb.account {
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+/*form-stuff*/
+#basket .cart .table_row .box .vouchers, #basket .cart .table_row .box .add_article {
+    width: 250px;
+}
+
+#content #confirm .voucher-add-article .vouchers, #content #confirm .voucher-add-article .add_article {
+    width: 250px;
+}
+
+/*teaser*/
+#content .finish .teaser {
+    margin: 0;
+    background-color: #FFF;
+    height: 190px;
 }
