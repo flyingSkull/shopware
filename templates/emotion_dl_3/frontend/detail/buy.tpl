@@ -1,3 +1,5 @@
+{extends file='parent:frontend/detail/buy.tpl'}
+
 {block name="frontend_detail_buy"}
 	<form name="sAddToBasket" method="post" action="{url controller=checkout action=addArticle}" class="basketform">
 		{if $sArticle.sConfigurator&&$sArticle.sConfiguratorSettings.type==3}
@@ -91,20 +93,6 @@
 
             {if !$sArticle.laststock || $sArticle.sVariants || $sArticle.instock>0}
                 <div id="detailCartButton" {if $NotifyHideBasket && $sArticle.notification && $sArticle.instock <= 0}style="display: none;"{/if}>
-
-                {* Größe *}
-                    {block name="frontend_detail_index_configurator"}
-                        {if $sArticle.sConfigurator}
-                            {if $sArticle.sConfiguratorSettings.type eq 1}
-                                {include file="frontend/detail/config_step.tpl"}
-                            {elseif $sArticle.sConfiguratorSettings.type != 2}
-                                {include file="frontend/detail/config_upprice.tpl"}
-                            {/if}
-                        {/if}
-                    {/block}
-
-                    <br>
-                    <div class="space">&nbsp;</div>
 
                 {* Menge *}
                     {block name='frontend_detail_buy_quantity'}
