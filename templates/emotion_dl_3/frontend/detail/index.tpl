@@ -120,7 +120,7 @@
     <div id="detailbox_middle" class="grid_4">
 
         {* Article comments - small overview *}
-        {block name="frontend_detail_comments_overview"}
+        {*{block name="frontend_detail_comments_overview"}
          {if !{config name=VoteDisable}}
              <div class="detail_comments">
                  <span class="star star{$sArticle.sVoteAverange.averange}">Star Rating</span>
@@ -128,7 +128,7 @@
                                                    title="{s name='DetailLinkReview'}{/s}">{$sArticle.sVoteAverange.count}</a>)</span>
              </div>
          {/if}
-        {/block}
+        {/block}*}
 
         {* Additional links *}
         {block name="frontend_detail_index_actions"}

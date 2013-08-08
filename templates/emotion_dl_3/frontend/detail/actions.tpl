@@ -1,5 +1,5 @@
 <ul id="detail_menu">
-	{block name='frontend_detail_actions_review'}
+	{*{block name='frontend_detail_actions_review'}
 	{if !{config name=VoteDisable}}
 		<li>
 			<a href="#write_comment" class="write_comment" rel="nofollow" title="{s name='DetailLinkReview'}{/s}">
@@ -7,15 +7,15 @@
 		</a>
 		</li>
 	{/if}
-	{/block}
+	{/block}*}
 	
-	{block name='frontend_detail_actions_contact'}
+	{*{block name='frontend_detail_actions_contact'}
 	<li>
 		<a href="{$sInquiry}" rel="nofollow" title="{s name='DetailLinkContact'}{/s}">
 			{se name="DetailLinkContact"}{/se}
 		</a>
 	</li>
-	{/block}
+	{/block}*}
 	
 	{block name='frontend_detail_actions_notepad'}
 	<li>
