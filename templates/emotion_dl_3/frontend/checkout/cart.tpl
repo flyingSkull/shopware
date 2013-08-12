@@ -28,7 +28,7 @@
         <div class="table grid_16 cart">
 
     {* Checkout *}
-    {*<div class="actions">
+    <div class="actions">
         {block name="frontend_checkout_actions_confirm"}
         {if !$sMinimumSurcharge && !$sDispatchNoOrder}
             <a href="{url action=confirm}" title="{s name='CheckoutActionsLinkProceed' namespace="frontend/checkout/actions"}{/s}" class="button-right large right checkout" >
@@ -38,7 +38,7 @@
         {/if}
         {/block}
     </div>
-    <div class="space">&nbsp;</div>*}
+    <div class="space">&nbsp;</div>
 
     {* Table head *}
         {block name='frontend_checkout_cart_cart_head'}
