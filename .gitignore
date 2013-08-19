@@ -19,8 +19,9 @@ config.php
 #*.jpg
 #*.gif
 #*.png
-#*.psd
 #*.pdf
+
+*.psd
 
 files/documents/*.pdf
 
