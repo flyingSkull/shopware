@@ -16,10 +16,11 @@ engine/Shopware/Proxies/*.php
 config.php
 
 # Media
-#*.jpg
-#*.gif
-#*.png
+*.jpg
+*.gif
+*.png
 *.psd
+*.pdf
 
 media/image/*.jpg
 media/image/*.gif
