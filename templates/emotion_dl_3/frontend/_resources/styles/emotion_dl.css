@@ -235,6 +235,10 @@ div#breadcrumb {
     /*width: 100% !important;*/
 }
 
+.container_20 .grid_10 {
+    width: 490px;
+}
+
 /*Merkzettel-width: 100%*/
 div#notes .cat_text.full_length {
     width: 100%;
@@ -457,20 +461,15 @@ div#notes .cat_text.full_length {
 }
 
 #content .headingbox_dark {
-    color: #e54a4a;
-}
-
-#content .register h2.headingbox_dark {
-    background-color: #E54A4A;
-    color: #fff;
-    border-radius: 0px;
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
-    border-radius: 5px 5px 0px 0px;
+    background: #E54A4A;
+    color: #FFF;
     border: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+    border-radius: 5px 5px 5px 5px;
+    margin-top: 29px !important;
+    margin-bottom: 10px !important;
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
 }
 
 div#notes .table_row .action a.basket {
@@ -579,6 +578,16 @@ div.ajax_login_form .heading .modal_close, .modal .heading .modal_close, .ajax_c
 
 div.ajax_login_form .heading .modal_close:active, .modal .heading .modal_close:active {
     top: -10px;
+}
+
+#login .inner_container {
+    background-color: #FFF;
+    border: none;
+    border-radius: 5px;
+    width: 450px;
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
 }
 
 div.ajax_add_article .article_box .price {
