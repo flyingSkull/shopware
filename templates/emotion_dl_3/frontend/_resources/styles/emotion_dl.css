@@ -216,6 +216,7 @@ div#searchcontainer .inner_searchcontainer {
     ------------------------ */
 
 div#breadcrumb {
+    width: 984px;
     background: none;
     padding: 0;
     padding-left: 10px;
@@ -814,5 +815,9 @@ div#breadcrumb.account {
 }
 
 .emotion-offers {
+    color: #e54a4a;
+}
+
+#confirm .personal-information p {
     color: #e54a4a;
 }

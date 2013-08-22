@@ -141,6 +141,10 @@
 #content #left .headingbox_nobg.filter_properties {
     border: none;
     background: #E54A4A;
+    color: #fff;
+    -webkit-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 div.supplier_filter, div#hersteller_filter span {
@@ -175,6 +179,7 @@ div.supplier_filter div.active {
     border-width: 0;
     text-transform: none;
     padding: 0 0 0 10px;
+    margin-bottom: 5px;
 }
 
 #content #left ul#servicenav li {
@@ -190,6 +195,10 @@ div.supplier_filter div.active {
 
 #content #left .filter_properties .supplier_filter div {
     background: #FFF;
+    margin-top: 5px;
+    -webkit-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 #content #left .filter_properties .supplier_filter .slideContainer {
