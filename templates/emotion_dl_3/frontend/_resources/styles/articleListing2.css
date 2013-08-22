@@ -10,11 +10,11 @@ div.listing {
 /** LISTING ACTIONS **/
 
 .listing_actions {
-    width: 812px;
+    width: 794px;
     height: 80px;
-    background: none;
-    border-color: transparent;
-    padding: 0 0 0 0;
+    background: #FFF;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .listing_actions .bottom {
