@@ -1434,9 +1434,9 @@ $cw=array (
   65276 => 601,
   65532 => 1000,
 );
-$ttffile='/var/www/web51/html/engine/Enlight/Vendor/mpdf/ttfonts/times.ttf';
+$ttffile='/html/shopware/engine/Library/Mpdf/ttfonts/times.ttf';
 $TTCfontID='0';
 $originalsize=409280;
-$modified=1322827498;
+$modified=1368430856;
 $fontkey='timesnewroman';
 ?>
