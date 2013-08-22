@@ -821,3 +821,14 @@ div#breadcrumb.account {
 #confirm .personal-information p {
     color: #e54a4a;
 }
+/*checkout-finish*/
+#content .finish h2.headingbox {
+    width: 966px;
+    background-color: #E54A4A;
+    border-radius: 5px;
+}
+
+#content .finish #finished .orderdetails {
+    width: 956px;
+    background-color: #FFF;
+}

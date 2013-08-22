@@ -88,7 +88,7 @@ div.listing {
     -webkit-transition: all 0.2s ease-in-out;
 }
 
-.artbox p.price {
+.artbox p.price, .artbox p.pseudoprice {
     text-align: center;
     position: relative;
     font-size: 22px;
