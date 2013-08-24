@@ -125,26 +125,26 @@ label {
 
 #header #logo {
     z-index: 200;
-    top: 5px;
+    top: 8px;
 }
 
 #header #logo a {
     width: 186px;
     height: 186px;
     margin: 0 0 0 0;
-    background: url(../images/final/logo-3.png) no-repeat;
+    background: url(../images/final/logo.png) no-repeat;
 }
 
 #header #logo_claim {
     z-index: 200;
     position: absolute;
-    top: 5px;
+    top: 28px;
     left: 240px;
     width: 842px;
     height: 198px;
     margin: 0 0 0 0;
-    background: url(../images/final/schriftzug.png) no-repeat;
-}
+    background: url(../images/final/schriftzug2.png ) no-repeat;
+}}
 
 /** SHOPNAVI **/
 #shopnavi {
@@ -836,13 +836,4 @@ div#breadcrumb.account {
 #content .finish #finished .orderdetails {
     width: 956px;
     background-color: #FFF;
-}
-
-
-#detail, #detail a:hover {
-    color: #E54A4A !important;
-}
-
-#detail .right {
-    width: 625px;
 }

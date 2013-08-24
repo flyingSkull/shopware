@@ -51,9 +51,9 @@
         {/block}
 
     {* Shop claim *}
-       {* {block name='frontend_index_logo'}
+        {block name='frontend_index_logo'}
             <div id="logo_claim" class="grid_5"></div>
-        {/block}*}
+        {/block}
 
     {* Shop navigation *}
         {block name='frontend_index_checkout_actions'}

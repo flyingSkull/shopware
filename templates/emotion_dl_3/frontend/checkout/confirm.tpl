@@ -20,11 +20,11 @@
             <div class="inner_container">
 
                 {* Display the right of cancelation *}
-                {if {config name=revocationnotice}}
+                {*{if {config name=revocationnotice}}
                     <div class="confirm_accept modal_open">
                         {s name="ConfirmTextRightOfRevocationNew"}<p>Bitte beachten Sie bei Ihrer Bestellung auch unsere <a href="{url controller=custom sCustom=8 forceSecure}" data-modal-height="500" data-modal-width="800">Widerrufsbelehrung</a>.</p>{/s}
                     </div>
-                {/if}
+                {/if}*}
 
                 {* AGB checkbox *}
                 {block name='frontend_checkout_confirm_agb'}

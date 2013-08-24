@@ -53,7 +53,12 @@
 
             {* Article name *}
             {block name='frontend_detail_index_name'}
-                <h1>{if $sArticle.supplierName} {$sArticle.supplierName} {/if} {$sArticle.articleName}</h1>
+                <div id="supplierWrapper">
+                    <div id="supplierImg">
+                        <img src="{link file=$sArticle.supplierImg}" alt="{$sArticle.supplierName}" border="0" title="{$sArticle.supplierName}" />
+                    </div>
+                    <h1>{if $sArticle.supplierName} {$sArticle.supplierName} {/if} {$sArticle.articleName}</h1>
+                </div>
             {/block}
 
 
@@ -84,7 +89,7 @@
                     {/block}
 
                     {* Caching article details for future use *}
-                    {* {if $sArticle.sBundles || $sArticle.sRelatedArticles && $sArticle.crossbundlelook || $sArticle.sVariants}
+                     {*{if $sArticle.sBundles || $sArticle.sRelatedArticles && $sArticle.crossbundlelook || $sArticle.sVariants}
                          <div id="{$sArticle.ordernumber}" class="displaynone">
                          {include file="frontend/detail/data.tpl" sArticle=$sArticle}
                          </div>

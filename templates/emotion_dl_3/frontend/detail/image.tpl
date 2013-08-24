@@ -4,7 +4,7 @@
 		{block name='frontend_detail_image_main'}
 			{if $sArticle.image.res.relations}
 				<div id="img{$sArticle.image.res.relations}" style="display:none">
-					<a href="{$sArticle.image.src.5}"
+					<a href="{$sArticle.image.src.6}"
 						title="{if $sArticle.image.res.description}{$sArticle.image.res.description}{else}{$sArticle.articleName}{/if}" 
 						{if {config name=sUSEZOOMPLUS}}class="cloud-zoom-gallery"{/if}
 						rel="lightbox">

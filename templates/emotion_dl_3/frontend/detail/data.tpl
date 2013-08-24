@@ -99,11 +99,11 @@
     {/if}
 
 {* Order number *}
-{*    {if $sArticle.ordernumber}
+    {if $sArticle.ordernumber}
         {block name='frontend_detail_data_ordernumber'}
         <p>{se name="DetailDataId"}{/se} {$sArticle.ordernumber}</p>
         {/block}
-    {/if}*}
+    {/if}
 
 {* Attributes fields *}
     {block name='frontend_detail_data_attributes'}

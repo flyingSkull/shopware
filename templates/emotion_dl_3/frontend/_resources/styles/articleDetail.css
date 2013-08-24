@@ -125,8 +125,33 @@
 
 #detailbox h1 {
     line-height: 26px;
-    border-bottom: 1px dashed #e0dcce;
+    border-bottom: none;
     padding-bottom: 10px;
+    margin-bottom: 5px;
+    width: 65%;
+    float: right;
+}
+
+
+#detail, #detail a:hover {
+    color: #E54A4A !important;
+}
+
+#detail .right {
+    width: 625px;
+}
+
+#detailbox #supplierWrapper {
+    height: 100px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #E0DCCE;
+}
+
+#detailbox #supplierImg {
+    margin: 5px;
+    width: 30%;
+    padding: 0px;
+    float: left;
 }
 
 #detail #detailbox #img {
