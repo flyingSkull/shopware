@@ -24,7 +24,7 @@
 
 #mainNavigation a.active {background-image: none;}
 #mainNavigation a.active span {background: none; height: 40px; color: #000;}
-#mainNavigation a.active:hover span {background: none; height: 40px; margin: 0; line-height: 40px; color: #e54a4a}
+#mainNavigation a.active:hover span {background: none; height: 40px; margin: 0; line-height: 40px; color: #000}
 
 #mainNavigation ul li.dropactive:hover a span {background: none; height: 55px; color: #000;}
 #mainNavigation ul li.dropactive:hover a {background-image: none; background-color: transparent; border-style: none none; color: #fff;}
