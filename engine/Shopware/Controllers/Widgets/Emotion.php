@@ -266,7 +266,8 @@ class Shopware_Controllers_Widgets_Emotion extends Enlight_Controller_Action
             // Get random article from selected $category
             $temp = Shopware()->Modules()->Articles()->sGetPromotionById('random', $data["category_selection"], 0, true);
 
-            $data["image"] = $temp["image"]["src"][2];
+            //RIC: $data["image"] = $temp["image"]["src"][2];
+            $data["image"] = $temp["image"]["src"][3];
         }
         return $data;
     }

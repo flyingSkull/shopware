@@ -50,6 +50,11 @@
             </div>
         {/block}
 
+    {* Shop claim *}
+       {* {block name='frontend_index_logo'}
+            <div id="logo_claim" class="grid_5"></div>
+        {/block}*}
+
     {* Shop navigation *}
         {block name='frontend_index_checkout_actions'}
             {action module=widgets controller=checkout action=info}
@@ -128,8 +133,8 @@
     </div>
 
     <div class="shopware_footer">
-        <a href="http://www.shopware.de" target="_blank" title="Shopware">{s name="IndexRealizedShopsystem"}
-            Shopware{/s}</a>
+       {* <a href="http://www.shopware.de" target="_blank" title="Shopware">{s name="IndexRealizedShopsystem"}
+            Shopware{/s}</a>*}
 
         <div class="clear"></div>
     </div>

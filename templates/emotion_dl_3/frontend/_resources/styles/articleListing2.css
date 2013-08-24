@@ -68,11 +68,11 @@ div.listing {
 }
 
 .artbox a.title {
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     color: #ffffff;
     text-align: center;
     position: relative;
-    font-size: 15px;
+    font-size: 13px;
     padding-top: 20px;
     padding-bottom: 20px;
     background: #e54a4a;

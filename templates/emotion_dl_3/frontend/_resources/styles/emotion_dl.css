@@ -112,7 +112,8 @@ label {
     width: 100%;
     height: 203px;
     border-bottom: none;
-    background: #333333 url(../images/final/plank.jpg) scroll top left repeat-x;
+    /*background: #333333 url(../images/final/plank.jpg) scroll top left repeat-x;*/
+    background: #333333 url(../images/final/header_bg.jpg) scroll top left repeat-x;
     margin-bottom: 45px;
 }
 
@@ -131,7 +132,18 @@ label {
     width: 186px;
     height: 186px;
     margin: 0 0 0 0;
-    background: url(../images/final/dl_logo_3_ws.png);
+    background: url(../images/final/logo-3.png) no-repeat;
+}
+
+#header #logo_claim {
+    z-index: 200;
+    position: absolute;
+    top: 5px;
+    left: 240px;
+    width: 842px;
+    height: 198px;
+    margin: 0 0 0 0;
+    background: url(../images/final/schriftzug.png) no-repeat;
 }
 
 /** SHOPNAVI **/
@@ -349,8 +361,9 @@ div#notes .cat_text.full_length {
 /* FOOTER */
 
 #footer_wrapper {
-    background-color: #333541;
-    background-image: url("../images/final/plank.jpg");
+    background-color: #fff;
+    /*background-image: url("../images/final/plank.jpg");*/
+    /*background-image: url("../images/final/header_bg.jpg");*/
     border-top: none;
 }
 
@@ -399,7 +412,7 @@ div#notes .cat_text.full_length {
 }
 
 #footer .footer_menu .head {
-    color: #ffffff;
+    color: #e54a4a;
     font-weight: bold;
     font-size: 14px;
     margin-bottom: 10px;
@@ -823,4 +836,13 @@ div#breadcrumb.account {
 #content .finish #finished .orderdetails {
     width: 956px;
     background-color: #FFF;
+}
+
+
+#detail, #detail a:hover {
+    color: #E54A4A !important;
+}
+
+#detail .right {
+    width: 625px;
 }

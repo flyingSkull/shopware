@@ -33,7 +33,7 @@
 
             {* Article name *}
             {block name='frontend_listing_box_article_name'}
-                <a href="{$sArticle.linkDetails|rewrite:$sArticle.articleName}" class="title" title="{$sArticle.articleName}">{$sArticle.articleName|truncate:47}</a>
+                <a href="{$sArticle.linkDetails|rewrite:$sArticle.articleName}" class="title" title="{$sArticle.articleName}">{$sArticle.supplierName}<br><br>{$sArticle.articleName|truncate:47}</a>
                 {*<h3>{$sArticle.articleName|truncate:47}</h3>*}
             {/block}
 

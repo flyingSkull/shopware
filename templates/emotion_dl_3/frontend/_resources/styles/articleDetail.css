@@ -148,7 +148,7 @@
 }
 
 #buybox label {
-    width: 70px;
+    width: 150px;
 }
 
 #buybox #detailCartButton {
@@ -167,8 +167,12 @@
 
 #buybox .article_details_bottom {
     margin: 0px 0 0;
-    padding: 0px 0 0px;
+    padding: 10px 0 10px;
     border-style: none none none;
+}
+
+#buybox .upprice_config {
+    padding: 10px 0 10px;
 }
 
 #buybox #basketButton {
@@ -188,5 +192,5 @@
 /*	FANCY SELECT
 	-------------------------------------------- */
 body .outer-select {
-    width: 60px;
+    width: 130px !important;
 }
