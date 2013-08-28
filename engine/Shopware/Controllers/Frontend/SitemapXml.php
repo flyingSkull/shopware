@@ -77,7 +77,7 @@ class Shopware_Controllers_Frontend_SitemapXml extends Enlight_Controller_Action
 
         $this->readArticleUrls($parentId);
 
-	    $this->readBlogUrls($parentId);
+	    //$this->readBlogUrls($parentId);
 
         echo "</urlset>\r\n";
     }
