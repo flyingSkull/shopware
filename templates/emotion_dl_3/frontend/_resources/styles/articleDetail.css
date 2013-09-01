@@ -216,6 +216,6 @@
 
 /*	FANCY SELECT
 	-------------------------------------------- */
-body .outer-select {
+.sort-filter .outer-select {
     width: 160px !important;
 }

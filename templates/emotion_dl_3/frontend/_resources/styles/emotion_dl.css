@@ -183,6 +183,11 @@ label {
     right: 14px;
 }
 
+div#searchresults {
+    left: 815px !important;
+    top: 255px !important;
+}
+
 /** Ajax basket result */
 .ajax_basket_result {
     top: 46px !important;
@@ -620,12 +625,20 @@ div.ajax_add_article .article_box .quantity {
 
 /*Notes*/
 #content .cat_text .inner_container, #content .register .supplier_register .inner_container {
-    background: #ffffff;
+   /* background: #ffffff;
     border-radius: 5px;
     padding: 20px;
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+}
+
+#content #notes .cat_text, #content .account .cat_text, #content .register .supplier_register, #content .cat_text, #content .register .supplier_register {
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 0;
+    margin: 0;
+    width:816px;
 }
 
 /*viewlast*/
@@ -835,4 +848,62 @@ div#breadcrumb.account {
 #content .finish #finished .orderdetails {
     width: 956px;
     background-color: #FFF;
+}
+
+/* fuzzy - result */
+.fuzzy .listing_actions {
+    width: 793px;
+}
+
+.fuzzy .category_filter {
+    width: 793px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: #DFDFDF;
+    border-bottom-color: #DFDFDF;
+}
+
+.fuzzy .result_box {
+    width: 793px;
+    border: 1px solid;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.fuzzy .category_filter h3, #content #left .filter_search h3.heading {
+    border: none;
+}
+
+.fuzzy .category_filter .categories {
+    background: none;
+    border: 1px solid;
+    padding: 15px 25px 0px 25px;
+    border-color: #DFDFDF;
+}
+
+.fuzzy .category_filter .categories ul li:hover, .fuzzy .category_filter .active:hover {
+    background: url(../images/icons/ico_search_active.png) no-repeat 0 0;
+}
+
+.fuzzy .category_filter .categories ul li a:hover, .fuzzy .category_filter .active a:hover {
+    text-decoration: none;
+    color: #E54A4A;
+}
+
+
+#content #left .filter_search .searchbox li a:hover {
+    background: url(../images/icons/ico_search_active.png) no-repeat 10px center;
+}
+
+#content #left .filter_search .searchbox li a:hover {
+    text-decoration: none;
+    color: #E54A4A;
+}
+
+.bt_allsupplier:hover {
+    background: none;
+    background-color: #E54A4A;;
+    border: 1px solid;
+    text-shadow: none;
 }

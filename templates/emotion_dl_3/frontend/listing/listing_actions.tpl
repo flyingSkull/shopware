@@ -27,7 +27,7 @@
 		{/block}
 		
 		 {*Article per page*}
-		{*{block name='frontend_listing_actions_items_per_page'}
+		{block name='frontend_listing_actions_items_per_page'}
 		{if $sPerPage}
 			<form method="get" action="{url controller=cat sCategory=$sCategoryContent.id}">
                 <input type="hidden" name="sPage" value="1">
@@ -41,7 +41,7 @@
 			</div>
 			</form>
 		{/if}
-		{/block}*}
+		{/block}
 		
 		 {*Change layout *}
 		{*{block name="frontend_listing_actions_change_layout"}
