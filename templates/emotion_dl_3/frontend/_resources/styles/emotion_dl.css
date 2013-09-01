@@ -266,17 +266,17 @@ div#notes .cat_text.full_length {
 
 #content .orders, #content .downloads, #content .change_shipping,
 #content .change_payment, #notes, #content .change_billing {
-    width: 801px !important;;
+    /*width: 801px !important;;*/
 }
 
 #center {
-    width: 802px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-top: 9px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 20px;
+    margin-right: 0px;
+    width: 815px;
 }
 
 #center.home {
@@ -292,7 +292,6 @@ div#notes .cat_text.full_length {
 
 .emotion-listing {
     position: relative;
-    margin-top: 10px;
 }
 
 /*	WRAPPER
@@ -638,7 +637,6 @@ div.ajax_add_article .article_box .quantity {
     border-radius: 5px;
     padding: 0;
     margin: 0;
-    width:816px;
 }
 
 /*viewlast*/
@@ -752,7 +750,7 @@ div#notes .table.note.full_length {
 
 #content #right_account {
     margin-top: 4px;
-    float: left;
+    float: right;
     width: 187px;
     margin-left: 0px;
     padding: 7px;
@@ -781,16 +779,17 @@ div#notes .table.note.full_length {
 
 div#breadcrumb.account {
     background: none;
+    width: 1002px;
     padding-top: 5px;
-    padding-left: 20px;
-    padding-right: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
     margin-top: 25px;
-    background: #ffffff;
+    background: #FFF;
     border-radius: 5px 5px 5px 5px;
     border: none;
-    color: #e54a4a;
+    color: #E54A4A;
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
