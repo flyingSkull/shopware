@@ -6,6 +6,12 @@
         <priority>0.5</priority>
     </url>
     <url>
+        <loc>http://www.doppellotte.de/skunkfunk/</loc>
+        <lastmod>2013-09-04</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
         <loc>http://www.doppellotte.de/ragwear/</loc>
         <lastmod>2013-09-04</lastmod>
         <changefreq>weekly</changefreq>
