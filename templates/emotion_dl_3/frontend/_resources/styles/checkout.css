@@ -4,11 +4,12 @@
     margin: 0 0 0;
     border: 1px dashed #E0DCCE;
     border-radius: 5px 5px 5px 5px;*/
+    width: 100%;
 }
 
 .container_20 #basket .table {
-    width: 976px;
-    padding: 10px;
+    width: 100%;
+    margin: 10px;
 }
 
 #basket .cart .table_foot #aggregation_left {
@@ -24,17 +25,17 @@
     padding: 10px;
 }
 
-#basket .actions a.button-right {
+/*#basket .actions a.button-right {
     position: absolute;
     right: 10px;
-}
+}*/
 
 
 /* STEPBOX */
 
 div.step_box {
     background: none;
-    margin: 10px;
+    margin-left: 10px;
 }
 
 div.step_box ul li.active {

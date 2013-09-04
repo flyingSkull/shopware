@@ -248,7 +248,7 @@ div#breadcrumb {
     width: 100%;
 }
 .container_20 .grid_16 {
-    /*width: 100% !important;*/
+    width: 100% !important;
 }
 
 .container_20 .grid_10 {
@@ -274,13 +274,14 @@ div#notes .cat_text.full_length {
     padding-right: 0px;
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 20px;
+    margin-left: 19px;
     margin-right: 0px;
     width: 815px;
 }
 
 #center.home {
     margin: 10px;
+    padding: 10px;
     width: 984px;
     overflow: hidden;
     background: #f8f8f8;
@@ -297,6 +298,7 @@ div#notes .cat_text.full_length {
 /*	WRAPPER
 	------------------------ */
 #wrapper {
+    background-color: #F90;
     width: 1024px;
     overflow: auto;
 }
@@ -630,6 +632,9 @@ div.ajax_add_article .article_box .quantity {
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+    border: none;
+    padding: 20px 20px 10px;
+    margin-bottom: 10px;
 }
 
 #content #notes .cat_text, #content .account .cat_text, #content .register .supplier_register, #content .cat_text, #content .register .supplier_register {
