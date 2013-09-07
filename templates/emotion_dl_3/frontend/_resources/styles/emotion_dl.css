@@ -14,7 +14,7 @@ body {
     font-weight: normal;
     font-style: normal;
     min-width: 1024px;
-    background: #e4e4e4 url('../images/final/dl_background_2.png') repeat;
+    background: #e4e4e4 url('../images/final/dl_background.jpg') repeat;
 }
 
 body .my_options a, .my_options .service {
@@ -139,7 +139,7 @@ label {
     position: absolute;
     top: 28px;
     left: 240px;
-    width: 842px;
+    width: 400px;
     height: 86px;
     margin: 0 0 0 0;
     background: url(../images/final/schriftzug2.png ) no-repeat;
