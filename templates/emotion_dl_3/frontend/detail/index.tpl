@@ -77,7 +77,13 @@
                         {/if}
                     {/block}
 
+                    {* Article Data: - Info - Preis - Art.-Nummer - Verfügbarkeit *}
+                    {block name='frontend_detail_index_data'}
+                        {include file="frontend/detail/data.tpl" sArticle=$sArticle sView=1}
+                    {/block}
+
                     {* Configurator drop down menu *}
+                    {* Dropdown - Größe *}
                     {block name="frontend_detail_index_configurator"}
                         {if $sArticle.sConfigurator}
                             {if $sArticle.sConfiguratorSettings.type eq 1}
@@ -105,19 +111,16 @@
                         {/foreach}
                     {/if}*}
 
-
-                    {* Article Data *}
-                    {block name='frontend_detail_index_data'}
-                        {include file="frontend/detail/data.tpl" sArticle=$sArticle sView=1}
-                    {/block}
-
-                    {block name='frontend_detail_index_after_data'}{/block}
+                    {*{block name='frontend_detail_index_after_data'}{/block}*}
 
                     {* Include buy button and quantity box *}
+                    {* Menge - In den Warenkorb - Button *}
                     {block name="frontend_detail_index_buybox"}
                         {include file="frontend/detail/buy.tpl"}
                     {/block}
 
+
+                    {* Beschreibung *}
                     {block name="frontend_detail_index_detail"}
                         <div id="detailinfo">
                             {block name="frontend_detail_index_tabs_description"}

@@ -32,9 +32,6 @@
 
 #detail #detailinfo {
     margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    /*background-color: #FFF;*/
     /*border-radius: 5px;*/
     /*-webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
     /*-moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
@@ -45,7 +42,7 @@
 #detail #detailinfo .ui-tabs-panel {
     padding-top: 30px;
     padding-left: 0px;
-    width: 560px;
+    width: 100%;
 }
 
 /*.right {*/
@@ -124,11 +121,12 @@
 }
 
 #detailbox h1 {
-    line-height: 26px;
     border-bottom: none;
     padding-bottom: 10px;
+    padding-top: 10px;
     margin-bottom: 5px;
-    width: 65%;
+    width: 70%;
+    font-size: 22px;
     float: right;
 }
 
@@ -138,7 +136,12 @@
 }
 
 #detail .right {
-    width: 625px;
+    width: 500px;
+    padding-right: 40px;
+}
+#detail .right .right {
+    width: 100%;
+    padding-right: 0px;
 }
 
 #detailbox #supplierWrapper {
@@ -149,9 +152,13 @@
 
 #detailbox #supplierImg {
     margin: 5px;
-    width: 30%;
+    width: 25%;
     padding: 0px;
     float: left;
+}
+
+#detailbox #supplierImg img {
+    width: 100%;
 }
 
 #detail #detailbox #img {
@@ -168,6 +175,18 @@
     /*box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);*/
 }
 
+#detailbox #img img {
+    display: block;
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
+
+#detailbox #img #wrap {
+    display: block;
+    min-height: 255px;
+    width: 325px;
+}
 #buybox {
     width: 100%;
 }
@@ -178,7 +197,7 @@
 
 #buybox #detailCartButton {
     border-top: none;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 /* SelectBoxen-Größe */
@@ -192,8 +211,14 @@
 
 #buybox .article_details_bottom {
     margin: 0px 0 0;
-    padding: 10px 0 10px;
     border-style: none none none;
+}
+
+#buybox .article_details_bottom .article_details_price {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #e54a4a;
+    width: 100%;
 }
 
 #buybox .upprice_config {
@@ -208,11 +233,26 @@
     text-align: center;
     padding: 0;
     border-radius: 5px;
+    width: 100%;
 }
 
 #buybox #basketButton:hover {
     font-weight: 700;
 }
+
+#buybox .upprice_config {
+    padding-bottom: 0px;
+    margin-bottom:  0px;
+    padding-top: 10px;
+    margin-top: 20px;
+    border-top: 1px dashed #ccc;
+    border-bottom: none;
+}
+
+#buybox .basketform {
+
+}
+
 
 /*	FANCY SELECT
 	-------------------------------------------- */
