@@ -3,7 +3,6 @@
 /*@import url(http://fonts.googleapis.com/css?family=Nobile);*/
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
-
 html {
     font: 12px/1.3em Arial, "Helvetica Neue", Helvetica, sans-serif;
     padding-top: 0px;
@@ -142,7 +141,7 @@ label {
     width: 400px;
     height: 86px;
     margin: 0 0 0 0;
-    background: url(../images/final/schriftzug2.png ) no-repeat;
+    background: url(../images/final/schriftzug2.png) no-repeat;
 }
 
 /** SHOPNAVI **/
@@ -284,7 +283,7 @@ div#notes .cat_text.full_length {
     padding: 10px;
     width: 984px;
     overflow: hidden;
-    background: #fff;
+    background: #ffffff;
     border-radius: 5px 5px 5px 5px;
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
@@ -365,7 +364,7 @@ div#notes .cat_text.full_length {
 /* FOOTER */
 
 #footer_wrapper {
-    background-color: #fff;
+    background-color: #ffffff;
     /*background-image: url("../images/final/plank.jpg");*/
     /*background-image: url("../images/final/header_bg.jpg");*/
     /*background-image: url("../images/bg/bg_4.jpg");*/
@@ -458,7 +457,7 @@ div#notes .cat_text.full_length {
     border-radius: 5px 5px 5px 5px;
 }
 
-#content .headingbox_dark{
+#content .headingbox_dark {
     background: #ffffff;
     border-radius: 5px 5px 5px 5px;
     margin-top: 29px !important;
@@ -477,8 +476,8 @@ div#notes .cat_text.full_length {
 }
 
 #content .headingbox_dark {
-    background: #E54A4A;
-    color: #FFF;
+    background: #e54a4a;
+    color: #ffffff;
     border: none;
     border-radius: 5px 5px 5px 5px;
     margin-top: 29px !important;
@@ -490,7 +489,7 @@ div#notes .cat_text.full_length {
 
 div#notes .table_row .action a.basket {
     background: none;
-    background-color: #E54A4A;
+    background-color: #e54a4a;
 }
 
 .tellafriend fieldset {
@@ -507,7 +506,7 @@ input.button-left, input.button-right, input.button-middle {
 }
 
 .button-right {
-    background: #E54A4A;
+    background: #e54a4a;
     border-radius: 5px;
     text-align: center;
 }
@@ -518,7 +517,7 @@ input.button-left, input.button-right, input.button-middle {
 
 #basketButton, .button_tablefoot, #registerbutton {
     border-radius: 5px;
-    background: #E54A4A;
+    background: #e54a4a;
     text-align: center;
 }
 
@@ -597,7 +596,7 @@ div.ajax_login_form .heading .modal_close:active, .modal .heading .modal_close:a
 }
 
 #login .inner_container {
-    background-color: #FFF;
+    background-color: #ffffff;
     border: none;
     border-radius: 5px;
     width: 450px;
@@ -626,12 +625,12 @@ div.ajax_add_article .article_box .quantity {
 
 /*Notes*/
 #content .cat_text .inner_container, #content .register .supplier_register .inner_container {
-   /* background: #ffffff;
-    border-radius: 5px;
-    padding: 20px;
-    -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
-    box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+    /* background: #ffffff;
+     border-radius: 5px;
+     padding: 20px;
+     -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+     -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
+     box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
     border: none;
     padding: 20px 20px 10px;
     margin-bottom: 10px;
@@ -659,7 +658,7 @@ div.ajax_add_article .article_box .quantity {
 #content .custom {
     width: 794px;
     margin: 10px 10px 10px 20px;
-    background-color: #FFF;
+    background-color: #ffffff;
     border-radius: 5px;
     padding-bottom: 10px;
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
@@ -676,8 +675,8 @@ div.ajax_login_form .new_customer p, div.ajax_login_form .existing_customer p, #
 .table .table_head {
     border-radius: 5px;
     margin-bottom: 5px !important;
-    background-color: #E54A4A;
-    color: #FFF;
+    background-color: #e54a4a;
+    color: #ffffff;
     border: none;
 }
 
@@ -791,10 +790,10 @@ div#breadcrumb.account {
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 25px;
-    background: #FFF;
+    background: #ffffff;
     border-radius: 5px 5px 5px 5px;
     border: none;
-    color: #E54A4A;
+    color: #e54a4a;
     -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
@@ -812,13 +811,13 @@ div#breadcrumb.account {
 /*teaser*/
 #content .finish .teaser {
     margin: 0;
-    background-color: #FFF;
+    background-color: #ffffff;
     height: 190px;
 }
 
 /*Hersteller-Filter*/
 #supplierfilter, .notice {
-    background: #FFFFFF;
+    background: #ffffff;
     padding: 6px;
     border: none;
     color: #e54a4a;
@@ -845,13 +844,13 @@ div#breadcrumb.account {
 /*checkout-finish*/
 #content .finish h2.headingbox {
     width: 966px;
-    background-color: #E54A4A;
+    background-color: #e54a4a;
     border-radius: 5px;
 }
 
 #content .finish #finished .orderdetails {
     width: 956px;
-    background-color: #FFF;
+    background-color: #ffffff;
 }
 
 /* fuzzy - result */
@@ -864,8 +863,8 @@ div#breadcrumb.account {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid;
-    border-color: #DFDFDF;
-    border-bottom-color: #DFDFDF;
+    border-color: #dfdfdf;
+    border-bottom-color: #dfdfdf;
 }
 
 .fuzzy .result_box {
@@ -883,7 +882,7 @@ div#breadcrumb.account {
     background: none;
     border: 1px solid;
     padding: 15px 25px 0px 25px;
-    border-color: #DFDFDF;
+    border-color: #dfdfdf;
 }
 
 .fuzzy .category_filter .categories ul li:hover, .fuzzy .category_filter .active:hover {
@@ -892,9 +891,8 @@ div#breadcrumb.account {
 
 .fuzzy .category_filter .categories ul li a:hover, .fuzzy .category_filter .active a:hover {
     text-decoration: none;
-    color: #E54A4A;
+    color: #e54a4a;
 }
-
 
 #content #left .filter_search .searchbox li a:hover {
     background: url(../images/icons/ico_search_active.png) no-repeat 10px center;
@@ -902,12 +900,12 @@ div#breadcrumb.account {
 
 #content #left .filter_search .searchbox li a:hover {
     text-decoration: none;
-    color: #E54A4A;
+    color: #e54a4a;
 }
 
 .bt_allsupplier:hover {
     background: none;
-    background-color: #E54A4A;;
+    background-color: #e54a4a;;
     border: 1px solid;
     text-shadow: none;
 }
@@ -915,5 +913,5 @@ div#breadcrumb.account {
 /* Dropdown */
 
 body .outer-select {
-    width: 150px !important;
+    /*width: 150px !important;*/
 }
