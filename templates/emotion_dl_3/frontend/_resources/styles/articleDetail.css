@@ -194,6 +194,7 @@
 
 #buybox label {
     width: 150px;
+    color: #e54a4a;
 }
 
 #buybox #detailCartButton {
@@ -224,6 +225,10 @@
 
 #buybox .upprice_config {
     padding: 10px 0 10px;
+}
+
+#buybox .upprice_config strong, #buybox .config_select strong {
+    color: #e54a4a;
 }
 
 #buybox #basketButton {
