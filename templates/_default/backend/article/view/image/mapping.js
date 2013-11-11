@@ -102,6 +102,8 @@ Ext.define('Shopware.apps.Article.view.image.Mapping', {
      */
     snippets: {
         title: '{s name=image/mapping/title}Image mapping{/s}',
+        cancel: '{s name=cancel_button}Cancel{/s}',
+        save: '{s name=general/save_button}Save{/s}'
     },
 
     /**
@@ -157,7 +159,7 @@ Ext.define('Shopware.apps.Article.view.image.Mapping', {
             selModel: me.getGridSelModel(),
             columns: [
                 {
-                    header: 'Mapping rules',
+                    header: me.snippets.title,
                     dataIndex: 'rules',
                     flex: 1,
                     renderer: me.mappingColumnRenderer
@@ -247,7 +249,7 @@ Ext.define('Shopware.apps.Article.view.image.Mapping', {
 
         me.addButton = Ext.create('Ext.button.Button', {
             iconCls:'sprite-plus-circle-frame',
-            text: 'Add mapping',
+            text: '{s name=image/mapping/add_button}Add mapping{/s}',
             handler: function() {
                 me.fireEvent('displayNewRuleWindow', me);
             }
@@ -255,7 +257,7 @@ Ext.define('Shopware.apps.Article.view.image.Mapping', {
 
         me.deleteButton = Ext.create('Ext.button.Button', {
             iconCls:'sprite-minus-circle-frame',
-            text: 'Delete all selected',
+            text: '{s name=image/mapping/delete_button}Delete all selected{/s}',
             disabled: true,
             handler: function() {
                 var selectionModel = me.mappingGrid.getSelectionModel(),
@@ -281,7 +283,7 @@ Ext.define('Shopware.apps.Article.view.image.Mapping', {
 
         me.saveButton = Ext.create('Ext.button.Button', {
             cls: 'primary',
-            text: 'Save',
+            text: me.snippets.save,
             handler: function() {
                 me.fireEvent('saveMapping', me);
             }
@@ -289,7 +291,7 @@ Ext.define('Shopware.apps.Article.view.image.Mapping', {
 
         me.cancelButton = Ext.create('Ext.button.Button', {
             cls: 'secondary',
-            text: 'Cancel',
+            text: me.snippets.cancel,
             handler: function() {
                 me.fireEvent('cancel', me);
             }

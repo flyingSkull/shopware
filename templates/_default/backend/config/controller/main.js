@@ -91,13 +91,7 @@ Ext.define('Shopware.apps.Config.controller.Main', {
 
         // Register base stores
         me.navigationStore = me.getStore('main.Navigation');
-        me.shopStore = Ext.data.StoreManager.lookup('base.Shop').load({
-//            callback: function(records, operation, success) {
-//                if(records.length > 0) {
-//                    me.getShopField().setValue(records[0].getId());
-//                }
-//            }
-        });
+        me.shopStore = Ext.data.StoreManager.lookup('base.ShopLanguage').load();
         me.formStore = me.getStore('main.Form');
 
         // Register events
@@ -152,8 +146,6 @@ Ext.define('Shopware.apps.Config.controller.Main', {
 
         if(form.get('name') == 'Template') {
             controller = 'Template';
-        } else if(form.get('name') == 'Plugin') {
-            controller = 'Plugin';
         } else if(form.get('name') == 'Document') {
 			controller = 'Document';
 			me.getController('Form');
@@ -174,6 +166,9 @@ Ext.define('Shopware.apps.Config.controller.Main', {
             record.expand();
             return;
         }
+
+        var panel = me.mainWindow.contentPanel;
+        panel.setLoading('Loading ' + record.get('label') + '...');
 
         me.formStore.load({
             filters : [{
@@ -253,16 +248,16 @@ Ext.define('Shopware.apps.Config.controller.Main', {
      * @param form
      */
     initForm: function(form) {
-        var me = this;
+        var me = this,
+            win = me.mainWindow,
+            panel = win.contentPanel;
 
         if(me.shopStore.isLoading()) {
             Ext.defer(me.initForm, 100, me, [ form ]);
             return false;
         }
 
-        var win = me.mainWindow,
-            panel = win.contentPanel,
-            formPanel,
+        var formPanel,
             formType = 'widget.config-form-' + form.get('name').toLowerCase();
 
         panel.removeAll(true);
@@ -281,6 +276,7 @@ Ext.define('Shopware.apps.Config.controller.Main', {
             });
         }
         panel.add(formPanel);
+        panel.setLoading(false);
     }
 });
 //{/block}

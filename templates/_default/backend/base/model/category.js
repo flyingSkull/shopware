@@ -46,7 +46,7 @@ Ext.define('Shopware.apps.Base.model.Category', {
      * Extends the standard Ext Model
      * @string
      */
-    extend:'Ext.data.Model',
+    extend:'Shopware.data.Model',
 
     /**
      * unique id
@@ -64,8 +64,7 @@ Ext.define('Shopware.apps.Base.model.Category', {
         { name : 'parent', type:'int' },
         { name : 'name', type:'string' },
         { name : 'position', type:'int' },
-        { name : 'active', type:'boolean' },
-        { name : 'articleCount', type: 'int' },
+        { name : 'active', type:'boolean', defaultValue: true },
         { name : 'childrenCount', type: 'int' },
 
         // Some tree fields

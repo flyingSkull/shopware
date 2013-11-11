@@ -55,6 +55,18 @@ class Shopware_Plugins_Frontend_Seo_Bootstrap extends Shopware_Components_Plugin
     }
 
     /**
+     * Returns capabilities so the plugin is default not installable and hidden in the plugin manager
+     */
+    public function getCapabilities()
+    {
+        return array(
+            'install' => false,
+            'enable' => false,
+            'update' => true
+        );
+    }
+
+    /**
      * Optimize Sourcecode / Apply seo rules
      *
      * @param Enlight_Event_EventArgs $args
@@ -139,12 +151,11 @@ class Shopware_Plugins_Frontend_Seo_Bootstrap extends Shopware_Components_Plugin
         $config = Shopware()->Config();
 
         // Remove comments
-        // && empty($template->_tpl_vars['debug_output'] todo@all property tpl_vars seems to not exist in smarty 3.1
         if (!empty($config['sSEOREMOVECOMMENTS'])) {
             $source = str_replace(array("\r\n", "\r"), "\n", $source);
             $expressions = array(
                 // Remove comments
-                '#(<(?:script|pre|textarea)[^>]*?>.*?</(?:script|pre|textarea)>)|(<style[^>]*?>.*?</style>)|(<!--\[.*?\]-->)|<!--.*?-->#msiS' => '$1$2$3',
+                '#(<(?:script|pre|textarea)[^>]*?>.*?</(?:script|pre|textarea)>)|(<style[^>]*?>.*?</style>)|(<!--\[.*?\]-->)|(<!--\s*\#\s*include virtual.*?-->)|<!--.*?-->#msiS' => '$1$2$3$4',
                 // remove spaces between attributes (but not in attribute values!)
                 '#(([a-z0-9]\s*=\s*(["\'])[^\3]*?\3)|<[a-z0-9_]+)\s+([a-z/>])#is' => '\1 \4',
                 // note: for some very weird reason trim() seems to remove spaces inside attributes.
@@ -154,13 +165,6 @@ class Shopware_Plugins_Frontend_Seo_Bootstrap extends Shopware_Components_Plugin
             );
             $source = preg_replace(array_keys($expressions), array_values($expressions), $source);
         }
-
-        // Trim whitespace
-//        $template = Shopware()->Template();
-//		if(!empty($config['sSEOREMOVEWHITESPACES'])&&empty($template->_tpl_vars['debug_output'])) {
-//			require_once(SMARTY_DIR.'plugins/outputfilter.trimwhitespace.php');
-//			$source = smarty_outputfilter_trimwhitespace($source, $template);
-//		}
 
         return $source;
     }

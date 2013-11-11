@@ -1,7 +1,7 @@
 <?php
 /**
  * Shopware 4.0
- * Copyright © 2012 shopware AG
+ * Copyright © 2013 shopware AG
  *
  * According to our dual licensing model, this program can be used either
  * under the terms of the GNU Affero General Public License, version 3,
@@ -20,18 +20,12 @@
  * The licensing of the program under the AGPLv3 does not imply a
  * trademark license. Therefore any rights, title and interest in
  * our trademarks remain entirely with us.
- *
- * @category   Shopware
- * @package    Shopware_Controllers
- * @subpackage Frontend
- * @copyright  Copyright (c) 2012, shopware AG (http://www.shopware.de)
- * @version    $Id$
- * @author     Stefan Hamann
- * @author     $Author$
  */
 
 /**
- * todo@all: Documentation
+ * @category  Shopware
+ * @package   Shopware\Controllers\Frontend
+ * @copyright Copyright (c) 2013, shopware AG (http://www.shopware.de)
  */
 class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
 {
@@ -50,6 +44,8 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
 
     /**
      * Method that is used for "search other articles from this vendor"
+     * @deprecated Please use the Listing controller index action. The listing function expects the supplier id
+     * in the request parameter sSupplier.
      */
     public function supplierSearchAction()
     {
@@ -98,7 +94,9 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         $config['filter']['supplier'] = $config['sFilter']['supplier'] = (int)$this->Request()->sFilter_supplier;
         $config['filter']['category'] = $config['sFilter']['category'] = (int)$this->Request()->sFilter_category;
         $config['filter']['price'] = $config['sFilter']['price'] = (int)$this->Request()->sFilter_price;
-        $config['filter']['propertyGroup'] = $config['sFilter']['propertygroup'] = $this->Request()->sFilter_propertygroup;
+        $config['filter']['propertyGroup'] = $this->Request()->sFilter_propertygroup;
+        $config['filter']['propertygroup'] = $config['filter']['propertyGroup'];
+        $config['sFilter']['propertygroup']= $config['filter']['propertyGroup'];
 
         $config['sortSearchResultsBy'] = $config["sSort"] = (int)$this->Request()->sSort;
         $config['sortSearchResultsByDirection'] = (int)$this->Request()->sOrder;
@@ -142,6 +140,8 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
     public function defaultSearchAction()
     {
         $term = trim(strip_tags(htmlspecialchars_decode(stripslashes($this->Request()->sSearch))));
+        //we have to strip the / otherwise broken urls would be created e.g. wrong pager urls
+        $term = str_replace("/","",$term);
 
         // Load search configuration
         $config = $this->getSearchConfiguration($term);
@@ -199,7 +199,6 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
                 }
             }
 
-            // todo@all Build old template base compatibility array
             $resultSmartyArray = array(
                 'sArticles' => $articles,
                 'sArticlesCount' => $resultCount,
@@ -380,14 +379,12 @@ class Shopware_Controllers_Frontend_Search extends Enlight_Controller_Action
         if (!empty($articles) && count($articles) == 1) {
             $sql = '
                 SELECT ac.articleID
-                FROM s_categories c, s_categories c2,
-                     s_articles_categories ac
-                WHERE c.id=?
-                AND c2.active=1
-                AND c2.left >= c.left
-                AND c2.right <= c.right
-                AND ac.articleID=?
-                AND ac.categoryID=c2.id
+                FROM  s_articles_categories_ro ac
+                INNER JOIN s_categories c
+                    ON  c.id = ac.categoryID
+                    AND c.active = 1
+                    AND c.id = ?
+                WHERE ac.articleID = ?
                 LIMIT 1
             ';
             $articles = Shopware()->Db()->fetchCol($sql, array(Shopware()->Shop()->get('parentID'), $articles[0]));

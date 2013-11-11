@@ -86,11 +86,13 @@ Ext.define('Shopware.apps.Index.view.Search', {
 			margin: '5 0',
 			allowBlank: true,
 			enableKeyEvents: true,
+            checkChangeBuffer: 400,
 			listeners: {
 				scope: me,
-				keyup: me.onKeyUp,
-                focus: function() {
+                change:me.sendSearchRequest,
+                focus: function(field) {
                     me.addCls(me.focusCls);
+                    me.sendSearchRequest(field);
                 },
                 blur: function() {
 
@@ -137,12 +139,12 @@ Ext.define('Shopware.apps.Index.view.Search', {
     },
 
 	/**
-	 * Event listener which sends the AJAX request and replaces
+	 * This function sends the AJAX request depending by the field parameter and replaces
 	 * the content of the drop down menu
 	 *
 	 * @param (object) field
 	 */
-	onKeyUp: function(field) {
+	sendSearchRequest: function(field) {
 		var value = field.getValue(),
 			me = this;
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Shopware 4.0
- * Copyright © 2012 shopware AG
+ * Copyright © 2013 shopware AG
  *
  * According to our dual licensing model, this program can be used either
  * under the terms of the GNU Affero General Public License, version 3,
@@ -20,23 +20,14 @@
  * The licensing of the program under the AGPLv3 does not imply a
  * trademark license. Therefore any rights, title and interest in
  * our trademarks remain entirely with us.
- *
- * @category   Shopware
- * @package    Shopware_Components
- * @subpackage Plugin
- * @copyright  Copyright (c) 2012, shopware AG (http://www.shopware.de)
- * @version    $Id$
- * @author     Heiner Lohaus
- * @author     $Author$
  */
 
 /**
  * Shopware Plugin Bootstrap
  *
- * todo@all: Documentation
- *
- * @method Shopware Application()
- * @method Shopware_Components_Plugin_Namespace Collection()
+ * @category  Shopware
+ * @package   Shopware\Components\Plugin\Bootstrap
+ * @copyright Copyright (c) 2013, shopware AG (http://www.shopware.de)
  */
 abstract class Shopware_Components_Plugin_Bootstrap extends Enlight_Plugin_Bootstrap_Config
 {
@@ -88,6 +79,31 @@ abstract class Shopware_Components_Plugin_Bootstrap extends Enlight_Plugin_Boots
         $this->info->set('capabilities', $this->getCapabilities());
         parent::__construct($name);
     }
+
+
+    /**
+     * Helper function to get access on the http cache plugin.
+     * Notice if the Http Cache plugin isn't installed, this function
+     * returns null.
+     * @return Shopware_Plugins_Core_HttpCache_Bootstrap|null
+     */
+    protected function HttpCache()
+    {
+        $httpCache = Shopware()->Plugins()->Core()->HttpCache();
+
+        if (!$httpCache instanceof Shopware_Components_Plugin_Bootstrap) {
+            return null;
+        }
+
+        /**@var $plugin \Shopware\Models\Plugin\Plugin*/
+        $plugin = Shopware()->Models()->find('\Shopware\Models\Plugin\Plugin', $httpCache->getId());
+
+        if (!$plugin->getActive() || !$plugin->getInstalled()) {
+            return null;
+        }
+        return $httpCache;
+    }
+
 
     /**
      * Returnswhether or not $updatePluginInfo contains a newer version than $currentPluginInfo
@@ -429,8 +445,9 @@ abstract class Shopware_Components_Plugin_Bootstrap extends Enlight_Plugin_Boots
     {
         return array(
             'install' => true,
-            'update' => true,
-            'enable' => true
+            'update'  => true,
+            'enable'  => true,
+            'dummy'   => false
         );
     }
 
@@ -590,14 +607,41 @@ abstract class Shopware_Components_Plugin_Bootstrap extends Enlight_Plugin_Boots
     }
 
     /**
-     * Check if a given version is greater or equal to the currently installed version
+     * Check if a given version is greater or equal to
+     * the currently installed shopware version.
+     *
+     * Attention: If your target shopware version may
+     * include a version less than 4.1.3 you have to
+     * use assertVersionGreaterThen().
+     *
+     * @since 4.1.3 introduced assertMinimumVersion($requiredVersion)
+     * @param  string $requiredVersion string Format: 3.5.4 or 3.5.4.21111
+     * @return bool
+     */
+    protected function assertMinimumVersion($requiredVersion)
+    {
+        $version = $this->Application()->Config()->version;
+
+        if ($version === '___VERSION___') {
+            return true;
+        }
+
+        return version_compare($version, $requiredVersion, '>=');
+    }
+
+    /**
+     * Alias for assertMinimumVersion().
+     *
+     * Check if a given version is greater or equal to
+     * the currently installed shopware version.
+     *
+     * @deprectated 4.1.3 Use assertMinimumVersion instead
      * @param  $requiredVersion string Format: 3.5.4 or 3.5.4.21111
      * @return bool
      */
     protected function assertVersionGreaterThen($requiredVersion)
     {
-        $version = $this->Application()->Config()->version;
-        return version_compare($version, $requiredVersion, '>=');
+        return $this->assertMinimumVersion($requiredVersion);
     }
 
     /**
@@ -613,4 +657,30 @@ abstract class Shopware_Components_Plugin_Bootstrap extends Enlight_Plugin_Boots
             $this->Path() . 'Models/'
         ));
     }
+
+
+    /**
+     * Helper function to enable the http cache for a single shopware controller.
+     * @param int $cacheTime
+     * @param array $cacheIds
+     */
+    public function enableControllerCache($cacheTime = 3600, $cacheIds = array())
+    {
+        $httpCache = $this->HttpCache();
+        if ($httpCache) {
+            $httpCache->enableControllerCache($cacheTime, $cacheIds);
+        }
+    }
+
+    /**
+     * Helper function to disable the http cache for a single shopware controller
+     */
+    public function disableControllerCache()
+    {
+        $httpCache = $this->HttpCache();
+        if ($httpCache) {
+            $httpCache->disableControllerCache();
+        }
+    }
+
 }

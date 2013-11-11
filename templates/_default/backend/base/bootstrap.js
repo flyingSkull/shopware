@@ -23,6 +23,7 @@
 
 {* Include overrides *}
 {include file='ExtJs/overrides/Ext.Base.js'}
+{include file='ExtJs/overrides/Ext.ClassManager.js'}
 {include file='ExtJs/overrides/Ext.data.proxy.Server.js'}
 {include file='ExtJs/overrides/Ext.app.Application.js'}
 {include file='ExtJs/overrides/Ext.app.Controller.js'}
@@ -44,6 +45,7 @@
 {include file='ExtJs/overrides/Ext.MessageBox.js'}
 {include file='ExtJs/overrides/Ext.grid.RowEditor.js'}
 {include file='ExtJs/overrides/Ext.picker.Date.js'}
+{include file='ExtJs/overrides/Ext.data.association.HasMany.js'}
 
 {* Include default components *}
 {include file='ExtJs/components/Enlight.app.Window.js'}
@@ -59,6 +61,30 @@
 {include file='ExtJs/components/Ext.ux.RowExpander.js'}
 {include file='ExtJs/components/Ext.ux.form.MultiSelect.js'}
 {include file='ExtJs/components/Ext.ux.form.ItemSelector.js'}
+
+
+//Shopware backend application components
+{include file='backend/base/application/Shopware.model.Helper.js'}
+{include file='backend/base/application/Shopware.grid.Controller.js'}
+{include file='backend/base/application/Shopware.grid.Panel.js'}
+{include file='backend/base/application/Shopware.data.Model.js'}
+{include file='backend/base/application/Shopware.store.Listing.js'}
+{include file='backend/base/application/Shopware.window.Detail.js'}
+{include file='backend/base/application/Shopware.window.Listing.js'}
+{include file='backend/base/application/Shopware.window.Progress.js'}
+{include file='backend/base/application/Shopware.model.DataOperation.js'}
+{include file='backend/base/application/Shopware.grid.Association.js'}
+{include file='backend/base/application/Shopware.model.Container.js'}
+{include file='backend/base/application/Shopware.form.field.Search.js'}
+{include file='backend/base/application/Shopware.detail.Controller.js'}
+{include file='backend/base/application/Shopware.listing.InfoPanel.js'}
+{include file='backend/base/application/Shopware.listing.FilterPanel.js'}
+{include file='backend/base/application/Shopware.filter.Field.js'}
+
+{include file='backend/base/application/Shopware.store.Association.js'}
+{include file='backend/base/application/Shopware.form.field.Media.js'}
+
+
 
 {* Include global models *}
 {include file='backend/base/model/user.js'}
@@ -87,6 +113,7 @@
 {include file='backend/base/model/value.js'}
 {include file='backend/base/model/position_status.js'}
 {include file='backend/base/model/doc_type.js'}
+{include file='backend/base/model/password_encoder.js'}
 
 {* Include global stores *}
 {include file='backend/base/store/user.js'}
@@ -96,6 +123,7 @@
 {include file='backend/base/store/dispatch.js'}
 {include file='backend/base/store/payment.js'}
 {include file='backend/base/store/shop.js'}
+{include file='backend/base/store/shop_language.js'}
 {include file='backend/base/store/translation.js'}
 {include file='backend/base/store/supplier.js'}
 {include file='backend/base/store/country.js'}
@@ -110,6 +138,8 @@
 {include file='backend/base/store/country_state.js'}
 {include file='backend/base/store/form.js'}
 {include file='backend/base/store/position_status.js'}
+{include file='backend/base/store/password_encoder.js'}
+
 
 {* Include shopware related components *}
 {include file='backend/base/component/Shopware.button.HoverButton.js'}
@@ -130,8 +160,12 @@
 {include file='backend/base/component/Shopware.window.plugin.Hub.js'}
 {include file='backend/base/component/Shopware.grid.plugin.Translation.js'}
 {include file='backend/base/component/Shopware.form.PluginPanel.js'}
+{include file='backend/base/component/Shopware.component.Preloader.js'}
+{include file='backend/base/component/Shopware.component.IconPreloader.js'}
+{include file='backend/base/component/Shopware.global.ErrorReporter.js'}
 
 {include file='backend/base/component/element/boolean.js'}
+{include file='backend/base/component/element/boolean_select.js'}
 {include file='backend/base/component/element/button.js'}
 {include file='backend/base/component/element/color.js'}
 {include file='backend/base/component/element/date.js'}
@@ -146,3 +180,7 @@
 {include file='backend/base/component/element/textarea.js'}
 {include file='backend/base/component/element/time.js'}
 {include file='backend/base/component/element/media_selection.js'}
+
+
+
+

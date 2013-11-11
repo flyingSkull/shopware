@@ -1,7 +1,7 @@
 <?php
 /**
  * Shopware 4.0
- * Copyright © 2012 shopware AG
+ * Copyright © 2013 shopware AG
  *
  * According to our dual licensing model, this program can be used either
  * under the terms of the GNU Affero General Public License, version 3,
@@ -20,14 +20,6 @@
  * The licensing of the program under the AGPLv3 does not imply a
  * trademark license. Therefore any rights, title and interest in
  * our trademarks remain entirely with us.
- *
- * @category   Shopware
- * @package    Shopware_Controllers
- * @subpackage Frontend
- * @copyright  Copyright (c) 2012, shopware AG (http://www.shopware.de)
- * @version    $Id$
- * @author     M.Schmaeing
- * @author     $Author$
  */
 
 /**
@@ -36,6 +28,10 @@
  * Frontend Controller for the blog article listing and the detail page.
  * Contains the logic for the listing of the blog articles and the detail page.
  * Furthermore it will manage the blog comment handling
+ *
+ * @category  Shopware
+ * @package   Shopware\Controllers\Frontend
+ * @copyright Copyright (c) 2013, shopware AG (http://www.shopware.de)
  */
 class Shopware_Controllers_Frontend_Blog extends Enlight_Controller_Action
 {
@@ -238,17 +234,18 @@ class Shopware_Controllers_Frontend_Blog extends Enlight_Controller_Action
     {
         $blogArticleId = intval($this->Request()->getQuery('blogArticle'));
         if (empty($blogArticleId)) {
-            $this->forward("index", "index"); return;
+            $this->forward("index", "index");
+            return;
         }
 
         $blogArticleQuery = $this->getRepository()->getDetailQuery($blogArticleId);
         $blogArticleData = $blogArticleQuery->getOneOrNullResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
 
         //redirect if the blog item is not available
-        if(empty($blogArticleData) || empty($blogArticleData["active"])) {
+        if (empty($blogArticleData) || empty($blogArticleData["active"])) {
             return $this->redirect(array('controller' => 'index'), array('code' => 301));
         }
-        
+
         // Redirect if category is not available, inactive or external
         /** @var $category \Shopware\Models\Category\Category */
         $category = $this->getCategoryRepository()->find($blogArticleData['categoryId']);
@@ -288,14 +285,14 @@ class Shopware_Controllers_Frontend_Blog extends Enlight_Controller_Action
             if (!$media["preview"]) {
                 /**@var $mediaModel \Shopware\Models\Media\Media*/
                 $mediaModel = Shopware()->Models()->find('Shopware\Models\Media\Media', $media['mediaId']);
-                if($mediaModel !== null) {
+                if ($mediaModel !== null) {
                     $media["thumbNails"] = array_values($mediaModel->getThumbnails());
                 }
             } else {
                 $blogArticleData["preview"] = $media;
                 /**@var $mediaModel \Shopware\Models\Media\Media*/
                 $mediaModel = Shopware()->Models()->find('Shopware\Models\Media\Media', $media['mediaId']);
-                if($mediaModel !== null) {
+                if ($mediaModel !== null) {
                     $blogArticleData["preview"]["thumbNails"] = array_values($mediaModel->getThumbnails());
                 }
             }
@@ -309,6 +306,22 @@ class Shopware_Controllers_Frontend_Blog extends Enlight_Controller_Action
         //adding average vote data to the blog article
         $avgVoteQuery = $this->repository->getAverageVoteQuery($blogArticleId);
         $blogArticleData["sVoteAverage"] = $avgVoteQuery->getOneOrNullResult(\Doctrine\ORM\AbstractQuery::HYDRATE_SINGLE_SCALAR);
+
+        //count the views of this blog item
+        $visitedBlogItems = Shopware()->Session()->visitedBlogItems;
+        if (!Shopware()->Session()->Bot && !in_array($blogArticleId, $visitedBlogItems)) {
+            //update the views count
+            /* @var $blogModel Shopware\Models\Blog\Blog */
+            $blogModel = $this->getRepository()->find($blogArticleId);
+            if ($blogModel) {
+                $blogModel->setViews($blogModel->getViews() + 1);
+                Shopware()->Models()->flush($blogModel);
+
+                //save it to the session
+                $visitedBlogItems[] = $blogArticleId;
+                Shopware()->Session()->visitedBlogItems = $visitedBlogItems;
+            }
+        }
 
         //generate breadcrumb
         $breadcrumb = $this->getCategoryBreadcrumb($blogArticleData["categoryId"]);
@@ -338,13 +351,13 @@ class Shopware_Controllers_Frontend_Blog extends Enlight_Controller_Action
             if ($hash = $this->Request()->sConfirmation) {
                 //customer confirmed the link in the mail
                 $commentConfirmQuery = $this->getCommentConfirmRepository()->getConfirmationByHashQuery($hash);
-                $getComment = $commentConfirmQuery->getOneOrNullResult(\Doctrine\ORM\AbstractQuery::HYDRATE_ARRAY);
+                $getComment = $commentConfirmQuery->getOneOrNullResult();
 
-                if (!empty($getComment['data'])) {
-                    $commentData = unserialize($getComment['data']);
+                if ($getComment) {
+                    $commentData = unserialize($getComment->getData());
 
                     //delete the data in the comment confirm table we don't need it anymore
-                    Shopware()->Models()->remove($this->getCommentConfirmRepository()->find($getComment["id"]));
+                    Shopware()->Models()->remove($getComment);
                     Shopware()->Models()->flush();
 
                     $this->sSaveComment($commentData, $blogArticleId);
@@ -367,13 +380,9 @@ class Shopware_Controllers_Frontend_Blog extends Enlight_Controller_Action
             }
 
             if (!empty(Shopware()->Config()->CaptchaColor)) {
-
                 $captcha = str_replace(' ', '', strtolower($this->Request()->sCaptcha));
                 $rand = $this->Request()->getPost('sRand');
-                $random = md5($rand);
-                $calculatedValue = substr($random, 0, 5);
-                if (!empty($rand) && $captcha == $calculatedValue) {
-                } else {
+                if (empty($rand) || $captcha != substr(md5($rand), 0, 5)) {
                     $sErrorFlag['sCaptcha'] = true;
                 }
             }
@@ -386,16 +395,18 @@ class Shopware_Controllers_Frontend_Blog extends Enlight_Controller_Action
             if (empty($sErrorFlag)) {
                 if (!empty(Shopware()->Config()->sOPTINVOTE) && empty(Shopware()->Session()->sUserId)) {
                     $hash = md5(uniqid(rand()));
+
                     //save comment confirm for the optin
-                    $commentConfirmData["creationDate"] = new DateTime("now");
-                    $commentConfirmData["hash"] = $hash;
-                    $commentConfirmData["data"] = serialize($this->Request()->getPost());
                     $blogCommentModel = new \Shopware\Models\CommentConfirm\CommentConfirm();
-                    $blogCommentModel->fromArray($commentConfirmData);
+                    $blogCommentModel->setCreationDate(new DateTime("now"));
+                    $blogCommentModel->setHash($hash);
+                    $blogCommentModel->setData(serialize($this->Request()->getPost()));
+
                     Shopware()->Models()->persist($blogCommentModel);
                     Shopware()->Models()->flush();
 
                     $link = $this->Front()->Router()->assemble(array('sViewport' => 'blog', 'action' => 'rating', 'blogArticle' => $blogArticleId, 'sConfirmation' => $hash));
+
                     $context = array('sConfirmLink' => $link, 'sArticle' => array('title' => $blogArticleData["title"]));
                     $mail = Shopware()->TemplateMail()->createMail('sOPTINVOTE', $context);
                     $mail->addTo($this->Request()->getParam('eMail'));
@@ -418,8 +429,8 @@ class Shopware_Controllers_Frontend_Blog extends Enlight_Controller_Action
     /**
      * Save a new blog comment / voting
      *
-     * @param $commentData
-     * @param $blogArticleId
+     * @param array $commentData
+     * @param int   $blogArticleId
      */
     protected function sSaveComment($commentData, $blogArticleId)
     {
@@ -428,12 +439,18 @@ class Shopware_Controllers_Frontend_Blog extends Enlight_Controller_Action
             return;
         }
 
-        $commentData["creationDate"] = new \DateTime();
-        $commentData["active"] = 0;
-
         $blogCommentModel = new \Shopware\Models\Blog\Comment();
-        $commentData["blog"] = $this->getRepository()->find($this->Request()->blogArticle);
-        $blogCommentModel->fromArray($commentData);
+        $blog = $this->getRepository()->find($blogArticleId);
+
+        $blogCommentModel->setBlog($blog);
+        $blogCommentModel->setCreationDate(new \DateTime());
+        $blogCommentModel->setActive(false);
+
+        $blogCommentModel->setName($commentData['name']);
+        $blogCommentModel->setEmail($commentData['eMail']);
+        $blogCommentModel->setHeadline($commentData['headline']);
+        $blogCommentModel->setComment($commentData['comment']);
+        $blogCommentModel->setPoints($commentData['points']);
 
         Shopware()->Models()->persist($blogCommentModel);
         Shopware()->Models()->flush();

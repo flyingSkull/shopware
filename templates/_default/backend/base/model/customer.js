@@ -45,7 +45,7 @@ Ext.define('Shopware.apps.Base.model.Customer', {
      * Extends the standard Ext Model
      * @string
      */
-    extend:'Ext.data.Model',
+    extend:'Shopware.data.Model',
 
     /**
      * The fields used for this model
@@ -64,7 +64,7 @@ Ext.define('Shopware.apps.Base.model.Customer', {
         { name:'lastLogin', type:'date' },
         { name:'newsletter', type:'int' },
         { name:'validation', type:'int' },
-        { name:'languageIso', type:'string' },
+        { name:'languageId', type:'int' },
         { name:'shopId', type:'int', useNull: true },
         { name:'priceGroupId', type:'int' },
         { name:'internalComment', type:'string' },

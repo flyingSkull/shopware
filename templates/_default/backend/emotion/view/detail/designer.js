@@ -45,7 +45,6 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
     autoScroll: true,
     bodyPadding: 20,
 
-
     /**
      * Initializes the component and builds up the main interface
      *
@@ -86,118 +85,259 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
     createGridTemplate: function(id) {
 
         return new Ext.XTemplate(
-                '{literal}<tpl for=".">',
-                    '<div class="x-emotion-grid-inner-container listing-{settings.cols}col">',
+            '{literal}<tpl for=".">',
+                '<div class="x-emotion-grid-inner-container listing-{settings.cols}col">',
 
-                        // Underlying gridsystem - e.g. first layer
-                        '<div class="x-emotion-grid-first-layer">',
-                            '{[this.createRows(values.settings)]}',
-                        '</div>',
-
-                        // Actual layer which contains the elements
-                        '<div class="x-emotion-grid-second-layer" style="height:{[this.getGridHeight(values.settings)]}px">',
-                            '{[this.createGridElements(values)]}',
-                        '</div>',
+                    // Underlying gridsystem - e.g. first layer
+                    '<div class="x-emotion-grid-first-layer">',
+                        '{[this.createRows(values.settings)]}',
                     '</div>',
-                '</tpl>{/literal}',
-                {
-                    /**
-                     * Property which holds the id of the parent element to
-                     * fly through the DOM to get the base width of a single column.
-                     * @integer
-                     */
-                    parentId: id,
 
-                    /**
-                     * Helper method which returns the height of the complete grid.
-                     *
-                     * @private
-                     * @param [object] settings - Grid Settings
-                     * @return [integer] total height of the grid (in pixels)
-                     */
-                    getGridHeight: function(settings) {
-                        return settings.rows * 45;
-                    },
+                    // Actual layer which contains the elements
+                    '<div class="x-emotion-grid-second-layer" style="height:{[this.getGridHeight(values.settings)]}px">',
+                        '{[this.createGridElements(values)]}',
+                    '</div>',
+                '</div>',
+            '</tpl>{/literal}',
+            {
+                /**
+                 * Property which holds the id of the parent element to
+                 * fly through the DOM to get the base width of a single column.
+                 * @integer
+                 */
+                parentId: id,
 
-                    /**
-                     * Helper method which creates the rows in the grid.
-                     *
-                     * @private
-                     * @param [object] settings - Grid Settings
-                     * @return [string] HTML string of the generated rows
-                     */
-                    createRows: function(settings) {
-                        var me = this, rows = '';
+                /**
+                 * Helper method which returns the height of the complete grid.
+                 *
+                 * @private
+                 * @param [object] settings - Grid Settings
+                 * @return [integer] total height of the grid (in pixels)
+                 */
+                getGridHeight: function(settings) {
+                    return settings.rows * 45;
+                },
 
-                        for(var i = 1; i <= settings.rows; i++) {
-                            if(i === settings.rows) {
-                                rows += '<div class="row row-last">' + me.createColumns(settings.cols) + '</div>';
-                            } else {
-                                rows += '<div class="row">' + me.createColumns(settings.cols) + '</div>';
-                            }
+                /**
+                 * Helper method which creates the rows in the grid.
+                 *
+                 * @private
+                 * @param [object] settings - Grid Settings
+                 * @return [string] HTML string of the generated rows
+                 */
+                createRows: function(settings) {
+                    var me = this, rows = '';
+
+                    for(var i = 1; i <= settings.rows; i++) {
+                        if(i === settings.rows) {
+                            rows += '<div class="row row-last">' + me.createColumns(settings.cols) + '</div>';
+                        } else {
+                            rows += '<div class="row">' + me.createColumns(settings.cols) + '</div>';
                         }
-                        return rows;
-                    },
-
-                    /**
-                     * Helper method which creates the columns in the grid.
-                     *
-                     * @private
-                     * @param settings
-                     * @return [string] HTML string of the generated columns
-                     */
-                    createColumns: function(cols) {
-                        var columns = '';
-
-                        for(var i = 1; i <= cols; i++) {
-                            if(i === cols) {
-                                columns += '<div class="col col-1x1 col-last"></div>';
-                            } else {
-                                columns += '<div class="col col-1x1"></div>';
-                            }
-                        }
-                        columns += '<div class="x-clear"></div>';
-
-                        return columns;
-                    },
-
-                    createGridElements: function(values) {
-                        var elements = '',
-                            els = values.elements,
-                            baseElement = Ext.get(this.parentId),
-                            baseWidth = (baseElement.getWidth() - 40) / values.settings.cols,
-                            dh = new Ext.dom.Helper;
-
-                        Ext.each(els, function(element) {
-                            var width = (element.get('endCol') - element.get('startCol')) + 1,
-                                height = (element.get('endRow') - element.get('startRow')) + 1;
-
-                            var baseCls = 'col-' + width + 'x' + height,
-                                component = element.getComponent().first();
-
-                            height = height * 45 + 'px';
-
-                            var specs = {
-                                cls: baseCls + ' x-emotion-element ' + (component.get('cls').length ? ' ' + component.get('cls') : ''),
-                                tag: 'div',
-                                style: {
-                                    top: (element.get('startRow') -1) * 45 + 'px',
-                                    left: (element.get('startCol') -1) * baseWidth + 'px',
-                                    height: height,
-                                    'line-height': height
-                                },
-                                children: [
-                                    { tag: 'div', cls: 'x-emotion-element-handle' },
-                                    { tag: 'div', cls: 'x-emotion-element-inner', html: component.get('name') },
-                                    { tag: 'div', cls: 'x-emotion-element-delete', 'data-emotionId': element.internalId }
-                                ]
-                            };
-                            elements += dh.createHtml(specs);
-                        });
-
-                        return elements;
                     }
+                    return rows;
+                },
+
+                /**
+                 * Helper method which creates the columns in the grid.
+                 *
+                 * @private
+                 * @param settings
+                 * @return [string] HTML string of the generated columns
+                 */
+                createColumns: function(cols) {
+                    var columns = '';
+
+                    for(var i = 1; i <= cols; i++) {
+                        if(i === cols) {
+                            columns += '<div class="col col-1x1 col-last" style="width:' + (100 / cols) + '%"></div>';
+                        } else {
+                            columns += '<div class="col col-1x1" style="width:' + (100 / cols) + '%"></div>';
+                        }
+                    }
+                    columns += '<div class="x-clear"></div>';
+
+                    return columns;
+                },
+
+                createGridElements: function(values) {
+                    var me = this, elements = '',
+                        els = values.elements,
+                        baseElement = Ext.get(this.parentId),
+                        baseWidth = (baseElement.getWidth() - 40) / values.settings.cols,
+                        dh = new Ext.dom.Helper, specs;
+
+                    Ext.each(els, function(element) {
+                        var width = (element.get('endCol') - element.get('startCol')) + 1,
+                            rowHeight = (element.get('endRow') - element.get('startRow')) + 1,
+                            children = [],  baseCls = 'col-' + width + 'x' + rowHeight, height,
+                            component = element.getComponent().first(), componentId = element.data.componentId;
+
+                        height = rowHeight * 45 + 'px';
+
+                        switch(componentId) {
+
+                            // Banner element
+                            case 3:
+                                children = me.getBannerMarkup(element, component);
+                                break;
+
+                            // Article element
+                            case 4:
+                                children = me.getArticleMarkup(element, component, rowHeight);
+                                break;
+
+                            default:
+                                children = me.getDefaultMarkup(element, component);
+                                break;
+                        }
+
+                        specs = {
+                            cls: baseCls + ' x-emotion-element ' + (component.get('cls').length ? ' ' + component.get('cls') : ''),
+                            tag: 'div',
+                            'data-emotionid': element.internalId,
+                            style: {
+                                top: (element.get('startRow') -1) * 45 + 'px',
+                                left: (element.get('startCol') -1) * baseWidth + 'px',
+                                height: height,
+                                'line-height': height,
+                                width: (100 / values.settings.cols) * width + '%'
+                            },
+                            children: children
+                        };
+                        elements += dh.createHtml(specs);
+                    });
+
+                    return elements;
+                },
+
+                /**
+                 * Creates the children array for the DOM-Helper, which creates the
+                 * banner emotion element.
+                 *
+                 * @param { Shopware.apps.Emotion.model.Element } element
+                 * @param { Shopware.apps.Emotion.model.Component } component
+                 * @returns { Array }
+                 */
+                getBannerMarkup: function(element, component) {
+                    var me = this, file, i = 0;
+
+                    // Article element was not configured yet
+                    if(!element.data.data.length) {
+                        return me.getDefaultMarkup(element, component);
+                    }
+
+                    for(; i < element.data.data.length; i++) {
+                        var banner = element.data.data[i];
+                        if(banner.key === 'file') {
+                            file = banner;
+                            break;
+                        }
+                    }
+
+                    // If no banner was found
+                    if(!file.hasOwnProperty('value')) {
+                        file.value = '';
+                    }
+
+                    return [
+                        { tag: 'div', cls: 'x-emotion-banner-preview', children: [
+                            { tag: 'img', cls: 'x-emotion-banner-image', src: '{link file="" fullPath}' + file.value  },
+                            { tag: 'div', cls: 'x-emotion-banner-preview-inner' }
+                        ] },
+                        { tag: 'div', cls: 'x-emotion-element-handle' },
+                        { tag: 'div', cls: 'x-emotion-element-inner', html: component.get('name') },
+                        { tag: 'div', cls: 'x-emotion-element-pencil', 'data-emotionid': element.internalId },
+                        { tag: 'div', cls: 'x-emotion-element-delete', 'data-emotionid': element.internalId }
+                    ];
+                },
+
+                /**
+                 * Creates the children array for the DOM-Helper, which creates the
+                 * article emotion element.
+                 *
+                 * @param { Shopware.apps.Emotion.model.Element } element
+                 * @param { Shopware.apps.Emotion.model.Component } component
+                 * @param { Number } rowHeight
+                 * @returns { Array }
+                 */
+                getArticleMarkup: function(element, component, rowHeight) {
+                    var me = this, type, i = 0, snippet, article, object,
+                        types = {
+                            newcomer: '{s name=element/types/newcomer}Newcomer article{/s}',
+                            topseller: '{s name=element/types/topseller}Topseller article{/s}',
+                            random_article: '{s name=element/types/random_article}Random article{/s}',
+                            selected_article: '{s name=element/types/selected_article}Selected article{/s}'
+                        };
+
+                    // Article element was not configured yet
+                    if(!element.data.data.length) {
+                        return me.getDefaultMarkup(element, component);
+                    }
+
+                    for(; i < element.data.data.length; i++) {
+                        object = element.data.data[i];
+                        if(object.key === 'article_type') {
+                            type = object;
+                            break;
+                        }
+                    }
+
+                    // If no article was found
+                    if(!type.hasOwnProperty('value')) {
+                        type.value = '';
+                    }
+
+                    // Get the snippet
+                    snippet = (type.value.length) ? types[type.value] : '';
+
+                    // If we're dealing with a selected product, terminate the ordernumber
+                    if(type.value === 'selected_article') {
+                        object = '';
+                        i = 0;
+
+                        for(; i < element.data.data.length; i++) {
+                            object = element.data.data[i];
+                            if(object.key === 'article') {
+                                article = object;
+                                break;
+                            }
+                        }
+
+                        if(!article.hasOwnProperty('value')) {
+                            article.value = '';
+                        }
+
+                        // Modify the snippet
+                        snippet = Ext.String.format('[0]: [1]', snippet, article.value);
+                    }
+
+                    return (rowHeight < 2) ? me.getDefaultMarkup(element, component) : [
+                        { tag: 'div', cls: 'x-emotion-element-handle' },
+                        { tag: 'div', cls: 'x-emotion-element-inner', html: component.get('name') },
+                        { tag: 'div', cls: 'x-emotion-element-info', html: snippet },
+                        { tag: 'div', cls: 'x-emotion-element-pencil', 'data-emotionid': element.internalId },
+                        { tag: 'div', cls: 'x-emotion-element-delete', 'data-emotionid': element.internalId }
+                    ];
+                },
+
+                /**
+                 * Creates the children array for the DOM-Helper, which creates the
+                 * article emotion element.
+                 *
+                 * @param { Shopware.apps.Emotion.model.Element } element
+                 * @param { Shopware.apps.Emotion.model.Component } component
+                 * @returns { Array }
+                 */
+                getDefaultMarkup: function(element, component) {
+                    return [
+                        { tag: 'div', cls: 'x-emotion-element-handle' },
+                        { tag: 'div', cls: 'x-emotion-element-inner', html: component.get('name') },
+                        { tag: 'div', cls: 'x-emotion-element-pencil', 'data-emotionid': element.internalId },
+                        { tag: 'div', cls: 'x-emotion-element-delete', 'data-emotionid': element.internalId }
+                    ];
                 }
+            }
         );
     },
 
@@ -210,13 +350,11 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
      * @return voud
      */
     addGridEvents: function() {
-        var me = this;
+        var me = this
 
         /**
          * Patching the height of the emotion outer container
          * which fix the emotion designer d'n'd functionality temporarily.
-         *
-         * TODO@stp - Build a better workaround to fix the issue.
          */
         Ext.defer(function() {
             var height = me.dataViewTemplate.getGridHeight(me.dataviewStore.getAt(0).data.settings);
@@ -236,6 +374,17 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
             }
         });
 
+        me.dataView.getEl().on({
+            click: {
+                delegate: '.x-emotion-element-pencil',
+                fn: function(event, el) {
+                    var element = Ext.get(el).up('.x-emotion-element').dom;
+                    me.onOpenSettingsWindow(event, element);
+                },
+                scope: me
+            }
+        });
+
         me.createDropZone(me);
     },
 
@@ -249,8 +398,19 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
     onDeleteElement: function(event, el) {
         var me = this,
             element = Ext.get(el),
-            id =  element.getAttribute('data-emotionId'),
-            store = me.dataviewStore.getAt(0).get('elements');
+            id =  element.getAttribute('data-emotionid'),
+            store = me.dataviewStore.getAt(0).get('elements'),
+            i, attr;
+
+        if(!id) {
+            for(i in element.dom.attributes) {
+                attr = element.dom.attributes[i];
+                if(attr.name == 'data-emotionid') {
+                    id = attr.value;
+                    break;
+                }
+            }
+        }
 
         Ext.each(store, function(record) {
             if(record.internalId == id) {
@@ -262,14 +422,14 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
     },
 
     createDropZone: function(view) {
-        var me = this, scrollState;
+        var me = this;
 
         var proxyElement;
         me.dropZone = new Ext.dd.DropZone(view.dataView.getEl(), {
             ddGroup: 'emotion-dd',
 
             getTargetFromEvent: function(e) {
-                return e.getTarget(view.rowSelector);
+                return e.getTarget(view.itemSelector);
             },
 
             // While over a target node, return the default drop allowed class which
@@ -321,10 +481,10 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
                     // Special behavior the article element
                     if(record.get('xType') == 'emotion-components-article' ||
                        record.get('xType') == 'emotion-components-article-slider') {
-                        rowSpan = 2;
+                        rowSpan = entry.data.settings.articleHeight;
                         height = Math.floor(rowSpan * colHeight);
                     }
-                    this.createPreviewElement(width, height, startCol - 1, startRow - 1, colWidth);
+                    this.createPreviewElement(width, height, startCol - 1, startRow - 1, colWidth, entry);
                 }
             },
 
@@ -339,12 +499,11 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
              * @param [integer] top - Top offset of the element
              * @param [integer] colWidth - calculated column width
              */
-            createPreviewElement: function(width, height, left, top, colWidth) {
+            createPreviewElement: function(width, height, left, top, colWidth, entry) {
                 var firstLayer = view.dataView.getEl().down('.x-emotion-grid-first-layer');
 
                 if(proxyElement) {
                     proxyElement.remove();
-                    proxyElement = null;
                 }
 
                 proxyElement = document.createElement('div');
@@ -386,8 +545,6 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
                 endRow = startRow;
                 endCol = startCol;
 
-
-
                 /**
                  * The record comes from the element librarys
                  * Set startRow, endRow, startCol and endCol for collision-detection
@@ -397,7 +554,7 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
 
                     if (record.get('xType') == 'emotion-components-article' ||
                         record.get('xType') == 'emotion-components-article-slider') {
-                        elEndRow = startRow + 1;
+                        elEndRow = startRow + (entry.data.settings.articleHeight - 1);
 
                     }
                     record.set({
@@ -427,7 +584,7 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
 
                     if(record.get('xType') == 'emotion-components-article' ||
                        record.get('xType') == 'emotion-components-article-slider') {
-                        elEndRow = startRow + 1;
+                        elEndRow = startRow + (entry.data.settings.articleHeight - 1);
                     }
 
                     var model = Ext.create('Shopware.apps.Emotion.model.EmotionElement', {
@@ -572,14 +729,24 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
                 },
 
                 getDragData: function() {
-                    var sourceEl = item, d;
+                    var sourceEl = item,
+                        id = element.getAttribute('data-emotionid'),
+                        records = me.dataviewStore.getAt(0).get('elements'),
+                        d, record, proxy, i, attr;
 
-                    var id = element.child('.x-emotion-element-delete').getAttribute('data-emotionId'),
-                        records = me.dataviewStore.getAt(0).get('elements'), record;
-
-                    var proxy = element.dragZone.proxy;
+                    proxy = element.dragZone.proxy;
                     if(!proxy.getEl().hasCls(Ext.baseCSSPrefix + 'shopware-dd-proxy')) {
                         proxy.getEl().addCls(Ext.baseCSSPrefix + 'shopware-dd-proxy')
+                    }
+
+                    if(!id) {
+                        for(i in element.dom.attributes) {
+                            attr = element.dom.attributes[i];
+                            if(attr.name == 'data-emotionid') {
+                                id = attr.value;
+                                break;
+                            }
+                        }
                     }
 
                     Ext.each(records, function(item) {
@@ -587,8 +754,8 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
                             record = item;
                             return false;
                         }
-
                     });
+
                     if (sourceEl) {
                         d = sourceEl.cloneNode(true);
                         d.id = Ext.id();
@@ -616,27 +783,51 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
     onOpenSettingsWindow: function(event, el) {
         var me = this,
             element = Ext.get(el),
-            id = element.child('.x-emotion-element-delete').getAttribute('data-emotionId'),
+            id = element.getAttribute('data-emotionid'),
             store = me.dataviewStore.getAt(0).get('elements'),
-            record;
+            record, attr, i, component, fields;
+
+
+        if(!id) {
+            for(i in element.dom.attributes) {
+                attr = element.dom.attributes[i];
+                if(attr.name == 'data-emotionid') {
+                    id = attr.value;
+                    break;
+                }
+            }
+        }
 
         Ext.each(store, function(item) {
             if(item.internalId == id) {
                 record = item;
+                return false;
             }
         });
-        var component = record.getComponent().first(),
-            fields = component.getFields();
+
+        component = record.getComponent().first(),
+        fields = component.getFields();
 
         me.fireEvent('openSettingsWindow', me, record, component, fields, me.emotion);
     },
 
     onBeforeResize: function(resizer, width, height, event) {
         var element = resizer.el,
-           me = this,
-           id = element.child('.x-emotion-element-delete').getAttribute('data-emotionId'),
-           store = me.dataviewStore.getAt(0).get('elements'),
-           record;
+            me = this,
+            id = element.getAttribute('data-emotionid'),
+            store = me.dataviewStore.getAt(0).get('elements'),
+            record, attr, i;
+
+
+        if(!id) {
+            for(i in element.dom.attributes) {
+                attr = element.dom.attributes[i];
+                if(attr.name == 'data-emotionid') {
+                    id = attr.value;
+                    break;
+                }
+            }
+        }
 
         Ext.each(store, function(item) {
            if(item.internalId == id) {
@@ -657,14 +848,25 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
     onResizeDrag: function(resizer, width, height, event) {
         var element = resizer.el,
             me = this,
-            id = element.child('.x-emotion-element-delete').getAttribute('data-emotionId'),
+            id = element.getAttribute('data-emotionid'),
             store = me.dataviewStore.getAt(0).get('elements'),
             dataViewData = me.dataviewStore.getAt(0).data.settings,
             cellHeight = 45,
             cellWidth = (Ext.get(me.getId()).getWidth() - 40) / dataViewData.cols,
             colSpan = width / cellWidth,
             rowSpan = height / cellHeight,
-            baseCls, record;
+            baseCls, record, i, attr;
+
+
+        if(!id) {
+            for(i in element.dom.attributes) {
+                attr = element.dom.attributes[i];
+                if(attr.name == 'data-emotionid') {
+                    id = attr.value, 10;
+                    break;
+                }
+            }
+        }
 
         Ext.each(store, function(item) {
             if(item.internalId == id) {
@@ -711,14 +913,24 @@ Ext.define('Shopware.apps.Emotion.view.detail.Designer', {
         var element = resizer.el,
             me = this,
             view = me.dataView.getEl(),
-            id = element.child('.x-emotion-element-delete').getAttribute('data-emotionId'),
+            id = element.getAttribute('data-emotionid'),
             store = me.dataviewStore.getAt(0).get('elements'),
             dataViewData = me.dataviewStore.getAt(0).data.settings,
             cellHeight = 45,
             cellWidth = (Ext.get(me.getId()).getWidth() - 40) / dataViewData.cols,
             colSpan = width / cellWidth,
             rowSpan = height / cellHeight,
-            record, baseCls;
+            record, baseCls, i, attr;
+
+        if(!id) {
+            for(i in element.dom.attributes) {
+                attr = element.dom.attributes[i];
+                if(attr.name == 'data-emotionid') {
+                    id = attr.value;
+                    break;
+                }
+            }
+        }
 
         Ext.each(store, function(item) {
             if(item.internalId == id) {

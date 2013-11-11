@@ -173,11 +173,17 @@ Ext.define('Shopware.apps.Article.view.variant.Detail', {
 	 * @return void
 	 */
     initComponent:function () {
-        var me = this;
+        var me = this, mainWindow;
         me.items = me.createItems();
         me.dockedItems = [ me.createToolbar() ];
         me.registerEvents();
         me.callParent(arguments);
+
+        mainWindow = me.subApplication.articleWindow;
+
+        if(mainWindow.hasOwnProperty('unitStore')) {
+            me.unitComboBox.bindStore(mainWindow.unitStore);
+        }
 
         if (me.record) {
             me.formPanel.loadRecord(me.record);
@@ -406,12 +412,13 @@ Ext.define('Shopware.apps.Article.view.variant.Detail', {
      * Creates the field set for the price tabs and grids.
      */
     createPriceFieldSet: function() {
-        var me = this;
+        var me = this, priceFieldset = Ext.create('Shopware.apps.Article.view.detail.Prices'),
+            stores = [];
 
-        return Ext.create('Shopware.apps.Article.view.detail.Prices', {
-            customerGroupStore: me.customerGroupStore,
-            article: me.record
-        });
+        stores['customerGroups'] = me.customerGroupStore;
+        priceFieldset.onStoresLoaded(me.record, stores);
+
+        return priceFieldset;
     },
 
     /**
@@ -420,6 +427,18 @@ Ext.define('Shopware.apps.Article.view.variant.Detail', {
      */
     createBasePriceFieldSet: function() {
         var me = this;
+
+        me.unitComboBox = Ext.create('Ext.form.field.ComboBox', {
+            labelWidth: 155,
+            anchor: '100%',
+            name: 'unitId',
+            queryMode: 'local',
+            fieldLabel: me.snippets.basePrice.unit,
+            emptyText: me.snippets.basePrice.empty,
+            store: me.unitStore,
+            displayField: 'name',
+            valueField: 'id'
+        });
 
         return Ext.create('Ext.form.FieldSet', {
             layout: 'anchor',
@@ -431,16 +450,7 @@ Ext.define('Shopware.apps.Article.view.variant.Detail', {
             },
             title: me.snippets.basePrice.title,
             items: [
-                {
-                    xtype: 'combobox',
-                    name: 'unitId',
-                    queryMode: 'local',
-                    fieldLabel: me.snippets.basePrice.unit,
-                    emptyText: me.snippets.basePrice.empty,
-                    store: me.unitStore,
-                    displayField: 'name',
-                    valueField: 'id'
-                }, {
+                me.unitComboBox, {
                     xtype: 'numberfield',
                     name: 'purchaseUnit',
                     submitLocaleSeparator: false,

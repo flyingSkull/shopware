@@ -56,6 +56,7 @@ Ext.define('Shopware.apps.Emotion.controller.Detail', {
         errorTitle: '{s name=save/error/title}Error{/s}',
         saveSuccessMessage: '{s name=save/success/message}The emotion [0] has been saved.{/s}',
         saveErrorMessage: '{s name=save/error/message}An error has occurred while saving the emotion:{/s}',
+        onSaveChangesNotValid: '{s name=save/error/not_valid}All required fields have not been filled{/s}',
         removeSuccessMessage: '{s name=remove/success/message}Emotion(s) has been removed{/s}',
         removeErrorMessage: '{s name=remove/error/message}An error has occurred while removing the emotion(s):{/s}',
 		growlMessage: '{s name=growlMessage}Emotion{/s}',
@@ -257,6 +258,11 @@ Ext.define('Shopware.apps.Emotion.controller.Detail', {
 
         form.getForm().updateRecord(record);
 
+        if (!form.getForm().isValid()) {
+            Shopware.Notification.createGrowlMessage(me.snippets.errorTitle, me.snippets.onSaveChangesNotValid);
+            return;
+        }
+
         var elements = dataViewStore.getAt(0).get('elements');
         record.getElements().removeAll();
         record.getElements().add(elements);
@@ -302,7 +308,7 @@ Ext.define('Shopware.apps.Emotion.controller.Detail', {
             categoryId: null,
             cellHeight: 185,
             articleHeight: 2,
-            containerWidth: 1008,
+            containerWidth: 808,
             template: 'Standard'
         });
         me.openDetailWindow(record);

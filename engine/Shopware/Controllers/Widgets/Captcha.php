@@ -32,8 +32,6 @@
 
 /**
  * Shopware Captcha Controller
- *
- * todo@all: Documentation
  */
 class Shopware_Controllers_Widgets_Captcha extends Enlight_Controller_Action
 {
@@ -48,11 +46,55 @@ class Shopware_Controllers_Widgets_Captcha extends Enlight_Controller_Action
     }
 
     /**
+     *
+     */
+    public function refreshCaptchaAction()
+    {
+        $rand = \Shopware\Components\Random::getAlphanumericString(32);
+
+        $string = md5($rand);
+        $string = substr($string, 0, 5);
+
+        $imgResource = $this->getImageResource($string);
+
+        ob_start();
+        imagepng($imgResource, null, 9);
+        $img = ob_get_clean();
+        imagedestroy($imgResource);
+        $img =  base64_encode($img);
+
+        echo '<img src="data:image/png;base64,' . $img. '" alt="Captcha" />';
+        echo '<input type="hidden" name="sRand" value="' . $rand . '" />';
+    }
+
+    /**
      * Index action method
      *
-     * Creates a captcha and then outputs it.
+     * Creates the captcha images and delivers it as a PNG
+     * with the proper HTTP header.
      */
     public function indexAction()
+    {
+        $random = $this->Request()->rand;
+
+        $random = md5($random);
+        $string = substr($random, 0, 5);
+
+        $im = $this->getImageResource($string);
+
+        $this->Response()->setHeader('Content-Type', 'image/png', true);
+        imagepng($im, null, 9);
+        imagedestroy($im);
+    }
+
+    /**
+     * Please note that the method loops through the template inheritances
+     * to terminate the used font and background.
+     *
+     * @param string $string
+     * @return resource
+     */
+    public function getImageResource($string)
     {
         $captcha = 'frontend/_resources/images/captcha/background.jpg';
         $font = 'frontend/_resources/images/captcha/font.ttf';
@@ -65,17 +107,13 @@ class Shopware_Controllers_Widgets_Captcha extends Enlight_Controller_Action
                 break;
             }
         }
+
         foreach ($template_dirs as $template_dir) {
             if (file_exists($template_dir . $font)) {
                 $font = $template_dir . $font;
                 break;
             }
         }
-
-        $random = $this->Request()->rand;
-
-        $random = md5($random);
-        $string = substr($random, 0, 5);
 
         if (file_exists($captcha)) {
             $im = imagecreatefromjpeg($captcha);
@@ -111,14 +149,6 @@ class Shopware_Controllers_Widgets_Captcha extends Enlight_Controller_Action
             imagestring($im, 3, 40, 70, 'missing font', $white);
         }
 
-        ob_start();
-        imagejpeg($im, NULL, 90);
-        imagedestroy($im);
-        $i = ob_get_contents();
-
-        $this->Response()->setHeader('Content-Type', 'image/jpeg', true);
-        $this->Response()->setHeader('Content-Length', strlen($i));
-
-        echo $i;
+        return $im;
     }
 }

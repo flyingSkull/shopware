@@ -36,14 +36,6 @@
 							DOM.setStyle(DOM.doc.body, 'overflow', ed.getParam('fullscreen_overflow'));
 							DOM.win.scrollTo(ed.getParam('fullscreen_scrollx'), ed.getParam('fullscreen_scrolly'));
 							tinyMCE.settings = tinyMCE.oldSettings; // Restore old settings
-
-                            var timeout = window.setTimeout(function() {
-                                var textAreaEd = tinyMCE.editors[0];
-                                textAreaEd.setContent(content);
-                                textAreaEd.undoManager.add();
-                                clearTimeout(timeout);
-                                timeout = null;
-                            }, 10);
 						}, 10);
 					}
 
@@ -134,13 +126,15 @@
 					//document.body.overflow = 'hidden';
 
 					t.resizeFunc = tinymce.dom.Event.add(DOM.win, 'resize', function() {
-						var vp = tinymce.DOM.getViewPort(), fed = t.fullscreenEditor, outerSize, innerSize;
+						var vp = tinymce.DOM.getViewPort(), fed = t.fullscreenEditor, iFrameContainer,
+                            tpl = document.getElementById('mce_fullscreen_parent'), width = Ext.Element.getViewportWidth();
 
-						// Get outer/inner size to get a delta size that can be used to calc the new iframe size
-						outerSize = fed.dom.getSize(fed.getContainer().firstChild);
-						innerSize = fed.dom.getSize(fed.getContainer().getElementsByTagName('iframe')[0]);
-
-						fed.theme.resizeTo(vp.w - outerSize.w + innerSize.w, vp.h - outerSize.h + innerSize.h);
+                        iFrameContainer = fed.getContainer().getElementsByClassName('mceIframeContainer')[0];
+                        iFrameContainer.style.width = width + 'px';
+                        tpl = Ext.get(tpl);
+                        tpl.setWidth(width);
+                        tpl.setStyle('display', 'block');
+						fed.theme.resizeTo(vp.w, vp.h);
 					});
 				}
 			});
