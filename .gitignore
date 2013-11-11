@@ -1,0 +1,32 @@
+#cache/
+#engine/Shopware/Proxies/*.php
+#install/
+
+.idea
+.metadata
+.settings
+.project
+.htaccess
+
+
+*.orig
+*.ini
+
+config.php
+
+# Media
+*.psd
+files/documents/*.pdf
+media/image/*.jpg
+media/image/*.gif
+media/image/*.png
+media/image/thumbnail/*.jpg
+media/image/thumbnail/*.gif
+media/image/thumbnail/*.png
+
+
+# Mac-Stuff
+.DS_Store
+
+
+
