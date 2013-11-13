@@ -11,7 +11,7 @@ cache/
 #*.orig
 #*.ini
 
-#config.php
+config.php
 
 # Media
 *.psd
