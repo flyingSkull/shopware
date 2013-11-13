@@ -1,18 +1,17 @@
 cache/
-#engine/Shopware/Proxies/*.php
 #install/
 
 .idea
-.metadata
-.settings
-.project
+#.metadata
+#.settings
+#.project
 #.htaccess
 
 
-*.orig
-*.ini
+#*.orig
+#*.ini
 
-config.php
+#config.php
 
 # Media
 *.psd
