@@ -1,4 +1,4 @@
-#cache/
+cache/
 #engine/Shopware/Proxies/*.php
 #install/
 
@@ -6,7 +6,7 @@
 .metadata
 .settings
 .project
-.htaccess
+#.htaccess
 
 
 *.orig
