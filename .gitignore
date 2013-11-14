@@ -1,4 +1,4 @@
-cache/
+/cache/
 #install/
 
 .idea
@@ -14,8 +14,8 @@ cache/
 
 # Media
 *.psd
-media/image/*
-media/image/thumbnail/*
+/media/image/*
+/media/image/thumbnail/*
 #files/documents/*.pdf
 
 # Mac-Stuff
