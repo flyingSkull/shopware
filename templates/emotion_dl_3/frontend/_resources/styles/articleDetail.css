@@ -1,0 +1,256 @@
+/* ARTICLE DETAILS
+	------------------------ */
+
+.ctl_detail #content .inner {
+    width: 100%;
+}
+
+.ctl_detail #content {
+    margin-top: 10px;
+}
+
+.ctl_detail .thumb_box a:hover {
+    border: 1px dashed #e0dcce;
+}
+
+.ctl_detail .thumb_box a.active {
+    border-style: solid;
+    border-color: #e0dcce;
+    opacity: 1
+}
+
+#detail #detailinfo {
+    margin-top: 10px;
+    /*border-radius: 5px;*/
+    /*-webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+    /*-moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+    /*box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);*/
+}
+
+#detail #detailinfo #description,
+#detail #detailinfo .ui-tabs-panel {
+    padding-top: 30px;
+    padding-left: 0px;
+    width: 100%;
+}
+
+/*.right {*/
+/*width: 570px;*/
+/*min-height: 400px;*/
+/*padding: 10px;*/
+/*}*/
+
+/*.right #buybox{*/
+/*background-color: #FFF;*/
+/*border-radius: 5px;*/
+/*-webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+/*-moz-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.2);*/
+/*box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);*/
+/*}*/
+
+#detail .left {
+    min-height: 400px;
+    height: 565px;
+}
+
+#detail #detailbox #detailbox_middle {
+    margin: 0px 50px 0px 30px;
+    width: 200px;
+}
+
+/* Artikel-switcher */
+
+#detail .article_back {
+    background: url("../images/bg/bg-prev.png") no-repeat;
+    width: 25px;
+    float: none;
+    height: 25px;
+    position: absolute;
+    top: 250px;
+    z-index: 10;
+    margin-left: 5px;
+}
+
+#detail .article_next {
+    background: url("../images/bg/bg-next.png") no-repeat;
+    width: 25px;
+    float: none;
+    height: 25px;
+    position: absolute;
+    top: 250px;
+    z-index: 10;
+    margin-right: 5px;
+}
+
+#detail .article_back:hover {
+    background-position: 0px 0;
+    opacity: 0.7
+}
+
+#detail .article_next:hover {
+    background-position: 0px 0;
+    opacity: 0.7
+}
+
+#detail .article_back a {
+    background: none
+}
+
+#detail .article_back:hover a {
+    background: none
+}
+
+#detail .article_next a {
+    background: none
+}
+
+#detail .article_next:hover a {
+    background: none
+}
+
+#detailbox h1 {
+    border-bottom: none;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-bottom: 5px;
+    width: 70%;
+    font-size: 22px;
+    float: right;
+}
+
+#detail, #detail a:hover {
+    color: #e54a4a !important;
+}
+
+#detail .right {
+    width: 500px;
+    padding-right: 40px;
+}
+#detail .right .right {
+    width: 100%;
+    padding-right: 0px;
+}
+
+#detailbox #supplierWrapper {
+    height: 100px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #e0dcce;
+}
+
+#detailbox #supplierImg {
+    margin: 5px;
+    width: 25%;
+    padding: 0px;
+    float: left;
+}
+
+#detailbox #supplierImg img {
+    width: 100%;
+}
+
+#detail #detailbox #img {
+    width: 273px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 25px;
+    float: left;
+    padding: 15px;
+    /*background: #FFF;*/
+    /*border-radius: 5px 5px 5px 5px;*/
+    /*-webkit-box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);*/
+    /*-moz-box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);*/
+    /*box-shadow: 0px 0px 7px 5px rgba(0, 0, 0, 0.2);*/
+}
+
+#detailbox #img img {
+    display: block;
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
+
+#detailbox #img #wrap {
+    display: block;
+    min-height: 255px;
+    width: 325px;
+}
+#buybox {
+    width: 100%;
+}
+
+#buybox label {
+    width: 150px;
+    color: #e54a4a;
+}
+
+#buybox .outer-select {
+    width: 150px !important;
+}
+
+#buybox #detailCartButton {
+    border-top: none;
+    padding-top: 10px;
+}
+
+/* SelectBoxen-Größe */
+#buybox #detailCartButton #sQuantity {
+    width: 87px;
+}
+
+#buybox select {
+    width: 87px;
+}
+
+#buybox .article_details_bottom {
+    margin: 0px 0 0;
+    border-style: none none none;
+}
+
+#buybox .article_details_bottom .article_details_price {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #e54a4a;
+    width: 100%;
+}
+
+#buybox .upprice_config {
+    padding: 10px 0 10px;
+}
+
+#buybox .upprice_config strong, #buybox .config_select strong {
+    color: #e54a4a;
+}
+
+#buybox #basketButton {
+    margin-top: 25px;
+    float: right;
+    box-shadow: none;
+    background: #e54a4a;
+    text-align: center;
+    padding: 0;
+    border-radius: 5px;
+    width: 100%;
+}
+
+#buybox #basketButton:hover {
+    font-weight: 700;
+}
+
+#buybox .upprice_config {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    padding-top: 10px;
+    margin-top: 20px;
+    border-top: 1px dashed #cccccc;
+    border-bottom: none;
+}
+
+#buybox .basketform {
+
+}
+
+/*	FANCY SELECT
+	-------------------------------------------- */
+.sort-filter .outer-select {
+    width: 160px !important;
+}

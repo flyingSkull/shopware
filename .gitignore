@@ -1,0 +1,25 @@
+cache/
+#install/
+
+.idea
+#.metadata
+#.settings
+#.project
+#.htaccess
+
+#*.orig
+#*.ini
+
+#config.php
+
+# Media
+*.psd
+media/image/*
+media/image/thumbnail/*
+#files/documents/*.pdf
+
+# Mac-Stuff
+.DS_Store
+
+
+
