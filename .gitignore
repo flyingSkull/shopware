@@ -11,17 +11,16 @@ cache/
 #*.orig
 #*.ini
 
-config.php
+#config.php
 
 # Media
 *.psd
-files/documents/*.pdf
-media/image/*.jpg
-media/image/*.gif
-media/image/*.png
-media/image/thumbnail/*.jpg
-media/image/thumbnail/*.gif
-media/image/thumbnail/*.png
+#files/documents/*.pdf
+media/image/*
+media/image/thumbnail/*
+
+#media/image/thumbnail/*.gif
+#media/image/thumbnail/*.png
 
 
 # Mac-Stuff
