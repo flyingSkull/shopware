@@ -6,7 +6,7 @@
 	{if $sTrustedShop.rating_active==1}
 		<div class="ts_rating_box">
 			<a target="_blank" href="{$sTrustedShop.rating_link}" title="See customer reviews of {config name=shopName}">
-				<img src="{link file='images/ts_rating.gif'}" >
+				<img src="{link file='media/image/ts_rating.gif'}" >
 			</a>
 		</div>
 	{/if}
